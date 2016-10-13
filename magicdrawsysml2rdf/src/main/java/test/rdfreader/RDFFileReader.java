@@ -23,7 +23,7 @@ public class RDFFileReader {
 
 		// use FileManager to read OSLC Resource Shape in RDF
 //		String inputFileName = "file:C:/Users/Axel/git/EcoreMetamodel2OSLCSpecification/EcoreMetamodel2OSLCSpecification/Resource Shapes/Block.rdf";
-		String inputFileName = "file:C:/apps/eclipse-ld4mbse-jdrepo/workspace/magicdrawsysml2rdf/generated.rdf";
+		String inputFileName = "file:C:/Users/rb16964/git/magicdrawsysml2rdf/magicdrawsysml2rdf/generated.rdf";
 		InputStream in = FileManager.get().open(inputFileName);
 		if (in == null) {
 			throw new IllegalArgumentException("File: " + inputFileName

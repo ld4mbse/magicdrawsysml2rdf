@@ -93,6 +93,8 @@ import org.eclipse.lyo.oslc4j.core.model.ServiceProviderCatalog;
 import org.eclipse.lyo.oslc4j.provider.jena.JenaProvidersRegistry;
 import org.eclipse.lyo.oslc4j.provider.json4j.Json4JProvidersRegistry;
 
+import com.nomagic.runtime.ApplicationExitedException;
+
 import cli.MagicDraw2RDF;
 import edu.gatech.mbsec.adapter.magicdraw.application.MagicDrawManager;
 
@@ -130,18 +132,36 @@ public class OSLC4JMagicDrawApplication {
 
 		loadPropertiesFile();
 		
-		MagicDraw2RDF.rdfFileLocation = "C:/apps/eclipse-ld4mbse-jdrepo/workspace/magicdrawsysml2rdf/generated.rdf";
+		MagicDraw2RDF.rdfFileLocation = "C:/Users/rb16964/git/magicdrawsysml2rdf/magicdrawsysml2rdf/generated.rdf";
 
 		readDataFirstTime();
 		
 		MagicDraw2RDF.outputMode = "rdfxml";
 
 		MagicDrawManager.writeRDF();
+		
+		closeMagicDrawApplication();
 	}
 
 	
 
 	
+
+	private static void closeMagicDrawApplication() {
+		try {
+//			MagicDrawManager.projectsManager.
+			MagicDrawManager.magicdrawApplication.shutdown();
+			
+		} catch (ApplicationExitedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		};
+		
+	}
+
+
+
+
 
 	private static void loadPropertiesFile() {
 		Properties prop = new Properties();
