@@ -1,14 +1,20 @@
 
- Water_Supply_Example
-	model packages: 3
- Water_Supply_Example
+ Wired_Camera_Example
+	model packages: 5
+ Wired_Camera_Example
 	model packages: 
-		 http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/packages/Blocks
-		 http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/packages/MD_Customization_for_Requirements
-		 http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/packages/MD_Customization_for_ViewsViewpoints**** Elements of type AssociationClass ****
-Block Water
-Delivery
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/packages/Blocks
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/packages/Value_Types
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/packages/SI_ValueType_Library
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/packages/MD_Customization_for_ViewsViewpoints
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/packages/MD_Customization_for_Requirements**** Elements of type AssociationClass ****
 SysML Package with Name: Blocks
+SysML Package with Name: Value Types
+SysML Package with Name: SI ValueType Library
+SysML Package with Name: MD Customization for ViewsViewpoints
+SysML Package with Name: customizations
+SysML Package with Name: numbering schemes
+SysML Package with Name: DocBook Profile
 SysML Package with Name: MD Customization for Requirements
 SysML Package with Name: customizations
 SysML Package with Name: numbering schemes
@@ -23,112 +29,285 @@ SysML Package with Name: Requirement
 SysML Package with Name: ActiveValSuite - Requirements
 SysML Package with Name: TestCase
 SysML Package with Name: Copy
-SysML Package with Name: MD Customization for ViewsViewpoints
-SysML Package with Name: customizations
-SysML Package with Name: numbering schemes
-SysML Package with Name: DocBook Profile
-SysML Block with Name: WaterSupply
- WaterSupply
+SysML Block with Name: Wired Camera
+ Wired Camera
+	blockParts: 4
+ Wired Camera
+	blockParts: 
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/partproperties/Blocks::Wired_Camera::ma
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/partproperties/Blocks::Wired_Camera::ps
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/partproperties/Blocks::Wired_Camera::ec
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/partproperties/Blocks::Wired_Camera::ea
+ Wired Camera
+	block connectors: 9
+ Wired Camera
+	block connectors: 
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/connectors/_17_0_3_1_3a6018b_1370469788411_271084_14170
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/connectors/_17_0_3_1_3a6018b_1370469788411_5228_14171
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/connectors/_17_0_3_1_3a6018b_1370469788411_51179_14172
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/connectors/_17_0_3_1_3a6018b_1370469788411_135569_14173
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/connectors/_17_0_3_1_3a6018b_1370469788411_200272_14174
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/connectors/_17_0_3_1_3a6018b_1370469788411_488994_14175
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/connectors/_17_0_3_1_3a6018b_1370469788411_700827_14176
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/connectors/_17_0_3_1_3a6018b_1370469788411_837896_14177
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/connectors/_17_0_3_1_3a6018b_1370469788411_300035_14178
+SysML Block with Name: Mount Assembly
+ Mount Assembly
 	blockParts: 1
- WaterSupply
+ Mount Assembly
 	blockParts: 
-		 http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/partproperties/Blocks::WaterSupply::sbank
-SysML Block with Name: WaterClient
- WaterClient
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/partproperties/Blocks::Mount_Assembly::p
+SysML Block with Name: Electronics Assembly
+ Electronics Assembly
 	blockParts: 1
- WaterClient
+ Electronics Assembly
 	blockParts: 
-		 http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/partproperties/Blocks::WaterClient::faucet
-SysML Block with Name: Spigot
-Bank
- Spigot
-Bank
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/partproperties/Blocks::Electronics_Assembly::cc
+ Electronics Assembly
+	block reference properties: 2
+ Electronics Assembly
+	block reference properties: 
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/valueproperties/Blocks::Electronics_Assembly::clock_speed
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/valueproperties/Blocks::Electronics_Assembly::memory
+SysML Block with Name: Power Supply
+SysML Block with Name: Ethernet Card
+SysML Block with Name: Bracket
+SysML Block with Name: Platform
+SysML Block with Name: Composite Converter
+SysML Block with Name: Mounting Plate
+SysML Block with Name: OpticalTestBench
+ OpticalTestBench
+	blockParts: 3
+ OpticalTestBench
+	blockParts: 
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/partproperties/Blocks::OpticalTestBench::oa
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/partproperties/Blocks::OpticalTestBench::lso
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/partproperties/Blocks::OpticalTestBench::lse
+ OpticalTestBench
+	block connectors: 2
+ OpticalTestBench
+	block connectors: 
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/connectors/_17_0_3_1_3a6018b_1370469788482_933712_14251
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/connectors/_17_0_3_1_3a6018b_1370469788482_359125_14252
+SysML Block with Name: Light Source
+SysML Block with Name: Light Sensor
+SysML Block with Name: Optical Assembly
+ Optical Assembly
+	blockParts: 1
+ Optical Assembly
+	blockParts: 
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/partproperties/Blocks::Optical_Assembly::fa
+ Optical Assembly
+	block reference properties: 2
+ Optical Assembly
+	block reference properties: 
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/valueproperties/Blocks::Optical_Assembly::aperture
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/valueproperties/Blocks::Optical_Assembly::focal_length
+ Optical Assembly
+	block connectors: 2
+ Optical Assembly
+	block connectors: 
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/connectors/_17_0_3_1_3a6018b_1370469788483_97673_14259
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/connectors/_17_0_3_1_3a6018b_1370469788483_231611_14260
+SysML Block with Name: Focusing Assembly
+ Focusing Assembly
+	block reference properties: 2
+ Focusing Assembly
+	block reference properties: 
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/flowproperties/Blocks::Focusing_Assembly::focussedLight
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/flowproperties/Blocks::Focusing_Assembly::externalLight
+SysML Block with Name: Window
+ Window
+	block reference properties: 2
+ Window
+	block reference properties: 
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/flowproperties/Blocks::Window::inLight
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/flowproperties/Blocks::Window::outLight
+SysML Block with Name: Light
+SysML Block with Name: Filter
+ Filter
+	block reference properties: 2
+ Filter
+	block reference properties: 
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/flowproperties/Blocks::Filter::filteredLight
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/flowproperties/Blocks::Filter::incomingLight
+SysML Block with Name: Camera
+ Camera
 	blockParts: 2
- Spigot
-Bank
+ Camera
 	blockParts: 
-		 http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/partproperties/Blocks::Spigot-Bank::hot
-		 http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/partproperties/Blocks::Spigot-Bank::cold
- Spigot
-Bank
-	block reference properties: 1
- Spigot
-Bank
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/partproperties/_17_0_3_1_3a6018b_1370469788552_326134_14311
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/partproperties/_17_0_3_1_3a6018b_1370469788552_926009_14312
+ Camera
+	block reference properties: 5
+ Camera
 	block reference properties: 
-		 http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/referenceproperties/Blocks::Spigot-Bank::deliveredTo
-SysML Block with Name: Faucet
- Faucet
-	blockParts: 2
- Faucet
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/valueproperties/Blocks::Camera::dimensions
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/valueproperties/Blocks::Camera::power
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/valueproperties/Blocks::Camera::pan_fielf_of_regard
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/valueproperties/Blocks::Camera::sensitivity
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/valueproperties/Blocks::Camera::tielt_field_of_regard
+ Camera
+	block reference properties: 2
+ Camera
+	block reference properties: 
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/flowproperties/Blocks::Camera::external
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/flowproperties/Blocks::Camera::polarized
+ Camera
+	block connectors: 2
+ Camera
+	block connectors: 
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/connectors/_17_0_3_1_3a6018b_1370469788552_392113_14308
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/connectors/_17_0_3_1_3a6018b_1370469788552_801956_14309
+SysML Block with Name: Protective Housing
+ Protective Housing
+	block reference properties: 2
+ Protective Housing
+	block reference properties: 
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/flowproperties/Blocks::Protective_Housing::external_light
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/flowproperties/Blocks::Protective_Housing::internal_light
+SysML Block with Name: Camera Module
+ Camera Module
+	blockParts: 1
+ Camera Module
 	blockParts: 
-		 http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/partproperties/Blocks::Faucet::hot
-		 http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/partproperties/Blocks::Faucet::cold
- Faucet
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/partproperties/_17_0_3_1_3a6018b_1370469788554_951644_14325
+ Camera Module
 	block reference properties: 1
- Faucet
+ Camera Module
 	block reference properties: 
-		 http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/referenceproperties/Blocks::Faucet::suppliedBy
-SysML Block with Name: Spigot
- Spigot
-	block reference properties: 1
- Spigot
-	block reference properties: 
-		 http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/referenceproperties/Blocks::Spigot::to
-SysML Block with Name: Faucet
-Inlet
- Faucet
-Inlet
-	block reference properties: 1
- Faucet
-Inlet
-	block reference properties: 
-		 http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/referenceproperties/Blocks::Faucet-Inlet::from
-SysML Block with Name: Water
-Delivery
-SysML Block with Name: Water
-Delivery
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/flowproperties/Blocks::Camera_Module::internal
+ Camera Module
+	block connectors: 1
+ Camera Module
+	block connectors: 
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/connectors/_17_0_3_1_3a6018b_1370469788554_412664_14324
+SysML Block with Name: Unpolarized Light
+SysML Block with Name: Polarized Light
+SysML Interface Block with Name: 3 Pin AC Plug Interface
+SysML Interface Block with Name: RJ45 Interface Female
+SysML Interface Block with Name: Composite Video Interface
+SysML Interface Block with Name: Light Interface
+SysML Interface Block with Name: Filter IB
+SysML Block with Name: ?
+SysML Block with Name: mm
+SysML Block with Name: MHz
+SysML Block with Name: MB
+SysML Block with Name: Size
+SysML Block with Name: m
+SysML Block with Name: W
+SysML Block with Name: lx
  Blocks
-	packageBlocks: 7
+	packageBlocks: 22
  Blocks
 	packageBlocks: 
-		 http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::WaterSupply
-		 http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::WaterClient
-		 http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::Spigot-Bank
-		 http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::Faucet
-		 http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::Spigot
-		 http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::Faucet-Inlet
-		 http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::Water-Delivery
- WaterSupply
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/blocks/Blocks::Wired_Camera
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/blocks/Blocks::Mount_Assembly
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/blocks/Blocks::Electronics_Assembly
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/blocks/Blocks::Power_Supply
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/blocks/Blocks::Ethernet_Card
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/blocks/Blocks::Bracket
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/blocks/Blocks::Platform
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/blocks/Blocks::Composite_Converter
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/blocks/Blocks::Mounting_Plate
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/blocks/Blocks::OpticalTestBench
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/blocks/Blocks::Light_Source
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/blocks/Blocks::Light_Sensor
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/blocks/Blocks::Optical_Assembly
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/blocks/Blocks::Focusing_Assembly
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/blocks/Blocks::Window
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/blocks/Blocks::Light
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/blocks/Blocks::Filter
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/blocks/Blocks::Camera
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/blocks/Blocks::Protective_Housing
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/blocks/Blocks::Camera_Module
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/blocks/Blocks::Unpolarized_Light
+		 http://localhost:8080/oslc4jmagicdraw/services/Wired_Camera_Example/blocks/Blocks::Polarized_Light
+ Wired Camera
 	inheritedBlocks: 0
- WaterSupply
+ Wired Camera
 	nestedBlocks: 0
- WaterClient
+ Mount Assembly
 	inheritedBlocks: 0
- WaterClient
+ Mount Assembly
 	nestedBlocks: 0
- Spigot
-Bank
+ Electronics Assembly
 	inheritedBlocks: 0
- Spigot
-Bank
+ Electronics Assembly
 	nestedBlocks: 0
- Faucet
+ Power Supply
 	inheritedBlocks: 0
- Faucet
+ Power Supply
 	nestedBlocks: 0
- Spigot
+ Ethernet Card
 	inheritedBlocks: 0
- Spigot
+ Ethernet Card
 	nestedBlocks: 0
- Faucet
-Inlet
+ Bracket
 	inheritedBlocks: 0
- Faucet
-Inlet
+ Bracket
 	nestedBlocks: 0
- Water
-Delivery
+ Platform
 	inheritedBlocks: 0
- Water
-Delivery
+ Platform
+	nestedBlocks: 0
+ Composite Converter
+	inheritedBlocks: 0
+ Composite Converter
+	nestedBlocks: 0
+ Mounting Plate
+	inheritedBlocks: 0
+ Mounting Plate
+	nestedBlocks: 0
+ OpticalTestBench
+	inheritedBlocks: 0
+ OpticalTestBench
+	nestedBlocks: 0
+ Light Source
+	inheritedBlocks: 0
+ Light Source
+	nestedBlocks: 0
+ Light Sensor
+	inheritedBlocks: 0
+ Light Sensor
+	nestedBlocks: 0
+ Optical Assembly
+	inheritedBlocks: 0
+ Optical Assembly
+	nestedBlocks: 0
+ Focusing Assembly
+	inheritedBlocks: 0
+ Focusing Assembly
+	nestedBlocks: 0
+ Window
+	inheritedBlocks: 0
+ Window
+	nestedBlocks: 0
+ Light
+	inheritedBlocks: 0
+ Light
+	nestedBlocks: 0
+ Filter
+	inheritedBlocks: 0
+ Filter
+	nestedBlocks: 0
+ Camera
+	inheritedBlocks: 0
+ Camera
+	nestedBlocks: 0
+ Protective Housing
+	inheritedBlocks: 0
+ Protective Housing
+	nestedBlocks: 0
+ Camera Module
+	inheritedBlocks: 0
+ Camera Module
+	nestedBlocks: 0
+ Unpolarized Light
+	inheritedBlocks: 0
+ Unpolarized Light
+	nestedBlocks: 0
+ Polarized Light
+	inheritedBlocks: 0
+ Polarized Light
 	nestedBlocks: 0

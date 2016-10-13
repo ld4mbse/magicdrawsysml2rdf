@@ -1,6 +1,7 @@
 package cli;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -9,12 +10,13 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
+import edu.gatech.mbsec.adapter.magicdraw.application.MagicDrawManager;
 import edu.gatech.mbsec.adapter.magicdraw.services.OSLC4JMagicDrawApplication;
 
 public class MagicDraw2RDF {
 
 	public static String outputMode;
-	public static String magicdrawFileLocation;
+	public static String magicdrawFileLocations;
 	public static String rdfFileLocation;
 	public static String tdbdir;
 	
@@ -37,13 +39,13 @@ public class MagicDraw2RDF {
 		
 		
 //		Options used
-//		-slx reference to MagicDraw file
+//		-mdzip reference to MagicDraw file
 //		-t output format (rdfxml or TDB)
 //		-f location of output generated rdfxml
 //		-tdbdir location of output generated jenatdb
 		
 		// add t option
-		options.addOption("slx", true, "MagicDraw file location");
+		options.addOption("mdzip", true, "MagicDraw file locations separated by comma");
 		options.addOption("t", true, "output mode (rdfxml or TDB)");
 		
 		// add c option
@@ -61,7 +63,7 @@ public class MagicDraw2RDF {
 				return;
 			}
 			
-			if(!cmd.hasOption("slx")) {
+			if(!cmd.hasOption("mdzip")) {
 				System.err.println("Missing definition of input MagicDraw file");
 				formatter.printHelp( "magicdrawsysml2rdf", options );
 				return;
@@ -72,17 +74,19 @@ public class MagicDraw2RDF {
 				return;
 			}
 			
-			if(cmd.hasOption("slx")) {
-				magicdrawFileLocation = cmd.getOptionValue("slx");
-				File file = new File(magicdrawFileLocation);
+			if(cmd.hasOption("mdzip")) {
+				magicdrawFileLocations = cmd.getOptionValue("mdzip");
 				
-				if(!file.exists()){
-					System.err.println("Invalid location of MagicDraw model (file does not exist)");
-					formatter.printHelp( "magicdrawsysml2rdf", options );
-					return;
-				}	
-				
-				System.out.println("magicdrawFileLocation: " + magicdrawFileLocation);
+				ArrayList<File> files = MagicDrawManager.getMagicDrawModels(magicdrawFileLocations,
+						new ArrayList<File>());
+				for (File file : files) {
+					if(!file.exists()){
+						System.err.println("Invalid location of MagicDraw model (file does not exist)");
+						formatter.printHelp( "magicdrawsysml2rdf", options );
+						return;
+					}	
+				}			
+				System.out.println("magicdrawFileLocations: " + magicdrawFileLocations);
 			}
 			
 			

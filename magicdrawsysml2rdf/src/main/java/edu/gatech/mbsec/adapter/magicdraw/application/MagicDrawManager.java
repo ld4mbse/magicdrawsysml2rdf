@@ -233,7 +233,7 @@ public class MagicDrawManager {
 	public static String baseHTTPURI = "http://localhost:" + OSLC4JMagicDrawApplication.portNumber + "/oslc4jmagicdraw";
 	static String projectId;
 
-	static Application magicdrawApplication;
+	public static Application magicdrawApplication;
 	static Model model;
 	public static Project project;
 	public static ProjectsManager projectsManager;
