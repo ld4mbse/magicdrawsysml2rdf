@@ -1,0 +1,503 @@
+<rdf:RDF
+    xmlns:sysml_internalblockdiagram="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#InternalBlockDiagram/"
+    xmlns:sysml_valueproperty="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#ValueProperty/"
+    xmlns:mbse="http://eclipse.org/MBSE/"
+    xmlns:sysml_valuetype="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#ValueType/"
+    xmlns:sysml_itemflow="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#ItemFlow/"
+    xmlns:sysml_requirement="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Requirement/"
+    xmlns:sysml_flowproperty="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#FlowProperty/"
+    xmlns:sysml_connectorend="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#ConnectorEnd/"
+    xmlns:sysml_block="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Block/"
+    xmlns:sysml_associationblock="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#AssociationBlock/"
+    xmlns:dcterms="http://purl.org/dc/terms/"
+    xmlns:sysml_port="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Port/"
+    xmlns:sysml_referenceproperty="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#ReferenceProperty/"
+    xmlns:sysml_quantitykind="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#QuantityKind/"
+    xmlns:sysml_proxyport="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#ProxyPort/"
+    xmlns:sysml_model="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Model/"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:sysml_fullport="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#FullPort/"
+    xmlns:sysml_namedelement="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#NamedElement/"
+    xmlns:sysml_ownedelement="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#OwnedElement/"
+    xmlns:sysml_blockdiagram="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#BlockDiagram/"
+    xmlns:oslc_data="http://open-services.net/ns/servicemanagement/1.0/"
+    xmlns:sysml_property="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Property/"
+    xmlns:sysml_connector="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Connector/"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:sysml_association="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Association/"
+    xmlns:oslc="http://open-services.net/ns/core#"
+    xmlns:sysml_multiplicityelement="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#MultiplicityElement/"
+    xmlns:sysml_partproperty="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#PartProperty/"
+    xmlns:sysml_type="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Type/"
+    xmlns:oslc_rm="http://open-services.net/ns/rm#"
+    xmlns:sysml_package="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Package/"
+    xmlns:sysml_unit="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Unit/"
+    xmlns:sysml_interfaceblock="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#InterfaceBlock/"
+    xmlns:sysml="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#"
+    xmlns:foaf="http://xmlns.com/foaf/0.1/" > 
+  <rdf:Description rdf:nodeID="A0">
+    <rdf:subject rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/packages/Blocks"/>
+    <rdf:predicate rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Package_block"/>
+    <rdf:object rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::WaterClient"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A1">
+    <rdf:subject rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::Spigot-Bank"/>
+    <rdf:predicate rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Block_partProperty"/>
+    <rdf:object rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/partproperties/Blocks::Spigot-Bank::cold"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A2">
+    <rdf:subject rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/model/Water_Supply_Example"/>
+    <rdf:predicate rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Model_package"/>
+    <rdf:object rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/packages/Blocks"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/packages/MD_Customization_for_Requirements::Requirement_constraints::ValSuite_-_Requirements::Requirement">
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#OwnedElement"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#NamedElement"/>
+    <sysml:NamedElement_name rdf:parseType="Literal">Requirement</sysml:NamedElement_name>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Package"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/packages/MD_Customization_for_Requirements::Requirement_constraints::ActiveValSuite_-_Requirements::TestCase">
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#OwnedElement"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#NamedElement"/>
+    <sysml:NamedElement_name rdf:parseType="Literal">TestCase</sysml:NamedElement_name>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Package"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A3">
+    <rdf:subject rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/associationblocks/Blocks::Water-Delivery"/>
+    <rdf:predicate rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#AssociationBlock_memberEnd"/>
+    <rdf:object rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/referenceproperties/Blocks::Faucet::suppliedBy"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A4">
+    <rdf:subject rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::Faucet-Inlet"/>
+    <rdf:predicate rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Block_referenceProperty"/>
+    <rdf:object rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/referenceproperties/Blocks::Faucet-Inlet::from"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/packages/MD_Customization_for_Requirements::Requirement_constraints::ValSuite_-_Requirements::DeriveReqt">
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#OwnedElement"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#NamedElement"/>
+    <sysml:NamedElement_name rdf:parseType="Literal">DeriveReqt</sysml:NamedElement_name>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Package"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/packages/MD_Customization_for_Requirements::Requirement_constraints::ActiveValSuite_-_Requirements">
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#OwnedElement"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#NamedElement"/>
+    <sysml:NamedElement_name rdf:parseType="Literal">ActiveValSuite - Requirements</sysml:NamedElement_name>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Package"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A5">
+    <rdf:subject rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/packages/Blocks"/>
+    <rdf:predicate rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Package_block"/>
+    <rdf:object rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::WaterSupply"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::Faucet-Inlet">
+    <rdf:type rdf:resource="http://eclipse.org/MBSE/Block"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#OwnedElement"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Type"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#NamedElement"/>
+    <sysml:Block_referenceProperty rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/referenceproperties/Blocks::Faucet-Inlet::from"/>
+    <sysml:NamedElement_name rdf:parseType="Literal">Faucet
+Inlet</sysml:NamedElement_name>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Block"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A6">
+    <rdf:subject rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::Faucet"/>
+    <rdf:predicate rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Block_partProperty"/>
+    <rdf:object rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/partproperties/Blocks::Faucet::cold"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::WaterClient">
+    <rdf:type rdf:resource="http://eclipse.org/MBSE/Block"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#OwnedElement"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Type"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#NamedElement"/>
+    <sysml:Block_partProperty rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/partproperties/Blocks::WaterClient::faucet"/>
+    <sysml:NamedElement_name rdf:parseType="Literal">WaterClient</sysml:NamedElement_name>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Block"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/referenceproperties/Blocks::Spigot::to">
+    <sysml:ReferenceProperty_association rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/associations/Blocks::"/>
+    <sysml:NamedElement_name rdf:parseType="Literal">to</sysml:NamedElement_name>
+    <sysml:MultiplicityElement_upper rdf:parseType="Literal">1</sysml:MultiplicityElement_upper>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#MultiplicityElement"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#NamedElement"/>
+    <sysml:Property_type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::Faucet-Inlet"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#ReferenceProperty"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#OwnedElement"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Property"/>
+    <sysml:MultiplicityElement_lower rdf:parseType="Literal">1</sysml:MultiplicityElement_lower>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/packages/Blocks">
+    <sysml:Package_block rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::WaterSupply"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#OwnedElement"/>
+    <sysml:Package_block rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::Faucet"/>
+    <sysml:Package_block rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::Spigot-Bank"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#NamedElement"/>
+    <sysml:Package_block rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::WaterClient"/>
+    <sysml:NamedElement_name rdf:parseType="Literal">Blocks</sysml:NamedElement_name>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Package"/>
+    <sysml:Package_block rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::Spigot"/>
+    <sysml:Package_block rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::Water-Delivery"/>
+    <sysml:Package_block rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::Faucet-Inlet"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/partproperties/Blocks::Faucet::hot">
+    <sysml:NamedElement_name rdf:parseType="Literal">hot</sysml:NamedElement_name>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Property"/>
+    <sysml:Property_type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::Faucet-Inlet"/>
+    <sysml:MultiplicityElement_lower rdf:parseType="Literal">1</sysml:MultiplicityElement_lower>
+    <sysml:MultiplicityElement_upper rdf:parseType="Literal">1</sysml:MultiplicityElement_upper>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#NamedElement"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#MultiplicityElement"/>
+    <sysml:OwnedElement_owner rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::Faucet"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#PartProperty"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#OwnedElement"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/referenceproperties/Blocks::Faucet::suppliedBy">
+    <sysml:MultiplicityElement_lower rdf:parseType="Literal">1</sysml:MultiplicityElement_lower>
+    <sysml:ReferenceProperty_association rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/associationblocks/Blocks::Water-Delivery"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#MultiplicityElement"/>
+    <sysml:MultiplicityElement_upper rdf:parseType="Literal">1</sysml:MultiplicityElement_upper>
+    <sysml:Property_type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::Spigot-Bank"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#ReferenceProperty"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#OwnedElement"/>
+    <sysml:NamedElement_name rdf:parseType="Literal">suppliedBy</sysml:NamedElement_name>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Property"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#NamedElement"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A7">
+    <rdf:subject rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::Spigot-Bank"/>
+    <rdf:predicate rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Block_referenceProperty"/>
+    <rdf:object rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/referenceproperties/Blocks::Spigot-Bank::deliveredTo"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/packages/MD_Customization_for_Requirements">
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#OwnedElement"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#NamedElement"/>
+    <sysml:NamedElement_name rdf:parseType="Literal">MD Customization for Requirements</sysml:NamedElement_name>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Package"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A8">
+    <rdf:subject rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/model/Water_Supply_Example"/>
+    <rdf:predicate rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Model_package"/>
+    <rdf:object rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/packages/MD_Customization_for_ViewsViewpoints"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/partproperties/Blocks::Spigot-Bank::hot">
+    <sysml:MultiplicityElement_lower rdf:parseType="Literal">1</sysml:MultiplicityElement_lower>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Property"/>
+    <sysml:MultiplicityElement_upper rdf:parseType="Literal">1</sysml:MultiplicityElement_upper>
+    <sysml:OwnedElement_owner rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::Spigot-Bank"/>
+    <sysml:NamedElement_name rdf:parseType="Literal">hot</sysml:NamedElement_name>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#PartProperty"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#OwnedElement"/>
+    <sysml:Property_type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::Spigot"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#MultiplicityElement"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#NamedElement"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/packages/MD_Customization_for_Requirements::Requirement_constraints::ValSuite_-_Requirements">
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#OwnedElement"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#NamedElement"/>
+    <sysml:NamedElement_name rdf:parseType="Literal">ValSuite - Requirements</sysml:NamedElement_name>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Package"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/model/Water_Supply_Example">
+    <rdf:type rdf:resource="http://eclipse.org/MBSE/Model"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#NamedElement"/>
+    <sysml:Model_package rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/packages/MD_Customization_for_ViewsViewpoints"/>
+    <sysml:Model_package rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/packages/Blocks"/>
+    <sysml:Model_package rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/packages/MD_Customization_for_Requirements"/>
+    <sysml:NamedElement_name rdf:parseType="Literal">Water_Supply_Example</sysml:NamedElement_name>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Model"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/partproperties/Blocks::WaterClient::faucet">
+    <sysml:OwnedElement_owner rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::WaterClient"/>
+    <sysml:Property_type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::Faucet"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#MultiplicityElement"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Property"/>
+    <sysml:NamedElement_name rdf:parseType="Literal">faucet</sysml:NamedElement_name>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#OwnedElement"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#PartProperty"/>
+    <sysml:MultiplicityElement_lower rdf:parseType="Literal">1</sysml:MultiplicityElement_lower>
+    <sysml:MultiplicityElement_upper rdf:parseType="Literal">1</sysml:MultiplicityElement_upper>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#NamedElement"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/referenceproperties/Blocks::Faucet-Inlet::from">
+    <sysml:MultiplicityElement_lower rdf:parseType="Literal">1</sysml:MultiplicityElement_lower>
+    <sysml:Property_type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::Spigot"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Property"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#NamedElement"/>
+    <sysml:NamedElement_name rdf:parseType="Literal">from</sysml:NamedElement_name>
+    <sysml:MultiplicityElement_upper rdf:parseType="Literal">1</sysml:MultiplicityElement_upper>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#ReferenceProperty"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#OwnedElement"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#MultiplicityElement"/>
+    <sysml:ReferenceProperty_association rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/associations/Blocks::"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A9">
+    <rdf:subject rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::Spigot"/>
+    <rdf:predicate rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Block_referenceProperty"/>
+    <rdf:object rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/referenceproperties/Blocks::Spigot::to"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/partproperties/Blocks::WaterSupply::sbank">
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Property"/>
+    <sysml:MultiplicityElement_upper rdf:parseType="Literal">1</sysml:MultiplicityElement_upper>
+    <sysml:MultiplicityElement_lower rdf:parseType="Literal">1</sysml:MultiplicityElement_lower>
+    <sysml:NamedElement_name rdf:parseType="Literal">sbank</sysml:NamedElement_name>
+    <sysml:OwnedElement_owner rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::WaterSupply"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#MultiplicityElement"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#PartProperty"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#NamedElement"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#OwnedElement"/>
+    <sysml:Property_type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::Spigot-Bank"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A10">
+    <rdf:subject rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/packages/Blocks"/>
+    <rdf:predicate rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Package_block"/>
+    <rdf:object rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::Spigot-Bank"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/packages/MD_Customization_for_ViewsViewpoints::customizations">
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#OwnedElement"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#NamedElement"/>
+    <sysml:NamedElement_name rdf:parseType="Literal">customizations</sysml:NamedElement_name>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Package"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/packages/MD_Customization_for_Requirements::relation_map_templates">
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#OwnedElement"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#NamedElement"/>
+    <sysml:NamedElement_name rdf:parseType="Literal">relation map templates</sysml:NamedElement_name>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Package"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A11">
+    <rdf:subject rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::Faucet"/>
+    <rdf:predicate rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Block_referenceProperty"/>
+    <rdf:object rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/referenceproperties/Blocks::Faucet::suppliedBy"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/packages/MD_Customization_for_Requirements::Requirement_constraints">
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#OwnedElement"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#NamedElement"/>
+    <sysml:NamedElement_name rdf:parseType="Literal">Requirement constraints</sysml:NamedElement_name>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Package"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/associationblocks/Blocks::Water-Delivery">
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Association"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#NamedElement"/>
+    <sysml:AssociationBlock_memberEnd rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/referenceproperties/Blocks::Faucet::suppliedBy"/>
+    <sysml:AssociationBlock_memberEnd rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/referenceproperties/Blocks::Spigot-Bank::deliveredTo"/>
+    <sysml:NamedElement_name rdf:parseType="Literal">Water
+Delivery</sysml:NamedElement_name>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#AssociationBlock"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/packages/MD_Customization_for_ViewsViewpoints::numbering_schemes">
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#OwnedElement"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#NamedElement"/>
+    <sysml:NamedElement_name rdf:parseType="Literal">numbering schemes</sysml:NamedElement_name>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Package"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::Faucet">
+    <rdf:type rdf:resource="http://eclipse.org/MBSE/Block"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#OwnedElement"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Type"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#NamedElement"/>
+    <sysml:Block_referenceProperty rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/referenceproperties/Blocks::Faucet::suppliedBy"/>
+    <sysml:Block_partProperty rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/partproperties/Blocks::Faucet::cold"/>
+    <sysml:Block_partProperty rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/partproperties/Blocks::Faucet::hot"/>
+    <sysml:NamedElement_name rdf:parseType="Literal">Faucet</sysml:NamedElement_name>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Block"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/packages/MD_Customization_for_Requirements::customizations">
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#OwnedElement"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#NamedElement"/>
+    <sysml:NamedElement_name rdf:parseType="Literal">customizations</sysml:NamedElement_name>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Package"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/partproperties/Blocks::Faucet::cold">
+    <sysml:MultiplicityElement_lower rdf:parseType="Literal">1</sysml:MultiplicityElement_lower>
+    <sysml:MultiplicityElement_upper rdf:parseType="Literal">1</sysml:MultiplicityElement_upper>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#NamedElement"/>
+    <sysml:Property_type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::Faucet-Inlet"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Property"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#OwnedElement"/>
+    <sysml:OwnedElement_owner rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::Faucet"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#MultiplicityElement"/>
+    <sysml:NamedElement_name rdf:parseType="Literal">cold</sysml:NamedElement_name>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#PartProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/packages/MD_Customization_for_ViewsViewpoints::DocBook_Profile">
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#OwnedElement"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#NamedElement"/>
+    <sysml:NamedElement_name rdf:parseType="Literal">DocBook Profile</sysml:NamedElement_name>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Package"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A12">
+    <rdf:subject rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::WaterSupply"/>
+    <rdf:predicate rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Block_partProperty"/>
+    <rdf:object rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/partproperties/Blocks::WaterSupply::sbank"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/packages/MD_Customization_for_ViewsViewpoints">
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#OwnedElement"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#NamedElement"/>
+    <sysml:NamedElement_name rdf:parseType="Literal">MD Customization for ViewsViewpoints</sysml:NamedElement_name>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Package"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A13">
+    <rdf:subject rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/packages/Blocks"/>
+    <rdf:predicate rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Package_block"/>
+    <rdf:object rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::Spigot"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::Spigot">
+    <rdf:type rdf:resource="http://eclipse.org/MBSE/Block"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#OwnedElement"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Type"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#NamedElement"/>
+    <sysml:Block_referenceProperty rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/referenceproperties/Blocks::Spigot::to"/>
+    <sysml:NamedElement_name rdf:parseType="Literal">Spigot</sysml:NamedElement_name>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Block"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::WaterSupply">
+    <rdf:type rdf:resource="http://eclipse.org/MBSE/Block"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#OwnedElement"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Type"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#NamedElement"/>
+    <sysml:Block_partProperty rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/partproperties/Blocks::WaterSupply::sbank"/>
+    <sysml:NamedElement_name rdf:parseType="Literal">WaterSupply</sysml:NamedElement_name>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Block"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/partproperties/Blocks::Spigot-Bank::cold">
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Property"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#OwnedElement"/>
+    <sysml:OwnedElement_owner rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::Spigot-Bank"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#NamedElement"/>
+    <sysml:NamedElement_name rdf:parseType="Literal">cold</sysml:NamedElement_name>
+    <sysml:MultiplicityElement_lower rdf:parseType="Literal">1</sysml:MultiplicityElement_lower>
+    <sysml:Property_type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::Spigot"/>
+    <sysml:MultiplicityElement_upper rdf:parseType="Literal">1</sysml:MultiplicityElement_upper>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#MultiplicityElement"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#PartProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A14">
+    <rdf:subject rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::WaterClient"/>
+    <rdf:predicate rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Block_partProperty"/>
+    <rdf:object rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/partproperties/Blocks::WaterClient::faucet"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::Water-Delivery">
+    <rdf:type rdf:resource="http://eclipse.org/MBSE/Block"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#OwnedElement"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Type"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#NamedElement"/>
+    <sysml:NamedElement_name rdf:parseType="Literal">Water
+Delivery</sysml:NamedElement_name>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Block"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::Spigot-Bank">
+    <rdf:type rdf:resource="http://eclipse.org/MBSE/Block"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#OwnedElement"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Type"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#NamedElement"/>
+    <sysml:Block_referenceProperty rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/referenceproperties/Blocks::Spigot-Bank::deliveredTo"/>
+    <sysml:Block_partProperty rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/partproperties/Blocks::Spigot-Bank::cold"/>
+    <sysml:Block_partProperty rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/partproperties/Blocks::Spigot-Bank::hot"/>
+    <sysml:NamedElement_name rdf:parseType="Literal">Spigot
+Bank</sysml:NamedElement_name>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Block"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A15">
+    <rdf:subject rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/packages/Blocks"/>
+    <rdf:predicate rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Package_block"/>
+    <rdf:object rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::Water-Delivery"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/packages/MD_Customization_for_Requirements::Requirement_constraints::ValSuite_-_Requirements::Copy">
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#OwnedElement"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#NamedElement"/>
+    <sysml:NamedElement_name rdf:parseType="Literal">Copy</sysml:NamedElement_name>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Package"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/packages/MD_Customization_for_Requirements::Requirement_constraints::ValSuite_-_Requirements::TestCase">
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#OwnedElement"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#NamedElement"/>
+    <sysml:NamedElement_name rdf:parseType="Literal">TestCase</sysml:NamedElement_name>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Package"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/packages/MD_Customization_for_Requirements::numbering_schemes">
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#OwnedElement"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#NamedElement"/>
+    <sysml:NamedElement_name rdf:parseType="Literal">numbering schemes</sysml:NamedElement_name>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Package"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A16">
+    <rdf:subject rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/packages/Blocks"/>
+    <rdf:predicate rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Package_block"/>
+    <rdf:object rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::Faucet-Inlet"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A17">
+    <rdf:subject rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/model/Water_Supply_Example"/>
+    <rdf:predicate rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Model_package"/>
+    <rdf:object rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/packages/MD_Customization_for_Requirements"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A18">
+    <rdf:subject rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/associationblocks/Blocks::Water-Delivery"/>
+    <rdf:predicate rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#AssociationBlock_memberEnd"/>
+    <rdf:object rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/referenceproperties/Blocks::Spigot-Bank::deliveredTo"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blockdiagrams/Blocks::Water_Supply_and_Client">
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#NamedElement"/>
+    <sysml:NamedElement_name rdf:parseType="Literal">Water_Supply_and_Client</sysml:NamedElement_name>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#BlockDiagram"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A19">
+    <rdf:subject rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::Spigot-Bank"/>
+    <rdf:predicate rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Block_partProperty"/>
+    <rdf:object rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/partproperties/Blocks::Spigot-Bank::hot"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A20">
+    <rdf:subject rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/packages/Blocks"/>
+    <rdf:predicate rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Package_block"/>
+    <rdf:object rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::Faucet"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/referenceproperties/Blocks::Spigot-Bank::deliveredTo">
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#ReferenceProperty"/>
+    <sysml:NamedElement_name rdf:parseType="Literal">deliveredTo</sysml:NamedElement_name>
+    <sysml:ReferenceProperty_association rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/associationblocks/Blocks::Water-Delivery"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#MultiplicityElement"/>
+    <sysml:MultiplicityElement_lower rdf:parseType="Literal">1</sysml:MultiplicityElement_lower>
+    <sysml:MultiplicityElement_upper rdf:parseType="Literal">-1</sysml:MultiplicityElement_upper>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#OwnedElement"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#NamedElement"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Property"/>
+    <sysml:Property_type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::Faucet"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A21">
+    <rdf:subject rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::Faucet"/>
+    <rdf:predicate rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Block_partProperty"/>
+    <rdf:object rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/partproperties/Blocks::Faucet::hot"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/packages/MD_Customization_for_Requirements::additional_stereotypes">
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#OwnedElement"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#NamedElement"/>
+    <sysml:NamedElement_name rdf:parseType="Literal">additional_stereotypes</sysml:NamedElement_name>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Package"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/packages/MD_Customization_for_Requirements::Requirement_constraints::ActiveValSuite_-_Requirements::Copy">
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#OwnedElement"/>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#NamedElement"/>
+    <sysml:NamedElement_name rdf:parseType="Literal">Copy</sysml:NamedElement_name>
+    <rdf:type rdf:resource="http://localhost:8080/oslc4jmagicdraw/services/sysml-rdfvocabulary#Package"/>
+  </rdf:Description>
+</rdf:RDF>

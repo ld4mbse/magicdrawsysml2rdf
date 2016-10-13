@@ -1,0 +1,134 @@
+
+ Water_Supply_Example
+	model packages: 3
+ Water_Supply_Example
+	model packages: 
+		 http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/packages/Blocks
+		 http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/packages/MD_Customization_for_Requirements
+		 http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/packages/MD_Customization_for_ViewsViewpoints**** Elements of type AssociationClass ****
+Block Water
+Delivery
+SysML Package with Name: Blocks
+SysML Package with Name: MD Customization for Requirements
+SysML Package with Name: customizations
+SysML Package with Name: numbering schemes
+SysML Package with Name: relation map templates
+SysML Package with Name: additional_stereotypes
+SysML Package with Name: Requirement constraints
+SysML Package with Name: ValSuite - Requirements
+SysML Package with Name: TestCase
+SysML Package with Name: Copy
+SysML Package with Name: DeriveReqt
+SysML Package with Name: Requirement
+SysML Package with Name: ActiveValSuite - Requirements
+SysML Package with Name: TestCase
+SysML Package with Name: Copy
+SysML Package with Name: MD Customization for ViewsViewpoints
+SysML Package with Name: customizations
+SysML Package with Name: numbering schemes
+SysML Package with Name: DocBook Profile
+SysML Block with Name: WaterSupply
+ WaterSupply
+	blockParts: 1
+ WaterSupply
+	blockParts: 
+		 http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/partproperties/Blocks::WaterSupply::sbank
+SysML Block with Name: WaterClient
+ WaterClient
+	blockParts: 1
+ WaterClient
+	blockParts: 
+		 http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/partproperties/Blocks::WaterClient::faucet
+SysML Block with Name: Spigot
+Bank
+ Spigot
+Bank
+	blockParts: 2
+ Spigot
+Bank
+	blockParts: 
+		 http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/partproperties/Blocks::Spigot-Bank::hot
+		 http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/partproperties/Blocks::Spigot-Bank::cold
+ Spigot
+Bank
+	block reference properties: 1
+ Spigot
+Bank
+	block reference properties: 
+		 http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/referenceproperties/Blocks::Spigot-Bank::deliveredTo
+SysML Block with Name: Faucet
+ Faucet
+	blockParts: 2
+ Faucet
+	blockParts: 
+		 http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/partproperties/Blocks::Faucet::hot
+		 http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/partproperties/Blocks::Faucet::cold
+ Faucet
+	block reference properties: 1
+ Faucet
+	block reference properties: 
+		 http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/referenceproperties/Blocks::Faucet::suppliedBy
+SysML Block with Name: Spigot
+ Spigot
+	block reference properties: 1
+ Spigot
+	block reference properties: 
+		 http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/referenceproperties/Blocks::Spigot::to
+SysML Block with Name: Faucet
+Inlet
+ Faucet
+Inlet
+	block reference properties: 1
+ Faucet
+Inlet
+	block reference properties: 
+		 http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/referenceproperties/Blocks::Faucet-Inlet::from
+SysML Block with Name: Water
+Delivery
+SysML Block with Name: Water
+Delivery
+ Blocks
+	packageBlocks: 7
+ Blocks
+	packageBlocks: 
+		 http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::WaterSupply
+		 http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::WaterClient
+		 http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::Spigot-Bank
+		 http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::Faucet
+		 http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::Spigot
+		 http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::Faucet-Inlet
+		 http://localhost:8080/oslc4jmagicdraw/services/Water_Supply_Example/blocks/Blocks::Water-Delivery
+ WaterSupply
+	inheritedBlocks: 0
+ WaterSupply
+	nestedBlocks: 0
+ WaterClient
+	inheritedBlocks: 0
+ WaterClient
+	nestedBlocks: 0
+ Spigot
+Bank
+	inheritedBlocks: 0
+ Spigot
+Bank
+	nestedBlocks: 0
+ Faucet
+	inheritedBlocks: 0
+ Faucet
+	nestedBlocks: 0
+ Spigot
+	inheritedBlocks: 0
+ Spigot
+	nestedBlocks: 0
+ Faucet
+Inlet
+	inheritedBlocks: 0
+ Faucet
+Inlet
+	nestedBlocks: 0
+ Water
+Delivery
+	inheritedBlocks: 0
+ Water
+Delivery
+	nestedBlocks: 0
