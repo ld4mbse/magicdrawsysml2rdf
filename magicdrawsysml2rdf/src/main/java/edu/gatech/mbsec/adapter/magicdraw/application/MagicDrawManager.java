@@ -2870,9 +2870,9 @@ public class MagicDrawManager {
 
 	}
 
-	public static ArrayList<File> getMagicDrawModels(String directoryName, ArrayList<File> files) {
+	public static ArrayList<File> getMagicDrawModels(String fileLocations, ArrayList<File> files) {
 				
-		String[] magicDrawModelsPathArray = magicDrawModelPaths.split(",");
+		String[] magicDrawModelsPathArray = fileLocations.split(",");
 
 		// get all the files from properties file		
 			for (String magicDrawModelPath : magicDrawModelsPathArray) {

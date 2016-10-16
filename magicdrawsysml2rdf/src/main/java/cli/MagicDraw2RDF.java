@@ -10,7 +10,6 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
-import edu.gatech.mbsec.adapter.magicdraw.application.MagicDrawManager;
 import edu.gatech.mbsec.adapter.magicdraw.services.OSLC4JMagicDrawApplication;
 
 public class MagicDraw2RDF {
@@ -77,9 +76,10 @@ public class MagicDraw2RDF {
 			if(cmd.hasOption("mdzip")) {
 				magicdrawFileLocations = cmd.getOptionValue("mdzip");
 				
-				ArrayList<File> files = MagicDrawManager.getMagicDrawModels(magicdrawFileLocations,
-						new ArrayList<File>());
-				for (File file : files) {
+				
+				String[] magicDrawModelsPathArray = magicdrawFileLocations.split(",");
+				for (String magicDrawModelPath : magicDrawModelsPathArray) {
+					File file = new File(magicDrawModelPath);
 					if(!file.exists()){
 						System.err.println("Invalid location of MagicDraw model (file does not exist)");
 						formatter.printHelp( "magicdrawsysml2rdf", options );

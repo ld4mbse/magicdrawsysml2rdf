@@ -214,6 +214,56 @@ public class OSLC4JMagicDrawApplication {
 
 	}
 
+	private static void loadPropertiesFile2() {
+		Properties prop = new Properties();
+		InputStream input = null;
+
+		
+			try {
+				input = new FileInputStream(localConfigFilePath);
+				configFilePath = localConfigFilePath;
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} // for war file
+		
+
+		// load property file content and convert backslashes into forward
+		// slashes
+		String str;
+		if (input != null) {
+			try {
+				str = readFile(configFilePath, Charset.defaultCharset());
+				prop.load(new StringReader(str.replace("\\", "/")));
+
+				// get the property value
+				
+//				String magicdrawModelsDirectoryFromUser = prop.getProperty("magicDrawModelPaths");
+//				magicDrawModelPaths = magicdrawModelsDirectoryFromUser;
+				
+				magicDrawModelPaths = MagicDraw2RDF.magicdrawFileLocations;
+				
+				portNumber = prop.getProperty("portNumber");
+				
+
+				
+
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+
+				try {
+					input.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
+			}
+		}
+
+	}
+	
 	static String readFile(String path, Charset encoding) throws IOException {
 		byte[] encoded = Files.readAllBytes(Paths.get(path));
 		return encoding.decode(ByteBuffer.wrap(encoded)).toString();
@@ -255,7 +305,15 @@ public class OSLC4JMagicDrawApplication {
 
 	
 
-	static public void run(){
+	public static void run() {
+
+		loadPropertiesFile2();
+
+		readDataFirstTime();
+
+		MagicDrawManager.writeRDF();
 		
+		closeMagicDrawApplication();
+
 	}
 }
