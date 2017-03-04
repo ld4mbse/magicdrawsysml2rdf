@@ -1,16 +1,17 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>magicdrawsysml2rdf</groupId>
-  <artifactId>magicdrawsysml2rdf</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>magicdrawsysml2rdf</groupId>
+	<artifactId>magicdrawsysml2rdf</artifactId>
+	<version>1.0</version>
+
 
 	<name>magicdrawsysml2rdf</name>
-	
+
 	<properties>
 		<magicdraw.installdir>C:\Program Files\MagicDraw 18.0 sp6\</magicdraw.installdir>
 	</properties>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>javax.servlet.jsp</groupId>
@@ -18,48 +19,51 @@
 			<scope>provided</scope>
 			<version>2.3.0</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<version>3.1-b06</version>
-			<scope>provided</scope>  <!-- otheriwse -> Tomcat 7.0\webapps\oslc4jmagicdraw\WEB-INF\lib\javax.servlet-api-3.1-b06.jar) - jar not loaded. See Servlet Spec 3.0, section 10.7.2. Offending class: javax/servlet/Servlet.class -->
+			<scope>provided</scope>  <!-- otheriwse -> Tomcat 7.0\webapps\oslc4jmagicdraw\WEB-INF\lib\javax.servlet-api-3.1-b06.jar) 
+				- jar not loaded. See Servlet Spec 3.0, section 10.7.2. Offending class: 
+				javax/servlet/Servlet.class -->
 		</dependency>
-		
+
 		<dependency>
 			<groupId>javax.ws.rs</groupId>
 			<artifactId>jsr311-api</artifactId>
 			<version>1.1.1</version>
 		</dependency>
-		
-		<!-- ********************************************************************** --> 
-  		<!-- Dependency to OSLC-annotated Java classes describing MagicDraw SysML concepts --> 
-		<!-- ********************************************************************** --> 
-		
+
+		<!-- ********************************************************************** -->
+		<!-- Dependency to OSLC-annotated Java classes describing MagicDraw SysML 
+			concepts -->
+		<!-- ********************************************************************** -->
+
 		<dependency>
 			<groupId>edu.gatech.mbsec.adapter.magicdraw</groupId>
 			<artifactId>oslc4j-magicdraw-resources</artifactId>
 			<version>1.1.0</version>
 		</dependency>
-		
-		<!-- ********************************************************************** --> 
-  		<!-- OSLC4J dependencies --> 
-		<!-- ********************************************************************** --> 
-		
+
+		<!-- ********************************************************************** -->
+		<!-- OSLC4J dependencies -->
+		<!-- ********************************************************************** -->
+
 		<dependency>
 			<groupId>org.eclipse.lyo.oslc4j.core</groupId>
 			<artifactId>oslc4j-wink</artifactId>
 			<version>3.0.0-SNAPSHOT</version>
 			<exclusions>
-        		<exclusion>
-      				<groupId>javax.xml.bind</groupId>
-      				<artifactId>jaxb-api</artifactId>
-    			</exclusion>
-    			<exclusion>
-      				<groupId>com.sun.xml.bind</groupId>
-      				<artifactId>jaxb-impl</artifactId>
-    			</exclusion>  			  			
-  			</exclusions>
+				<exclusion>
+					<groupId>javax.xml.bind</groupId>
+					<artifactId>jaxb-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.sun.xml.bind</groupId>
+					<artifactId>jaxb-impl</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.lyo.oslc4j.core</groupId>
@@ -76,24 +80,25 @@
 			<artifactId>oslc4j-json4j-provider</artifactId>
 			<version>3.0.0-SNAPSHOT</version>
 		</dependency>
-		
-		
-		<!-- ********************************************************************** --> 
-  		<!-- 3rd Party dependency --> 
+
+
 		<!-- ********************************************************************** -->
-		
+		<!-- 3rd Party dependency -->
+		<!-- ********************************************************************** -->
+
 		<dependency>
 			<groupId>org.apache.ws.commons.util</groupId>
 			<artifactId>ws-commons-util</artifactId>
-			<version>1.0.2</version>						
+			<version>1.0.2</version>
 		</dependency>
-		
 
 
- 		<!-- ********************************************************************** --> 
-  		<!-- Magicdraw jars which need to be on the classpath in order to launch MagicDraw 
-  		through the MagicDraw API, as described in the MagicDraw OpenAPI UserGuide --> 
-		<!-- ********************************************************************** --> 
+
+		<!-- ********************************************************************** -->
+		<!-- Magicdraw jars which need to be on the classpath in order to launch 
+			MagicDraw through the MagicDraw API, as described in the MagicDraw OpenAPI 
+			UserGuide -->
+		<!-- ********************************************************************** -->
 
 		<dependency>
 			<groupId>com.magicdraw.application</groupId>
@@ -110,7 +115,7 @@
 			<scope>system</scope>
 			<systemPath>${magicdraw.installdir}/lib/activation.jar</systemPath>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.magicdraw.application</groupId>
 			<artifactId>annotation</artifactId>
@@ -142,7 +147,7 @@
 			<scope>system</scope>
 			<systemPath>${magicdraw.installdir}/lib/com.nomagic.ci.binary_17.0.1.jar</systemPath>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.magicdraw.application</groupId>
 			<artifactId>com.nomagic.ci.metamodel.index_17.0.1</artifactId>
@@ -150,7 +155,7 @@
 			<scope>system</scope>
 			<systemPath>${magicdraw.installdir}/lib/com.nomagic.ci.metamodel.index_17.0.1.jar</systemPath>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.magicdraw.application</groupId>
 			<artifactId>com.nomagic.ci.metamodel.project_17.0.1</artifactId>
@@ -158,7 +163,7 @@
 			<scope>system</scope>
 			<systemPath>${magicdraw.installdir}/lib/com.nomagic.ci.metamodel.project_17.0.1.jar</systemPath>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.magicdraw.application</groupId>
 			<artifactId>com.nomagic.ci.persistence.local_17.0.1</artifactId>
@@ -166,7 +171,7 @@
 			<scope>system</scope>
 			<systemPath>${magicdraw.installdir}/lib/com.nomagic.ci.persistence.local_17.0.1.jar</systemPath>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.magicdraw.application</groupId>
 			<artifactId>com.nomagic.ci.persistence_17.0.1</artifactId>
@@ -174,7 +179,7 @@
 			<scope>system</scope>
 			<systemPath>${magicdraw.installdir}/lib/com.nomagic.ci.persistence_17.0.1.jar</systemPath>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.magicdraw.application</groupId>
 			<artifactId>com.nomagic.ci.services_17.0.1</artifactId>
@@ -182,7 +187,7 @@
 			<scope>system</scope>
 			<systemPath>${magicdraw.installdir}/lib/com.nomagic.ci.services_17.0.1.jar</systemPath>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.magicdraw.application</groupId>
 			<artifactId>com.nomagic.ci_17.0.1</artifactId>
@@ -246,8 +251,8 @@
 			<scope>system</scope>
 			<systemPath>${magicdraw.installdir}/lib/EccpressoAll.jar</systemPath>
 		</dependency>
-		
-		  
+
+
 		<dependency>
 			<groupId>com.magicdraw.application</groupId>
 			<artifactId>ehcache-2.10.1</artifactId>
@@ -255,8 +260,8 @@
 			<scope>system</scope>
 			<systemPath>${magicdraw.installdir}/lib/ehcache-2.10.1.jar</systemPath>
 		</dependency>
-		
-		
+
+
 		<dependency>
 			<groupId>com.magicdraw.application</groupId>
 			<artifactId>flexlm</artifactId>
@@ -264,7 +269,7 @@
 			<scope>system</scope>
 			<systemPath>${magicdraw.installdir}/lib/flexlm.jar</systemPath>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.magicdraw.application</groupId>
 			<artifactId>gson-2.2.4</artifactId>
@@ -272,7 +277,7 @@
 			<scope>system</scope>
 			<systemPath>${magicdraw.installdir}/lib/gson-2.2.4.jar</systemPath>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.magicdraw.application</groupId>
 			<artifactId>HTMLEditorLight</artifactId>
@@ -296,7 +301,7 @@
 			<scope>system</scope>
 			<systemPath>${magicdraw.installdir}/lib/javax_jmi-1_0-fr.jar</systemPath>
 		</dependency>
-				
+
 		<dependency>
 			<groupId>com.magicdraw.application</groupId>
 			<artifactId>jaxb-impl</artifactId>
@@ -312,7 +317,7 @@
 			<scope>system</scope>
 			<systemPath>${magicdraw.installdir}/lib/jaxb-libs.jar</systemPath>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.magicdraw.application</groupId>
 			<artifactId>jbossall-client</artifactId>
@@ -664,7 +669,7 @@
 			<scope>system</scope>
 			<systemPath>${magicdraw.installdir}/lib/md_api.jar</systemPath>
 		</dependency>
-				
+
 		<dependency>
 			<groupId>com.magicdraw.application</groupId>
 			<artifactId>md_common</artifactId>
@@ -672,7 +677,7 @@
 			<scope>system</scope>
 			<systemPath>${magicdraw.installdir}/lib/md_common.jar</systemPath>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.magicdraw.application</groupId>
 			<artifactId>md_common_api</artifactId>
@@ -744,7 +749,7 @@
 			<scope>system</scope>
 			<systemPath>${magicdraw.installdir}/lib/org.eclipse.core.runtime_3.7.0.v20110110.jar</systemPath>
 		</dependency>
-				
+
 		<dependency>
 			<groupId>com.magicdraw.application</groupId>
 			<artifactId>org.eclipse.emf.common_2.7.0.v20110513-1719</artifactId>
@@ -800,7 +805,7 @@
 			<scope>system</scope>
 			<systemPath>${magicdraw.installdir}/lib/org.eclipse.equinox.registry_3.5.100.v20110502.jar</systemPath>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.magicdraw.application</groupId>
 			<artifactId>org.eclipse.ocl.doc_3.0.1.R30x_v201008311245</artifactId>
@@ -937,22 +942,12 @@
 			<systemPath>${magicdraw.installdir}/lib/tw_common_api.jar</systemPath>
 		</dependency>
 
-		<!--  Changes for MD 18 SP1
-		<dependency>
-			<groupId>com.magicdraw.application</groupId>
-			<artifactId>tw_console</artifactId>
-			<version>17.0.5</version>
-			<scope>system</scope>
-			<systemPath>${magicdraw.installdir}/lib/tw_console.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>com.magicdraw.application</groupId>
-			<artifactId>tw_console_api</artifactId>
-			<version>17.0.5</version>
-			<scope>system</scope>
-			<systemPath>${magicdraw.installdir}/lib/tw_console_api.jar</systemPath>
-		</dependency>
--->
+		<!-- Changes for MD 18 SP1 <dependency> <groupId>com.magicdraw.application</groupId> 
+			<artifactId>tw_console</artifactId> <version>17.0.5</version> <scope>system</scope> 
+			<systemPath>${magicdraw.installdir}/lib/tw_console.jar</systemPath> </dependency> 
+			<dependency> <groupId>com.magicdraw.application</groupId> <artifactId>tw_console_api</artifactId> 
+			<version>17.0.5</version> <scope>system</scope> <systemPath>${magicdraw.installdir}/lib/tw_console_api.jar</systemPath> 
+			</dependency> -->
 
 		<dependency>
 			<groupId>com.magicdraw.application</groupId>
@@ -969,7 +964,7 @@
 			<scope>system</scope>
 			<systemPath>${magicdraw.installdir}/lib/xalan.jar</systemPath>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.magicdraw.application</groupId>
 			<artifactId>xsdlib</artifactId>
@@ -1105,10 +1100,10 @@
 			<scope>system</scope>
 			<systemPath>${magicdraw.installdir}/lib/webservice/wsdl4j-1.5.1.jar</systemPath>
 		</dependency>
-		  
-		 <!-- ********************************************************************** --> 
-		 <!-- Magicdraw SysML plugin jars which need to be on the classpath--> 
-		  		 		
+
+		<!-- ********************************************************************** -->
+		<!-- Magicdraw SysML plugin jars which need to be on the classpath -->
+
 		<dependency>
 			<groupId>com.nomagic.magicdraw.sysml</groupId>
 			<artifactId>sysml_api</artifactId>
@@ -1125,18 +1120,18 @@
 			<systemPath>${magicdraw.installdir}/plugins/com.nomagic.magicdraw.sysml/sysml.jar</systemPath>
 		</dependency>
 
-		
-		
-		
 
 
-<!-- https://mvnrepository.com/artifact/commons-cli/commons-cli -->
+
+
+
+		<!-- https://mvnrepository.com/artifact/commons-cli/commons-cli -->
 		<dependency>
 			<groupId>commons-cli</groupId>
 			<artifactId>commons-cli</artifactId>
 			<version>1.3</version>
 		</dependency>
-		
+
 		<!-- https://mvnrepository.com/artifact/org.apache.jena/jena-tdb -->
 		<dependency>
 			<groupId>org.apache.jena</groupId>
@@ -1157,15 +1152,8 @@
 				<!-- <version>${jettyVersion}</version> -->
 
 				<configuration>
-					<!--
-					<systemProperties>
-						<force>true</force>
-						<systemProperty>
-							<name>install.root</name>
-							<value>"C:\Program Files\MagicDraw UML"</value>
-						</systemProperty>
-					</systemProperties>
-					-->
+					<!-- <systemProperties> <force>true</force> <systemProperty> <name>install.root</name> 
+						<value>"C:\Program Files\MagicDraw UML"</value> </systemProperty> </systemProperties> -->
 
 					<webAppConfig>
 						<contextPath>/oslc4jmagicdraw</contextPath>
@@ -1178,11 +1166,8 @@
 						<scanTarget>WebContent</scanTarget>
 					</scanTargets>
 
-<!--  
-					<finalName>oslc4jmagicdraw</finalName>
-					<appendAssemblyId>false</appendAssemblyId>
-					<warName>oslc4jmagicdraw.war</warName>
--->
+					<!-- <finalName>oslc4jmagicdraw</finalName> <appendAssemblyId>false</appendAssemblyId> 
+						<warName>oslc4jmagicdraw.war</warName> -->
 				</configuration>
 
 
@@ -1198,78 +1183,93 @@
 				<configuration>
 					<server>tomcat7</server>
 					<port>8080</port>
-					
+
 					<url>http://localhost:8080/manager/text</url>
 					<path>/oslc4jmagicdraw</path>
-					
+
 					<portNames>
-                <portName>maven.tomcat.port</portName>
-            </portNames>
-					
-					
+						<portName>maven.tomcat.port</portName>
+					</portNames>
+
+
 				</configuration>
 
 			</plugin>
-			
- 
-			<plugin>
-        		<artifactId>maven-compiler-plugin</artifactId>
-        		<version>3.1</version>
-        		<configuration>
-            		<source>1.8</source>
-                	<target>1.8</target>
-            	</configuration>
-      		</plugin>
-
-<!--
-			<plugin>
-			   <artifactId>maven-war-plugin</artifactId>
-			    <version>2.4</version>
-			    <configuration>
-			    
-			      <packagingIncludes>${magicdraw.installdir}/lib/*.jar</packagingIncludes>
-			      <packagingIncludes>${magicdraw.installdir}/lib/graphics/*.jar</packagingIncludes>
-			      <packagingIncludes>${magicdraw.installdir}/lib/webservice/*.jar</packagingIncludes>
-			      <packagingIncludes>${magicdraw.installdir}/plugins/com.nomagic.magicdraw.sysml/*.jar</packagingIncludes>
-			    
-			    
-			    <archive>
-            <manifest>
-              <addClasspath>true</addClasspath>
-            </manifest>
-          </archive>
-			    
-			    
-			    </configuration>
-			  </plugin>
--->
 
 
-<!--  
 			<plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-dependency-plugin</artifactId>
-            <version>2.8</version>
-            <executions>
-                <execution>
-                    <id>copy-dependencies</id>
-                    <phase>package</phase>
-                    <goals>
-                        <goal>copy-dependencies</goal>
-                    </goals>
-                    <configuration>
-                        <outputDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/lib</outputDirectory>
-                        <includeScope>system</includeScope>
-                    </configuration>
-                </execution>
-            </executions>
-        </plugin>
--->
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+						<configuration>
+							<archive>
+								<manifest>
+									<mainClass>cli.MagicDraw2RDF</mainClass>
+								</manifest>
+							</archive>
+							<descriptorRefs>
+								<descriptorRef>jar-with-dependencies</descriptorRef>
+							</descriptorRefs>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+
+			<!-- Make this jar executable -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<!-- DO NOT include log4j.properties file in your Jar -->
+					<excludes>
+						<exclude>**/log4j.properties</exclude>
+					</excludes>
+					<archive>
+						<manifest>
+							<!-- Jar file entry point -->
+							<mainClass>cli.MagicDraw2RDF</mainClass>
+						</manifest>
+					</archive>
+
+				</configuration>
+			</plugin>
+
+
+			<!-- <plugin> <artifactId>maven-war-plugin</artifactId> <version>2.4</version> 
+				<configuration> <packagingIncludes>${magicdraw.installdir}/lib/*.jar</packagingIncludes> 
+				<packagingIncludes>${magicdraw.installdir}/lib/graphics/*.jar</packagingIncludes> 
+				<packagingIncludes>${magicdraw.installdir}/lib/webservice/*.jar</packagingIncludes> 
+				<packagingIncludes>${magicdraw.installdir}/plugins/com.nomagic.magicdraw.sysml/*.jar</packagingIncludes> 
+				<archive> <manifest> <addClasspath>true</addClasspath> </manifest> </archive> 
+				</configuration> </plugin> -->
+
+
+			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-dependency-plugin</artifactId> 
+				<version>2.8</version> <executions> <execution> <id>copy-dependencies</id> 
+				<phase>package</phase> <goals> <goal>copy-dependencies</goal> </goals> <configuration> 
+				<outputDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/lib</outputDirectory> 
+				<includeScope>system</includeScope> </configuration> </execution> </executions> 
+				</plugin> -->
 
 		</plugins>
 	</build>
-  
-  
-  
-  
+
+
+
+
 </project>
