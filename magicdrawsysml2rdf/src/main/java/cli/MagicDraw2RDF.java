@@ -19,6 +19,9 @@ public class MagicDraw2RDF {
 	public static String rdfFileLocation;
 	public static String tdbdir;
 	
+	public static String host;
+	public static String port;
+	
 	
 	public static void main(String[] args) {
 		// create Options object
@@ -50,6 +53,9 @@ public class MagicDraw2RDF {
 		// add c option
 		options.addOption("f", true, "generated rdfxml location");
 		options.addOption("tdbdir", true, "generated jenatdb location");
+		
+		options.addOption("host", true, "host name in URI of generated RDF resources");
+		options.addOption("port", true, "host number in URI of generated RDF resources");
 		
 		options.addOption("help", false, "help");
 		
@@ -102,6 +108,15 @@ public class MagicDraw2RDF {
 			}
 			
 			
+			if(cmd.hasOption("host")) {
+				host = cmd.getOptionValue("host");
+				System.out.println("host: " + host);
+			}
+			
+			if(cmd.hasOption("port")) {
+				port = cmd.getOptionValue("port");
+				System.out.println("port: " + port);
+			}
 			
 			
 			if(outputMode.equals("rdfxml")) {

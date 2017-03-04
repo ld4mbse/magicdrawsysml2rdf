@@ -307,8 +307,17 @@ public class OSLC4JMagicDrawApplication {
 
 	public static void run() {
 
-		loadPropertiesFile2();
+//		loadPropertiesFile2();
 
+		magicDrawModelPaths = MagicDraw2RDF.magicdrawFileLocations;
+		if(MagicDraw2RDF.host == null){
+			MagicDraw2RDF.host = "localhost";
+		}
+		if(MagicDraw2RDF.port == null){
+			MagicDraw2RDF.port = "8080";
+		}
+		MagicDrawManager.baseHTTPURI = "http://" + MagicDraw2RDF.host + ":" + MagicDraw2RDF.port + "/oslc4jmagicdraw";
+		
 		readDataFirstTime();
 
 		MagicDrawManager.writeRDF();
