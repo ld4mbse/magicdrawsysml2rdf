@@ -21,6 +21,7 @@ public class MagicDraw2RDF {
 	
 	public static String host;
 	public static String port;
+	public static String magicdrawInstallDir;
 	
 	
 	public static void main(String[] args) {
@@ -56,6 +57,7 @@ public class MagicDraw2RDF {
 		
 		options.addOption("host", true, "host name in URI of generated RDF resources");
 		options.addOption("port", true, "host number in URI of generated RDF resources");
+		options.addOption("mdinstalldir", true, "MagicDraw installation directory");
 		
 		options.addOption("help", false, "help");
 		
@@ -79,6 +81,12 @@ public class MagicDraw2RDF {
 				return;
 			}
 			
+			if(!cmd.hasOption("mdinstalldir")) {
+				System.err.println("Missing definition of MagicDraw installation directory");
+				formatter.printHelp( "magicdrawsysml2rdf", options );
+				return;
+			}
+			
 			if(cmd.hasOption("mdzip")) {
 				magicdrawFileLocations = cmd.getOptionValue("mdzip");
 				
@@ -93,6 +101,17 @@ public class MagicDraw2RDF {
 					}	
 				}			
 				System.out.println("magicdrawFileLocations: " + magicdrawFileLocations);
+			}
+			
+			if(cmd.hasOption("mdinstalldir")) {
+				magicdrawInstallDir = cmd.getOptionValue("mdinstalldir");
+				File file = new File(magicdrawInstallDir);
+				if(!file.isDirectory()){
+					System.err.println("Invalid location of MagicDraw installation directory (location is not a directory)");				
+					formatter.printHelp( "magicdrawsysml2rdf", options );
+					return;
+				}			
+				System.out.println("magicdrawInstallDir: " + magicdrawInstallDir);
 			}
 			
 			

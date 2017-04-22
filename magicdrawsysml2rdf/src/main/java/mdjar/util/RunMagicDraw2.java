@@ -7,9 +7,12 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 
+import com.nomagic.magicdraw.core.Application;
+import com.nomagic.runtime.ApplicationExitedException;
 
 
-public class RunMagicDraw {
+
+public class RunMagicDraw2 {
 
 	/**
 	 * @param args
@@ -30,30 +33,33 @@ public class RunMagicDraw {
 				
 				Method applicationGetInstanceMethod = applicationClass.getMethod("getInstance");
 				
-				Object applicationClassInstance = applicationGetInstanceMethod.invoke(applicationClass);
+				Application  magicdrawApplication = (Application) applicationGetInstanceMethod.invoke(applicationClass);
 				
-				Class<?> startupParticipantClass = uRLClassLoader.loadClass("com.nomagic.magicdraw.core.StartupParticipant");
+				magicdrawApplication.start(false, true, false, new String[0], null);
 				
 				
-				Class[] applicationStartMethodArgTypes = new Class[5];
-				applicationStartMethodArgTypes[0] = boolean.class;
-				applicationStartMethodArgTypes[1] = boolean.class;
-				applicationStartMethodArgTypes[2] = boolean.class;
-				applicationStartMethodArgTypes[3] = String[].class;
-				applicationStartMethodArgTypes[4] = startupParticipantClass;
-				
-				Method method = applicationClass.getMethod("start", applicationStartMethodArgTypes);
-
-				String[] emptyStringArrayArg = new String[]{};
-				
-				Object[] applicationStartMethodArgs = new Object[5];
-				applicationStartMethodArgs[0] = true;
-				applicationStartMethodArgs[1] = false;
-				applicationStartMethodArgs[2] = false;
-				applicationStartMethodArgs[3] = emptyStringArrayArg;
-				applicationStartMethodArgs[4] = null;
-							
-				method.invoke(applicationClassInstance,  applicationStartMethodArgs);
+//				Class<?> startupParticipantClass = uRLClassLoader.loadClass("com.nomagic.magicdraw.core.StartupParticipant");
+//				
+//				
+//				Class[] applicationStartMethodArgTypes = new Class[5];
+//				applicationStartMethodArgTypes[0] = boolean.class;
+//				applicationStartMethodArgTypes[1] = boolean.class;
+//				applicationStartMethodArgTypes[2] = boolean.class;
+//				applicationStartMethodArgTypes[3] = String[].class;
+//				applicationStartMethodArgTypes[4] = startupParticipantClass;
+//				
+//				Method method = applicationClass.getMethod("start", applicationStartMethodArgTypes);
+//
+//				String[] emptyStringArrayArg = new String[]{};
+//				
+//				Object[] applicationStartMethodArgs = new Object[5];
+//				applicationStartMethodArgs[0] = true;
+//				applicationStartMethodArgs[1] = false;
+//				applicationStartMethodArgs[2] = false;
+//				applicationStartMethodArgs[3] = emptyStringArrayArg;
+//				applicationStartMethodArgs[4] = null;
+//							
+//				method.invoke(applicationClassInstance,  applicationStartMethodArgs);
 				
 				System.out.println("MagicDraw started");
 			} 
@@ -83,6 +89,10 @@ public class RunMagicDraw {
 //			catch (ApplicationExitedException e) {
 //				e.printStackTrace();
 //			}
+ catch (ApplicationExitedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 		} 
 		

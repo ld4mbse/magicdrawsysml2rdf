@@ -9,7 +9,7 @@
 <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD" value="true"/>
 <stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="org.eclipse.m2e.launchconfig.classpathProvider"/>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="cli.MagicDraw2RDF"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-mdzip &quot;C:\Users\rb16964\git\magicdrawsysml2rdf\magicdrawsysml2rdf\magicdrawmodels\Water_Supply_Example.mdzip,C:\Users\rb16964\git\magicdrawsysml2rdf\magicdrawsysml2rdf\magicdrawmodels\Wired_Camera_Example.mdzip&quot; -t rdfxml -f generated.rdf"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-mdzip &quot;C:\Users\rb16964\git\magicdrawsysml2rdf\magicdrawsysml2rdf\magicdrawmodels\Water_Supply_Example.mdzip,C:\Users\rb16964\git\magicdrawsysml2rdf\magicdrawsysml2rdf\magicdrawmodels\Wired_Camera_Example.mdzip&quot; -t rdfxml -f generated.rdf -mdinstalldir &quot;C:\Program Files\MagicDraw 18.0 sp6&quot;"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="magicdrawsysml2rdf"/>
 <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.m2e.launchconfig.sourcepathProvider"/>
 </launchConfiguration>

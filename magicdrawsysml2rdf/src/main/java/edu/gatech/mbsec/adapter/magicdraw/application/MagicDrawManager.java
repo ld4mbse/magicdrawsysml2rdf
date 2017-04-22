@@ -27,8 +27,11 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.MessageDigest;
@@ -121,16 +124,12 @@ import cli.MagicDraw2RDF;
 import edu.gatech.mbsec.adapter.magicdraw.services.OSLC4JMagicDrawApplication;
 import edu.gatech.mbsec.adapter.magicdraw.stereotypes.MDModelLibException;
 import edu.gatech.mbsec.adapter.magicdraw.stereotypes.MDSysMLModelHandler;
+import mdjar.util.PrintPathsToMagicDrawJars;
 
 
 /**
- * MagicDrawManager is responsible for all the communication between the
- * MagicDraw application and the OSLC MagicDraw adapter. It is used to load
- * MagicDraw SysML projects, retrieve SysML elements from projects, and map
- * SysML elements to OSLC resources described as POJOs
  * 
  * @author Axel Reichwein (axel.reichwein@koneksys.com)
- * @author Sebastian Herzig (sebastian.herzig@me.gatech.edu)
  */
 public class MagicDrawManager {
 
@@ -234,6 +233,8 @@ public class MagicDrawManager {
 	static String projectId;
 
 	public static Application magicdrawApplication;
+	public static Object applicationClassInstance;
+	public static java.lang.Class<?> applicationClass;
 	static Model model;
 	public static Project project;
 	public static ProjectsManager projectsManager;
@@ -271,19 +272,74 @@ public class MagicDrawManager {
 			// if (magicdrawApplication == null) { this does not support
 			// reloading of models
 			// launch MagicDraw in batch mode
-			magicdrawApplication = Application.getInstance();
+			//magicdrawApplication = Application.getInstance();
+			
 			try {
-				magicdrawApplication.start(false, true, false, new String[0], null);
-			} catch (ApplicationExitedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				System.err.println(e.toString());
-			} catch (Exception e) {
+			
+			// new methd based on reflection
+//			URL[] classLoaderURLs = PrintPathsToMagicDrawJars.getClassLoaderURLs("C:\\Program Files\\MagicDraw 18.0 sp6");		
+			
+				
+			URL[] classLoaderURLs = PrintPathsToMagicDrawJars.getClassLoaderURLs(MagicDraw2RDF.magicdrawInstallDir);			
+			URLClassLoader uRLClassLoader = new URLClassLoader(classLoaderURLs);											
+			
+//			ClassLoader uRLClassLoader = com.nomagic.magicdraw.core.Application.class.getClassLoader();
+			
+			
+			applicationClass = uRLClassLoader.loadClass("com.nomagic.magicdraw.core.Application");			
+			Method applicationGetInstanceMethod = applicationClass.getMethod("getInstance");
+			
+			magicdrawApplication = (Application) applicationGetInstanceMethod.invoke(applicationClass);
+			
+			magicdrawApplication.start(false, true, false, new String[0], null);
+			
+//			applicationClassInstance = applicationGetInstanceMethod.invoke(applicationClass);
+//			
+//			
+//			java.lang.Class<?> startupParticipantClass = uRLClassLoader.loadClass("com.nomagic.magicdraw.core.StartupParticipant");
+//			
+//			
+//			java.lang.Class[] applicationStartMethodArgTypes = new java.lang.Class[5];
+//			applicationStartMethodArgTypes[0] = boolean.class;
+//			applicationStartMethodArgTypes[1] = boolean.class;
+//			applicationStartMethodArgTypes[2] = boolean.class;
+//			applicationStartMethodArgTypes[3] = String[].class;
+//			applicationStartMethodArgTypes[4] = startupParticipantClass;
+//			
+//			Method method = applicationClass.getMethod("start", applicationStartMethodArgTypes);
+//
+//			String[] emptyStringArrayArg = new String[]{};
+//			
+//			Object[] applicationStartMethodArgs = new Object[5];
+//			applicationStartMethodArgs[0] = true;
+//			applicationStartMethodArgs[1] = false;
+//			applicationStartMethodArgs[2] = false;
+//			applicationStartMethodArgs[3] = emptyStringArrayArg;
+//			applicationStartMethodArgs[4] = null;
+//						
+//			method.invoke(applicationClassInstance,  applicationStartMethodArgs);
+			
+			
+				
+	
+				
+//				magicdrawApplication.start(false, true, false, new String[0], null);
+			} 
+//			catch (ApplicationExitedException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//				System.err.println(e.toString());
+//			} 
+			catch (Exception e) {
 				e.printStackTrace();
 				System.err.println(e.toString());
 			}
 		}
 
+		
+		// getProjectsManager method
+//		Method getProjectsManagerMethod = applicationClass.getMethod("getProjectsManager");
+		
 		projectsManager = magicdrawApplication.getProjectsManager();
 		if (!loadedProjects.keySet().contains(projectId)) {
 
