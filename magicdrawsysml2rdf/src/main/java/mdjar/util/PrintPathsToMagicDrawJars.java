@@ -3,6 +3,8 @@ package mdjar.util;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.jar.JarFile;
@@ -25,6 +27,30 @@ public class PrintPathsToMagicDrawJars {
 		}
 
 	}
+	
+	public static URL[] getClassLoaderURLs(String magicDrawInstallDirPath){
+		
+		//TODO: make sure that patch.jar is added first!
+		
+		
+		String filePath = magicDrawInstallDirPath + "\\lib";
+		File start = new File(filePath);
+		search(start);
+//		System.out.println("------RESULTS------");
+		
+		URL[] classLoaderURLs = new URL[foundIn.size()];
+		for (int i = 0; i < classLoaderURLs.length; i++) {
+			try {
+				classLoaderURLs[i] = new URL(foundIn.get(i));
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();				
+			}
+			
+		}
+				
+		return classLoaderURLs;
+	}
 
 	private static void search(File start) {
 		try {
@@ -42,7 +68,7 @@ public class PrintPathsToMagicDrawJars {
 					searchJar(f, buffer);
 				}
 			}
-			System.out.println(buffer);
+//			System.out.println(buffer);
 		} catch (Exception e) {
 			System.err.println("Error at: " + start.getPath() + " " + e.getMessage());
 		}
@@ -57,7 +83,7 @@ public class PrintPathsToMagicDrawJars {
 //			<classpathentry kind="var" path="magicdraw.installdir/plugins/com.nomagic.requirements/help.jar"/>
 			
 //			System.out.println("<classpathentry kind=\"var\" path=\"magicdrawinstalldir" + f2 + "\"/>");
-			System.out.println(magicDrawInstallDirPath + f2);
+//			System.out.println(magicDrawInstallDirPath + f2);
 			String str = magicDrawInstallDirPath + f2;
 //			str = str.replace("/", "\\");
 			str = str.replace("\\\\", "/");
