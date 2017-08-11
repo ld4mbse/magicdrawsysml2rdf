@@ -17,25 +17,17 @@
 
 package edu.gatech.mbsec.adapter.magicdraw.application;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -43,8 +35,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 
@@ -53,7 +43,6 @@ import edu.gatech.mbsec.adapter.magicdraw.resources.SysMLBlock;
 import edu.gatech.mbsec.adapter.magicdraw.resources.SysMLBlockDiagram;
 import edu.gatech.mbsec.adapter.magicdraw.resources.SysMLConnector;
 import edu.gatech.mbsec.adapter.magicdraw.resources.SysMLConnectorEnd;
-import edu.gatech.mbsec.adapter.magicdraw.resources.SysMLFlowDirection;
 import edu.gatech.mbsec.adapter.magicdraw.resources.SysMLFlowProperty;
 import edu.gatech.mbsec.adapter.magicdraw.resources.SysMLFullPort;
 import edu.gatech.mbsec.adapter.magicdraw.resources.SysMLInterfaceBlock;
@@ -75,27 +64,20 @@ import org.eclipse.lyo.oslc4j.provider.jena.ErrorHandler;
 import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
 
 import com.hp.hpl.jena.rdf.model.RDFWriter;
-import com.nomagic.magicdraw.commandline.CommandLine;
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.core.project.ProjectDescriptor;
 import com.nomagic.magicdraw.core.project.ProjectDescriptorsFactory;
 import com.nomagic.magicdraw.core.project.ProjectsManager;
 import com.nomagic.magicdraw.export.image.ImageExporter;
-import com.nomagic.magicdraw.openapi.uml.ModelElementsManager;
-import com.nomagic.magicdraw.openapi.uml.ReadOnlyElementException;
 import com.nomagic.magicdraw.openapi.uml.SessionManager;
 import com.nomagic.magicdraw.sysml.util.SysMLConstants;
-import com.nomagic.magicdraw.uml.BaseElement;
 import com.nomagic.magicdraw.uml.symbols.DiagramPresentationElement;
-import com.nomagic.runtime.ApplicationExitedException;
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.auxiliaryconstructs.mdinformationflows.InformationFlow;
 import com.nomagic.uml2.ext.magicdraw.auxiliaryconstructs.mdmodels.Model;
 import com.nomagic.uml2.ext.magicdraw.classes.mdassociationclasses.AssociationClass;
-import com.nomagic.uml2.ext.magicdraw.classes.mddependencies.Dependency;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.AggregationKindEnum;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Association;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Classifier;
@@ -103,29 +85,24 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.DataType;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.DirectedRelationship;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.EnumerationLiteral;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Generalization;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.InstanceSpecification;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralString;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Namespace;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.PackageableElement;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ParameterDirectionKindEnum;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Type;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ValueSpecification;
 import com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.ConnectableElement;
 import com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.Connector;
 import com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.ConnectorEnd;
 import com.nomagic.uml2.ext.magicdraw.compositestructures.mdports.Port;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
-import com.nomagic.uml2.impl.ElementsFactory;
 
 import cli.MagicDraw2RDF;
+import com.nomagic.runtime.ApplicationExitedException;
 import edu.gatech.mbsec.adapter.magicdraw.services.OSLC4JMagicDrawApplication;
 import edu.gatech.mbsec.adapter.magicdraw.stereotypes.MDModelLibException;
 import edu.gatech.mbsec.adapter.magicdraw.stereotypes.MDSysMLModelHandler;
-import mdjar.util.PrintPathsToMagicDrawJars;
-
 
 /**
  * 
@@ -257,97 +234,25 @@ public class MagicDrawManager {
 	 * 
 	 */
 	public static synchronized void loadSysMLProject(String projectId, String magicDrawModelPath) {
-
 		if (loadedProjects.keySet().contains(projectId)) {
 			return;
 		}
-
 		initializeCollections();
-
 		MagicDrawManager.projectId = projectId;
-
 		magicDrawFileName = projectId;
-
 		if (project == null) {
-			// if (magicdrawApplication == null) { this does not support
-			// reloading of models
-			// launch MagicDraw in batch mode
-			//magicdrawApplication = Application.getInstance();
-			
 			try {
-			
-			// new methd based on reflection
-//			URL[] classLoaderURLs = PrintPathsToMagicDrawJars.getClassLoaderURLs("C:\\Program Files\\MagicDraw 18.0 sp6");		
-			
-				
-			URL[] classLoaderURLs = PrintPathsToMagicDrawJars.getClassLoaderURLs(MagicDraw2RDF.magicdrawInstallDir);			
-			URLClassLoader uRLClassLoader = new URLClassLoader(classLoaderURLs);											
-			
-//			ClassLoader uRLClassLoader = com.nomagic.magicdraw.core.Application.class.getClassLoader();
-			
-			
-			applicationClass = uRLClassLoader.loadClass("com.nomagic.magicdraw.core.Application");			
-			Method applicationGetInstanceMethod = applicationClass.getMethod("getInstance");
-			
-			magicdrawApplication = (Application) applicationGetInstanceMethod.invoke(applicationClass);
-			
-			magicdrawApplication.start(false, true, false, new String[0], null);
-			
-//			applicationClassInstance = applicationGetInstanceMethod.invoke(applicationClass);
-//			
-//			
-//			java.lang.Class<?> startupParticipantClass = uRLClassLoader.loadClass("com.nomagic.magicdraw.core.StartupParticipant");
-//			
-//			
-//			java.lang.Class[] applicationStartMethodArgTypes = new java.lang.Class[5];
-//			applicationStartMethodArgTypes[0] = boolean.class;
-//			applicationStartMethodArgTypes[1] = boolean.class;
-//			applicationStartMethodArgTypes[2] = boolean.class;
-//			applicationStartMethodArgTypes[3] = String[].class;
-//			applicationStartMethodArgTypes[4] = startupParticipantClass;
-//			
-//			Method method = applicationClass.getMethod("start", applicationStartMethodArgTypes);
-//
-//			String[] emptyStringArrayArg = new String[]{};
-//			
-//			Object[] applicationStartMethodArgs = new Object[5];
-//			applicationStartMethodArgs[0] = true;
-//			applicationStartMethodArgs[1] = false;
-//			applicationStartMethodArgs[2] = false;
-//			applicationStartMethodArgs[3] = emptyStringArrayArg;
-//			applicationStartMethodArgs[4] = null;
-//						
-//			method.invoke(applicationClassInstance,  applicationStartMethodArgs);
-			
-			
-				
-	
-				
-//				magicdrawApplication.start(false, true, false, new String[0], null);
-			} 
-//			catch (ApplicationExitedException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//				System.err.println(e.toString());
-//			} 
-			catch (Exception e) {
+    			magicdrawApplication = Application.getInstance();
+                magicdrawApplication.start(false, true, false, new String[0], null);
+			} catch (ApplicationExitedException e) {
 				e.printStackTrace();
 				System.err.println(e.toString());
-			}
+			} 
 		}
-
-		
-		// getProjectsManager method
-//		Method getProjectsManagerMethod = applicationClass.getMethod("getProjectsManager");
-		
 		projectsManager = magicdrawApplication.getProjectsManager();
 		if (!loadedProjects.keySet().contains(projectId)) {
-
 			final File sysmlfile;
-			
 				sysmlfile = new File(magicDrawModelPath);
-			
-
 			// final File sysmlfile = new File(magicdrawModelsDirectory +
 			// projectId + ".mdzip");
 			ProjectDescriptor projectDescriptor = ProjectDescriptorsFactory.createProjectDescriptor(sysmlfile.toURI());
@@ -364,7 +269,7 @@ public class MagicDrawManager {
 			projectsManager.setActiveProject(loadedProjects.get(projectId));
 			project = projectsManager.getActiveProject();
 		}
-
+        
 		// List of packages not to load
 		predefinedMagicDrawSysMLPackageNames.add("SysML");
 		predefinedMagicDrawSysMLPackageNames.add("Matrix Templates Profile");
@@ -375,7 +280,7 @@ public class MagicDrawManager {
 
 		// logging info saved in buffer and file
 		buffer = new StringBuffer();
-
+        
 		try {
 
 			// mapping MagicDraw SysML model
@@ -2847,42 +2752,20 @@ public class MagicDrawManager {
 				projectsManager.closeProject();
 			}
 		}
-
-		loadedProjects.clear(); // to reload MagicDraw
-		Thread thread = new Thread() {
-			public void start() {
-				initializeMapsAcrossAllProjects();
-				// project = null;
-				// magicdrawApplication = null; //new magicdrawApplication, new
-				// projectmanager which can load updated MD model!? no this does
-				// not work
-
-				ArrayList<File> files = getMagicDrawModels(OSLC4JMagicDrawApplication.magicDrawModelPaths,
-						new ArrayList<File>());
-				for (File file : files) {
-					if (file.getPath().endsWith("mdzip")) {
-						String[] filePathSegments = file.getPath().split("\\\\");
-						String fileName = filePathSegments[filePathSegments.length - 1];
-						fileName = fileName.replaceAll(".mdzip", "");
-
-						// project id can depend on svn repo url
-						
-
-						loadSysMLProject(fileName, file.getPath());
-					}
-				}
-			}
-		};
-		thread.start();
-		try {
-			thread.join();
-			System.out.println("Data read from " + OSLC4JMagicDrawApplication.magicDrawModelPaths
-					+ " and converted into OSLC resources at " + new Date().toString());
-			areSysMLProjectsLoaded = true;
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		loadedProjects.clear();
+        initializeMapsAcrossAllProjects();
+        ArrayList<File> files = getMagicDrawModels(OSLC4JMagicDrawApplication.magicDrawModelPaths, new ArrayList<>());
+        for (File file : files) {
+            if (file.getPath().endsWith("mdzip")) {
+                String[] filePathSegments = file.getPath().split(File.separator);
+                String fileName = filePathSegments[filePathSegments.length - 1];
+                fileName = fileName.replaceAll(".mdzip", "");
+                loadSysMLProject(fileName, file.getPath());
+            }
+        }
+        System.out.println("Data read from " + OSLC4JMagicDrawApplication.magicDrawModelPaths
+                + " and converted into OSLC resources at " + new Date().toString());
+        areSysMLProjectsLoaded = true;
 	}
 
 	protected static void initializeMapsAcrossAllProjects() {
