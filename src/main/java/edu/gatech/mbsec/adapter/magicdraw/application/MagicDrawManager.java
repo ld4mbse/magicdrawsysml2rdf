@@ -2700,7 +2700,7 @@ public class MagicDrawManager {
             fileName = fileName.replaceAll(".mdzip", "");
             loadSysMLProject(fileName, file.getPath());
         }
-        CONSOLE.log(Level.INFO, "Data read from {0} and converted into OSLC resources at {1}", new Object[]{file, new Date().toString()});
+        CONSOLE.log(Level.INFO, "Data read from {0} and converted into RDF resources at {1}", new Object[]{file, new Date().toString()});
 	}
 
 	protected static void initializeMapsAcrossAllProjects() {
@@ -2745,6 +2745,7 @@ public class MagicDrawManager {
 	}
 
 	public static com.hp.hpl.jena.rdf.model.Model getModel() throws Exception {
+        com.hp.hpl.jena.rdf.model.Model jenaModel;
 		ArrayList<Object> objectList = new ArrayList<>();
 		objectList.addAll(qNameOslcSysmlBlockMap.values());
 		objectList.addAll(qNameOslcSysmlPartPropertyMap.values());
@@ -2764,6 +2765,8 @@ public class MagicDrawManager {
 		objectList.addAll(qNameOslcSysmlValueTypeMap.values());
 		objectList.addAll(qNameOslcSysmlBlockDiagramMap.values());
 		objectList.addAll(qNameOslcSysmlInternalBlockDiagramMap.values());
-        return JenaModelHelper.createJenaModel(objectList.toArray());
+        jenaModel = JenaModelHelper.createJenaModel(objectList.toArray());
+        CONSOLE.log(Level.INFO, "RDF model gotten with {0} statements", jenaModel.size());
+        return jenaModel;
 	}
 }

@@ -33,4 +33,4 @@ printf "\n" >> manifest.txt
 command -v jar >/dev/null 2>&1 || { echo >&2 "jar command is not found, be sure you got JDK installed and JAVA_HOME/bin is part of your PATH variable."; exit 1; }
 jar -umf manifest.txt ${project.build.finalName}-jar-with-dependencies.jar
 rm manifest.txt
-java -jar ${project.build.finalName}-jar-with-dependencies.jar $*
+java -Xms1024m -Xmx2048m -jar ${project.build.finalName}-jar-with-dependencies.jar $*

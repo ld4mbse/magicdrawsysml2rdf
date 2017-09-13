@@ -35,5 +35,5 @@ if %errorlevel%==1 (
 ) else (
     jar -umf manifest.txt ${project.build.finalName}-jar-with-dependencies.jar
     del manifest.txt
-    java -jar ${project.build.finalName}-jar-with-dependencies.jar %*
+    java -Xms1024m -Xmx2048m -jar ${project.build.finalName}-jar-with-dependencies.jar %*
 )

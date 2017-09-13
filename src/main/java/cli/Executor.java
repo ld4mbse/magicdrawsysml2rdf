@@ -82,6 +82,7 @@ public class Executor {
      * @throws Exception if something goes wrong.
      */
     public static void execute(CommandLine command) throws Exception {
+        Model model;
         ModelWriter writer;
         ModelDescriptor descriptor;
         OSLCVocabularyCustomizer customizer;
@@ -105,7 +106,9 @@ public class Executor {
         }
         customizer = new OSLCVocabularyCustomizer(descriptor.vocabulary(null), "getRdfTypes");
         customizer.customize("edu.gatech.mbsec.adapter.magicdraw.resources");
-        writer.write(getModel(mdzipFile, descriptor), language);
+        model = getModel(mdzipFile, descriptor);
+        LOG.info("Writing model...");
+        writer.write(model, language);
         if (buffer != null) {
             LOG.info(buffer.toString("UTF-8"));
         }
