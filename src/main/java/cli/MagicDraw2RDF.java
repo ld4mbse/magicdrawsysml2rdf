@@ -65,7 +65,7 @@ public class MagicDraw2RDF {
         HelpFormatter formatter = new HelpFormatter();
         Map<String, String> prefixes = Vocabularies.getKnownPrefixes();
         Set<String> languages = Executor.getAvailableRDFLanguages(false);
-        String command = "java -jar magicdrawsysml2rdf.jar <options>";
+        String command = "magicdrawsysml2rdf(.sh|.bat) (<MagicDraw Path> | -help) <options>";
         footer.append("<format> = ");
         footer.append(languages);
         footer.append("\n\n=============== ");

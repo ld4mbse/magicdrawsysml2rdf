@@ -34,9 +34,9 @@ public class Executor {
         Set<String> availables = new HashSet<>();
         for (Lang language : values) {
             if (toLowerCase)
-                availables.add(language.name().toLowerCase());
+                availables.add(language.getName().toLowerCase());
             else
-                availables.add(language.name());
+                availables.add(language.getName());
         }
         return availables;
     }

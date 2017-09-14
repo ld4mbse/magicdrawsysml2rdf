@@ -61,14 +61,125 @@ magicdrawsysml2rdf-1.0-jar-with-dependencies.jar</pre></strong>
 These are the components that you can zip and distribute for execution.
 <p>Note: despite the name suffix "<code>jar-with-dependencies</code>" this component DOES NOT include the MagicDraw libraries inside it. Any user wanting to execute this component on her/his own
 computer will need to specify the directory of her/his own copy of the MagicDraw software in order to work.</p></li>
-<li><h2>Executing the convertion tool.</h2>
+<li><h2>Executing the conversion tool.</h2>
+The three files listed above need to be always on the same directory, and you
+can execute the <code>.sh</code> file if you are in a unix/linux distribution,
+or the <code>.bat</code> file if you are in a Windows distribution. The
+arguments explained later are and work the same for both files. If some
+argument's value contains spaces, you will need to enclose that value with
+quotes. Unix/Linux users do not forget to grant execution permission to the file.
+<ol><li><h3><a name="help">Requesting help</a></h3>
+The simplest form of execution is to request the help screen:<br/><br/>
+<code>magicdrawsysml2rdf.bat -help</code><br/>or<br/>
+<code>./magicdrawsysml2rdf.sh -help</code><br/><br/>From now on, examples will
+consider only the Windows syntax.<p>The above command will print all the
+available arguments, output formats, and known namespaces:<pre>
+usage: magicdrawsysml2rdf(.sh|.bat) (&lt;MagicDraw Path&gt; | -help) &lt;options&gt;
+ -format &lt;format&gt;     output format (Turtle by default)
+ -help                prints this file
+ -mdzip &lt;file&gt;        mandatory mdzip input file
+ -meta &lt;arg&gt;          meta information to be added
+ -nsprefix &lt;arg&gt;      allows to define custom prefixes
+ -target &lt;file|url&gt;   output target (console by default)
+&lt;format&gt; = [Turtle, N-Quads, RDF/XML, N3, RDF/JSON, N-Triples, TriG]
 
-</li></ol>
-<!--
-<h3>Windows Users.</h3>
-<strong><code>magicdrawsysml2rdf.bat &lt;MagicDraw_Home_Directory&gt; -mdzip &lt;mdzip_file_to_convert&gt; -f &lt;output_file_name&gt; -t &lt;desired_format&gt;</code></strong>
-<p>Note: the MagicDraw installation path needs to be always the first argument, and in case of it contains spaces use quotes to surround it.</p>
-<h3>Unix(Linux) Users.</h3>
-<strong><code>magicdrawsysml2rdf.sh &lt;MagicDraw_Home_Directory&gt; -mdzip &lt;mdzip_file_to_convert&gt; -f &lt;output_file_name&gt; -t &lt;desired_format&gt;</code></strong>
-<p>Note: do not forget to give execution rights to the shell before run it.</p>
--->
+=============== <a name="knownPrefixes">KNOWN &lt;PREFIXES:NAMESPACES#&gt; FOR META-DATA</a> ===============
+
+&lt;onteventsvocab:http://jena.hpl.hp.com/schemas/2003/03/ont-event#&gt;
+&lt;owl2:http://www.w3.org/2002/07/owl#&gt;
+&lt;rdftest:http://www.w3.org/2000/10/rdf-tests/rdfcore/testSchema#&gt;
+&lt;owlresults:http://www.w3.org/2002/03owlt/resultsOntology#&gt;
+&lt;ontdocmanagervocab:http://jena.hpl.hp.com/schemas/2003/03/ont-manager#&gt;
+&lt;testmanifest:http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#&gt;
+&lt;xsd:http://www.w3.org/2001/XMLSchema#&gt;
+&lt;dcterms:http://purl.org/dc/terms/&gt;
+&lt;rdfsyntax:http://www.w3.org/TR/rdf-syntax-grammar#&gt;
+&lt;rdfs:http://www.w3.org/2000/01/rdf-schema#&gt;
+&lt;testmanifestx:http://jena.hpl.hp.com/2005/05/test-manifest-extra#&gt;
+&lt;owl:http://www.w3.org/2002/07/owl#&gt;
+&lt;dctypes:http://purl.org/dc/dcmitype/&gt;
+&lt;dc_11:http://purl.org/dc/elements/1.1/&gt;
+&lt;dc_10:http://purl.org/dc/elements/1.0/&gt;
+&lt;locationmappingvocab:http://jena.hpl.hp.com/2004/08/location-mapping#&gt;
+&lt;rss:http://purl.org/rss/1.0/&gt;
+&lt;vcard:http://www.w3.org/2001/vcard-rdf/3.0#&gt;
+&lt;rdf:http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;
+&lt;owltest:http://www.w3.org/2002/03owlt/testOntology#&gt;
+&lt;dc:http://purl.org/dc/elements/1.1/&gt;
+&lt;db:http://jena.hpl.hp.com/2003/04/DB#&gt;
+</pre></p></li>
+<li><h3>Default conversion</h3>
+When the <code>-help</code> argument is not present, there are two mandatory
+arguments: the MagicDraw installation path and the input file to convert. To
+specify the file to convert you use the <code>-mdzip</code> argument. To set up
+the MagicDraw installation path you just type it down but <strong>it must be
+always the first argument</strong>:<pre>
+magicdrawsysml2rdf.bat "C:\Program Files\MagicDraw" -mdzip myModel.mdzip
+</pre>Without any other argument, the default output format will be
+<a href="https://www.w3.org/TR/turtle/" target="_blank">Turtle</a> and the
+output will be redirected to the standard console.</li>
+<li><h3>Changing the default format</h3>
+To select a different output format from the available ones, use the
+<code>-format</code> argument:<pre>
+magicdrawsysml2rdf.bat "C:\Program Files\MagicDraw" -mdzip myModel.mdzip -format rdf/xml
+</pre>The value for the <code>-format</code> argument is case insensitive.</li>
+<li><h3><a name="target">Redirecting output to a different target</a></h3>
+You can send the output to a file, or to a remote rdf store server, if you use
+the <code>-target</code> argument.<pre>
+magicdrawsysml2rdf.bat "C:\Program Files\MagicDraw" -mdzip myModel.mdzip -target myModel.ttl
+magicdrawsysml2rdf.bat "C:\Program Files\MagicDraw" -mdzip myModel.mdzip -target http://example.com/rdfstore/rest/graph
+</pre>When the remote rdf store server option is used,
+<code>magicdrawsysml2rdf</code> will:<br/><ul>
+<li>Make an http POST request on the given URL.</li>
+<li>Attach the conversion output as a chunked request body.</li>
+<li>Add the <code>Content-Type</code> header with the corresponding value of the <code>-format</code> argument value.</li>
+<li>Add the <code>Slug</code> header with an ID value (for the conversion output) that suggest the server the final URL of the sent data.</li>
+<li>Expect a response status code to render it to the user.</li>
+<li>In case of a success status code, expect the <code>Location</code> header with the final URL assigned to the sent data.</li></ul></li>
+<li><h3>Adding meta-data to the conversion output</h3>
+Sometimes you may want to add extra data to the converted output, data that may
+be providing information about the original information, that is meta-data.
+Examples can be the date of the conversion, or maybe a revision number. For this
+cases you can use the <code>-meta</code> argument:<pre>
+magicdrawsysml2rdf.bat "C:\Program Files\MagicDraw" -mdzip myModel.mdzip -meta dcterms:date=2017-09-14 dcterms:hasVersion=1.0
+</pre>Notice that:<br/><ol>
+<li>Each meta-property is separated by others by an space.</li>
+<li>Each meta-property value is separated from the name with the equal sign.</li>
+<li>Each meta-property needs to have a namespace prefix.</li></ol><p>
+Last rule is needed because this meta-properties will shape a
+<strong>meta-resource</strong> within the converted data and, as any other
+resource, its properties are URIs. Next is an example, in <code>rdf/xml</code>
+format, of the meta-resource generated for this case:<pre>
+&lt;rdf:Description rdf:about="http://localhost:8080/rest/model/80f4b1f9fb595eafb6ba3bea900830a2"&gt;
+  &lt;dcterms:date rdf:datatype="http://www.w3.org/2001/XMLSchema#string"&gt;2017-09-14&lt;/dcterms:date&gt;
+  &lt;dcterms:hasVersion rdf:datatype="http://www.w3.org/2001/XMLSchema#string"&gt;1.0&lt;/dcterms:hasVersion&gt;
+&lt;/rdf:Description&gt;</pre></p></li>
+<li><h3>Identifying the meta-resource</h3>
+By default, a hash number is generated to identify the meta-resource:<pre>
+&lt;rdf:Description rdf:about="http://localhost:8080/rest/model/<strong>80f4b1f9fb595eafb6ba3bea900830a2</strong>"&gt;</pre>
+You can, however, customize this id by using a special property in the
+<code>-meta</code> argument:<pre>
+magicdrawsysml2rdf.bat "C:\Program Files\MagicDraw" -mdzip myModel.mdzip -meta dcterms:date=2017-09-14 dcterms:hasVersion=1.0 graph=myData
+</pre><p>This property is special because is the only one that does not require
+to have a namespace prefix. With the last modification, the meta-resource will look like:<pre>
+&lt;rdf:Description rdf:about="http://localhost:8080/rest/model/<strong>myData</strong>"&gt;
+  &lt;dcterms:date rdf:datatype="http://www.w3.org/2001/XMLSchema#string"&gt;2017-09-14&lt;/dcterms:date&gt;
+  &lt;dcterms:hasVersion rdf:datatype="http://www.w3.org/2001/XMLSchema#string"&gt;1.0&lt;/dcterms:hasVersion&gt;
+&lt;/rdf:Description&gt;</pre></p><p>The <code>graph</code> property is
+especially useful when you use a <a href="#target">remote rdf store server target</a>
+because the ID of the meta-resource is the one that is always used to set the
+<code>Slug</code> header value. In other words, with this property you can control
+the final URI that your data will have in a remote location.</p></li>
+<li><h3>Adding custom namespaces/prefixes</h3>
+<code>magicdrawsysml2rdf</code>
+<a href="#knownPrefixes">knows several namespaces/prefixes</a> you can use to
+define meta-properties. When you are defining meta-properties, you just need to
+use some of these prefixes and <code>magicdrawsysml2rdf</code> will resolve the
+corresponding namespace(s). It may be the case, however, that you need to set-up
+a meta-property whose namespace is not known by <code>magicdrawsysml2rdf</code>.
+To add a namespace/prefix definition, you can use the <code>-nsprefix</code>
+argument:<pre>
+magicdrawsysml2rdf.bat "C:\Program Files\MagicDraw" -mdzip myModel.mdzip -meta myPrefix:myProp=myValue -nsPrefix myPrefix=http://example.com/
+</pre><p>The meta-property <code>myProp</code> now will be accepted because its
+prefix can be resolved to the <code>http://example.com/</code> namespace.</p>
+</li></ol></li></ol>

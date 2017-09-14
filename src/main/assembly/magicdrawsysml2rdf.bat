@@ -5,7 +5,7 @@ IF "%~1"=="" (
 	EXIT /B
 )
 REM : IF THE FIRST ARGUMENT IS -help (CASE UNSENSITIVE).
-IF "%~1"=="-help" (
+IF /I "%~1"=="-help" (
     java -jar ${project.build.finalName}-jar-with-dependencies.jar "%~1"
 	EXIT /B
 )
@@ -42,5 +42,5 @@ if %errorlevel%==1 (
     del manifest.txt
     REM REMOVES THE FIRST ARGUMENT (MD HOME PATH).
     shift
-    java -Xms1024m -Xmx2048m -jar ${project.build.finalName}-jar-with-dependencies.jar %@
+    java -Xms1024m -Xmx4000M -XX:PermSize=60M -XX:MaxPermSize=200M -Xss1024K -jar ${project.build.finalName}-jar-with-dependencies.jar %*
 )
