@@ -4,6 +4,11 @@ if [ $# -eq 0 ]; then
     echo "Error: missing MagicDraw installation path as first argument."
     exit 1
 fi
+# IF THE FIRST ARGUMENT IS -help (CASE UNSENSITIVE).
+if [ "${1,,}" == "-help" ]; then
+    java -jar ${project.build.finalName}-jar-with-dependencies.jar -help
+    exit 1
+fi
 if [ ! -e "$1" ]; then
     echo "Error: $1 directory does not exist."
     exit 1
@@ -33,4 +38,6 @@ printf "\n" >> manifest.txt
 command -v jar >/dev/null 2>&1 || { echo >&2 "jar command is not found, be sure you got JDK installed and JAVA_HOME/bin is part of your PATH variable."; exit 1; }
 jar -umf manifest.txt ${project.build.finalName}-jar-with-dependencies.jar
 rm manifest.txt
-java -Xms1024m -Xmx2048m -jar ${project.build.finalName}-jar-with-dependencies.jar $*
+# REMOVES THE FIRST ARGUMENT (MD HOME PATH).
+shift
+java -Xms1024m -Xmx2048m -jar ${project.build.finalName}-jar-with-dependencies.jar $@

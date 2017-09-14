@@ -4,6 +4,11 @@ IF "%~1"=="" (
     echo Error: missing MagicDraw installation path as first argument.
 	EXIT /B
 )
+REM : IF THE FIRST ARGUMENT IS -help (CASE UNSENSITIVE).
+IF "%~1"=="-help" (
+    java -jar ${project.build.finalName}-jar-with-dependencies.jar "%~1"
+	EXIT /B
+)
 IF NOT EXIST %1 (
     echo Error: %1 directory does not exist.
 	EXIT /B
@@ -35,5 +40,7 @@ if %errorlevel%==1 (
 ) else (
     jar -umf manifest.txt ${project.build.finalName}-jar-with-dependencies.jar
     del manifest.txt
-    java -Xms1024m -Xmx2048m -jar ${project.build.finalName}-jar-with-dependencies.jar %*
+    REM REMOVES THE FIRST ARGUMENT (MD HOME PATH).
+    shift
+    java -Xms1024m -Xmx2048m -jar ${project.build.finalName}-jar-with-dependencies.jar %@
 )

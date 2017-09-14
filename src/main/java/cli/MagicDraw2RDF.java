@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
@@ -60,11 +61,24 @@ public class MagicDraw2RDF {
      * @param options options available for this app.
      */
     private static void printOptions(Options options) {
+        StringBuilder footer = new StringBuilder();
         HelpFormatter formatter = new HelpFormatter();
+        Map<String, String> prefixes = Vocabularies.getKnownPrefixes();
         Set<String> languages = Executor.getAvailableRDFLanguages(false);
         String command = "java -jar magicdrawsysml2rdf.jar <options>";
-        String footer = "Available output formats are: " + languages;
-        formatter.printHelp(command, "", options, footer);
+        footer.append("<format> = ");
+        footer.append(languages);
+        footer.append("\n\n=============== ");
+        footer.append("KNOWN <PREFIXES:NAMESPACES> FOR META-DATA");
+        footer.append(" ===============\n\n");
+        for(Map.Entry<String, String> prefix : prefixes.entrySet()) {
+            footer.append('<');
+            footer.append(prefix.getKey());
+            footer.append(':');
+            footer.append(prefix.getValue());
+            footer.append(">\n");
+        }
+        formatter.printHelp(command, "", options, footer.toString());
     }
     /**
      * Determines whether help was requested.
@@ -74,12 +88,13 @@ public class MagicDraw2RDF {
      */
     private static boolean isHelpRequested(String[] args)
             throws ParseException {
-        CommandLine command;
-        Options options = new Options();
-        CommandLineParser parser = new DefaultParser();
-        options.addOption(Option.builder(Args.help.name()).build());
-        command = parser.parse(options, args, true);
-        return command.hasOption(Args.help.name());
+        String argument = "-" + Args.help.name();
+        for(String arg : args) {
+            if (arg.equalsIgnoreCase(argument)) {
+                return true;
+            }
+        }
+        return false;
     }
     /**
      * The main entry point.

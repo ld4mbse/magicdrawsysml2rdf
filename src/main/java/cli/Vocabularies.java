@@ -2,6 +2,8 @@ package cli;
 
 import edu.gatech.mbsec.adapter.magicdraw.util.ClassScanner;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Level;
@@ -35,9 +37,9 @@ public class Vocabularies {
                 prefix = vocab.getSimpleName().toLowerCase();
                 namespace = (String)vocab.getMethod("getURI").invoke(null);
                 prefixes.put(prefix, namespace);
-                LOG.log(Level.FINER, "[+] " + prefix + " <" + namespace + ">");
+                LOG.log(Level.FINER, "[+] {0} <{1}>", new Object[]{prefix, namespace});
             } catch (Exception ex) {
-                LOG.log(Level.FINER, "[-] \"" + vocab.getName() + "\" -> " + ex.toString());
+                LOG.log(Level.FINER, "[-] \"{0}\" -> {1}", new Object[]{vocab.getName(), ex.toString()});
             }
         }
         return prefixes;
@@ -52,6 +54,14 @@ public class Vocabularies {
         } catch (IOException | ClassNotFoundException ex) {
             throw new ExceptionInInitializerError(ex);
         }
+    }
+    /**
+     * Retrives the known prefixes-namespaces map.
+     * @return the known prefixes-namespaces map.
+     */
+    public static Map<String, String> getKnownPrefixes() {
+        Map<String, String> prefixes = (Map<String, String>)(Object)PREFIXES;
+        return Collections.unmodifiableMap(prefixes);
     }
     /**
      * Resolves a namespace given a well known prefix.
@@ -85,9 +95,9 @@ public class Vocabularies {
                         namespace = namespace + "#";
                     }
                     properties.setProperty(tokens[0], namespace);
-                    LOG.log(Level.FINER, "[+] " + tokens[0] + " <" + namespace + ">");
+                    LOG.log(Level.FINER, "[+] {0} <{1}>", new Object[]{tokens[0], namespace});
                 } else {
-                    LOG.log(Level.FINER, "[-] " + custom);
+                    LOG.log(Level.FINER, "[-] {0}", custom);
                 }
             }
         }
