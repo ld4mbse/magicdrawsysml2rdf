@@ -1,4 +1,4 @@
-package cli;
+package edu.gatech.mbsec.adapter.magicdraw.builder;
 
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.Resource;

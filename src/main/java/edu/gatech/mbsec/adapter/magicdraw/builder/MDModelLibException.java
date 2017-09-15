@@ -13,7 +13,7 @@
  *  
  *	   Sebastian Herzig (sebastian.herzig@gatech.edu)		- initial implementation       
  *******************************************************************************************/
-package edu.gatech.mbsec.adapter.magicdraw.stereotypes;
+package edu.gatech.mbsec.adapter.magicdraw.builder;
 
 /**
  * MDModelLibException is the main class to be used for raising exceptions within

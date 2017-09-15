@@ -1,4 +1,4 @@
-package cli;
+package edu.gatech.mbsec.adapter.magicdraw.builder;
 
 import edu.gatech.mbsec.adapter.magicdraw.util.Cypher;
 import java.io.UnsupportedEncodingException;

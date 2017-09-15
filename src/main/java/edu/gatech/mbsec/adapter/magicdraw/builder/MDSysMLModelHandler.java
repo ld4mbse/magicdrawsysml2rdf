@@ -14,13 +14,12 @@
  *	   Sebastian Herzig (sebastian.herzig@gatech.edu)		- initial implementation 
  *	   Axel Reichwein (axel.reichwein@koneksys.com)         - adapted for MagicDraw adapter
  *******************************************************************************************/
-package edu.gatech.mbsec.adapter.magicdraw.stereotypes;
+package edu.gatech.mbsec.adapter.magicdraw.builder;
 
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.InstanceSpecification;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 

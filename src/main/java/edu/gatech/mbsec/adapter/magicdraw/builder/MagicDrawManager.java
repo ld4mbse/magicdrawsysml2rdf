@@ -15,9 +15,8 @@
  *	   Sebastian Herzig (sebastian.herzig@me.gatech.edu) - support for loading multiple MagicDraw models at the same time      
  *******************************************************************************************/
 
-package edu.gatech.mbsec.adapter.magicdraw.application;
+package edu.gatech.mbsec.adapter.magicdraw.builder;
 
-import cli.ModelDescriptor;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -89,8 +88,6 @@ import com.nomagic.uml2.ext.magicdraw.compositestructures.mdports.Port;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 
 import com.nomagic.runtime.ApplicationExitedException;
-import edu.gatech.mbsec.adapter.magicdraw.stereotypes.MDModelLibException;
-import edu.gatech.mbsec.adapter.magicdraw.stereotypes.MDSysMLModelHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -103,10 +100,6 @@ public class MagicDrawManager {
      * Logger of this class.
      */
     private static final Logger LOG = Logger.getLogger(MagicDrawManager.class.getName());
-    /**
-     * Root Logger (the console).
-     */
-    private static final Logger CONSOLE = Logger.getLogger("");
 
     public static ModelDescriptor descriptor;
 
@@ -2502,7 +2495,7 @@ public class MagicDrawManager {
             fileName = fileName.replaceAll(".mdzip", "");
             loadSysMLProject(fileName, file.getPath());
         }
-        CONSOLE.log(Level.INFO, "Data read from {0} and converted into RDF resources at {1}", new Object[]{file, new Date().toString()});
+        LOG.log(Level.INFO, "Data read from {0} and converted into RDF resources at {1}", new Object[]{file, new Date().toString()});
 	}
 
 	protected static void initializeMapsAcrossAllProjects() {
@@ -2568,7 +2561,7 @@ public class MagicDrawManager {
 		objectList.addAll(qNameOslcSysmlBlockDiagramMap.values());
 		objectList.addAll(qNameOslcSysmlInternalBlockDiagramMap.values());
         jenaModel = JenaModelHelper.createJenaModel(objectList.toArray());
-        CONSOLE.log(Level.INFO, "RDF model gotten with {0} statements", jenaModel.size());
+        LOG.log(Level.INFO, "RDF model gotten with {0} statements", jenaModel.size());
         return jenaModel;
 	}
 }

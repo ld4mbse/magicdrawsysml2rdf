@@ -42,5 +42,5 @@ if %errorlevel%==1 (
     del manifest.txt
     REM REMOVES THE FIRST ARGUMENT (MD HOME PATH).
     shift
-    java -Xms1024m -Xmx4000M -XX:PermSize=60M -XX:MaxPermSize=200M -Xss1024K -jar ${project.build.finalName}-jar-with-dependencies.jar %*
+    java -Xms1024m -Xmx4000M -Xss1024K -jar ${project.build.finalName}-jar-with-dependencies.jar %*
 )

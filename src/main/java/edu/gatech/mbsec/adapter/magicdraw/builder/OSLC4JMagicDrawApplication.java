@@ -18,13 +18,15 @@
  *     (axel.reichwein@koneksys.com)
  *     Sebastian Herzig (sebastian.herzig@me.gatech.edu) - support for publishing OSLC resource shapes     
  *******************************************************************************/
-package edu.gatech.mbsec.adapter.magicdraw.services;
+package edu.gatech.mbsec.adapter.magicdraw.builder;
 
 
-import cli.ModelDescriptor;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.nomagic.runtime.ApplicationExitedException;
-import edu.gatech.mbsec.adapter.magicdraw.application.MagicDrawManager;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 //import com.nomagic.magicdraw.commandline.CommandLine;
@@ -44,11 +46,24 @@ import edu.gatech.mbsec.adapter.magicdraw.application.MagicDrawManager;
  * @author Sebastian Herzig (sebastian.herzig@me.gatech.edu)
  */
 public class OSLC4JMagicDrawApplication {
+    /**
+     * Logger of this class.
+     */
+    private static final Logger LOG = Logger.getLogger(OSLC4JMagicDrawApplication.class.getName());
 
 	public static Model run(String file, ModelDescriptor descriptor) throws Exception {
-        MagicDrawManager.descriptor = descriptor;
-		MagicDrawManager.loadSysMLProjects(file);
-        return MagicDrawManager.getModel();
+        try {
+            MagicDrawManager.descriptor = descriptor;
+            MagicDrawManager.loadSysMLProjects(file);
+            return MagicDrawManager.getModel();
+        } catch(Exception ex) {
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            PrintStream printer = new PrintStream(bos);
+            ex.printStackTrace(printer);
+            printer.flush();
+            LOG.log(Level.SEVERE, "Could not build model.\n{0}", bos.toString());
+            throw ex;
+        }
 	}
 
     public static void finish() throws ApplicationExitedException {

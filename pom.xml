@@ -177,7 +177,7 @@
                         <configuration>
                             <archive>
                                 <manifest>
-                                    <mainClass>cli.MagicDraw2RDF</mainClass>
+                                    <mainClass>edu.gatech.mbsec.adapter.magicdraw.App</mainClass>
                                 </manifest>
                             </archive>
                             <descriptorRefs>

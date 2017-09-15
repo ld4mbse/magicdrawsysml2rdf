@@ -40,4 +40,4 @@ jar -umf manifest.txt ${project.build.finalName}-jar-with-dependencies.jar
 rm manifest.txt
 # REMOVES THE FIRST ARGUMENT (MD HOME PATH).
 shift
-java -Xms1024m -Xmx4000M -XX:PermSize=60M -XX:MaxPermSize=200M -Xss1024K -jar ${project.build.finalName}-jar-with-dependencies.jar $@
+java -Xms1024m -Xmx4000M -Xss1024K -jar ${project.build.finalName}-jar-with-dependencies.jar $@

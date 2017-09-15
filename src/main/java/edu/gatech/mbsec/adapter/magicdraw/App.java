@@ -1,5 +1,6 @@
-package cli;
+package edu.gatech.mbsec.adapter.magicdraw;
 
+import edu.gatech.mbsec.adapter.magicdraw.builder.Vocabularies;
 import com.nomagic.runtime.ApplicationExitedException;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -23,7 +24,7 @@ import org.apache.commons.cli.Option;
 import org.apache.http.conn.HttpHostConnectException;
 import org.openjena.riot.RiotException;
 
-public class MagicDraw2RDF {
+public class App {
     /**
      * The log manager for logging configuration.
      */
@@ -31,7 +32,7 @@ public class MagicDraw2RDF {
     /**
      * Logger of this class.
      */
-    private static final Logger LOG = Logger.getLogger(MagicDraw2RDF.class.getName());
+    private static final Logger LOG = Logger.getLogger(App.class.getName());
     /**
      * Gets the {@link Options} supported by this app.
      * @return options supported by this app.
@@ -106,9 +107,7 @@ public class MagicDraw2RDF {
      */
     @SuppressWarnings("UseSpecificCatch")
     public static void main(String[] args) throws ApplicationExitedException {
-        PrintStream writer;
         CommandLine command;
-        ByteArrayOutputStream bos;
         Options options = getOptions();
         CommandLineParser parser = new DefaultParser();
         try {
@@ -126,12 +125,7 @@ public class MagicDraw2RDF {
                 HttpHostConnectException ex) {
             LOG.severe(ex.getMessage());
         } catch(Exception ex) {
-            bos = new ByteArrayOutputStream();
-            writer = new PrintStream(bos);
-            ex.printStackTrace(writer);
-            writer.flush();
-            LOG.log(Level.SEVERE, "Could not execute translation. {0}: {1}\n {2}",
-                    new Object[]{ex.getClass().getName(), ex.getMessage(), bos.toString()});
+            LOG.log(Level.SEVERE, "Could not execute translation. See magicdrawsysml.log for details.");
         } finally {
             Executor.finish();
         }

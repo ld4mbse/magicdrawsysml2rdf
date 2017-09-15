@@ -1,4 +1,4 @@
-package cli;
+package edu.gatech.mbsec.adapter.magicdraw;
 
 /**
  * Defines the arguments of this application.
