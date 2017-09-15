@@ -13,7 +13,7 @@ following software installed:<br/>&nbsp;<table width="40%">
 </table></li><li>
 <h3>Configuration.</h3>
 Be sure to have below environment variables properly set in your system.<br/>&nbsp;
-<table width="50%" style="border:solid"><tr><th>Variable</th><th>Value</th></tr>
+<table width="50%"><tr><th>Variable</th><th>Value</th></tr>
 <tr><td><code>JAVA_HOME</code></td><td>Java JDK installation directory.</td></tr>
 <tr><td><code>M2_HOME</code></td><td>Maven installation directory.</td></tr>
 </table></li></ol></li>
@@ -169,7 +169,7 @@ to have a namespace prefix. With the last modification, the meta-resource will l
 especially useful when you use a <a href="#target">remote rdf store server target</a>
 because the ID of the meta-resource is the one that is always used to set the
 <code>Slug</code> header value. In other words, with this property you can control
-the final URI that your data will have in a remote location.</p></li>
+the final URL that your data will have in a remote location.</p></li>
 <li><h3>Adding custom namespaces/prefixes</h3>
 <code>magicdrawsysml2rdf</code>
 <a href="#knownPrefixes">knows several namespaces/prefixes</a> you can use to
@@ -179,7 +179,7 @@ corresponding namespace(s). It may be the case, however, that you need to set-up
 a meta-property whose namespace is not known by <code>magicdrawsysml2rdf</code>.
 To add a namespace/prefix definition, you can use the <code>-nsprefix</code>
 argument:<pre>
-magicdrawsysml2rdf.bat "C:\Program Files\MagicDraw" -mdzip myModel.mdzip -meta myPrefix:myProp=myValue -nsPrefix myPrefix=http://example.com/
+magicdrawsysml2rdf.bat "C:\Program Files\MagicDraw" -mdzip myModel.mdzip -meta myprefix:myProp=myValue -nsprefix myPrefix=http://example.com/
 </pre><p>The meta-property <code>myProp</code> now will be accepted because its
 prefix can be resolved to the <code>http://example.com/</code> namespace.</p>
 </li></ol></li></ol>

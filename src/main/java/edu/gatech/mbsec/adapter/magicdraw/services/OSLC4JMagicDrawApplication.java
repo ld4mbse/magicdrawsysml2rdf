@@ -52,7 +52,9 @@ public class OSLC4JMagicDrawApplication {
 	}
 
     public static void finish() throws ApplicationExitedException {
-        MagicDrawManager.magicdrawApplication.shutdown();
+        if (MagicDrawManager.magicdrawApplication != null) {
+            MagicDrawManager.magicdrawApplication.shutdown();
+        }
     }
 
 }

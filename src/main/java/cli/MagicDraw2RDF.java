@@ -1,8 +1,11 @@
 package cli;
 
+import com.nomagic.runtime.ApplicationExitedException;
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintStream;
 import java.net.MalformedURLException;
 import java.util.Map;
 import java.util.Set;
@@ -99,10 +102,13 @@ public class MagicDraw2RDF {
     /**
      * The main entry point.
      * @param args console arguments.
+     * @throws com.nomagic.runtime.ApplicationExitedException
      */
     @SuppressWarnings("UseSpecificCatch")
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ApplicationExitedException {
+        PrintStream writer;
         CommandLine command;
+        ByteArrayOutputStream bos;
         Options options = getOptions();
         CommandLineParser parser = new DefaultParser();
         try {
@@ -120,9 +126,14 @@ public class MagicDraw2RDF {
                 HttpHostConnectException ex) {
             LOG.severe(ex.getMessage());
         } catch(Exception ex) {
-            ex.printStackTrace(System.out);
-            LOG.log(Level.SEVERE, "Could not execute translation. {0}: {1}",
-                    new Object[]{ex.getClass().getName(), ex.getMessage()});
+            bos = new ByteArrayOutputStream();
+            writer = new PrintStream(bos);
+            ex.printStackTrace(writer);
+            writer.flush();
+            LOG.log(Level.SEVERE, "Could not execute translation. {0}: {1}\n {2}",
+                    new Object[]{ex.getClass().getName(), ex.getMessage(), bos.toString()});
+        } finally {
+            Executor.finish();
         }
     }
 

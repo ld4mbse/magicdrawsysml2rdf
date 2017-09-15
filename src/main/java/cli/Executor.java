@@ -1,6 +1,7 @@
 package cli;
 
 import com.hp.hpl.jena.rdf.model.Model;
+import com.nomagic.runtime.ApplicationExitedException;
 import edu.gatech.mbsec.adapter.magicdraw.services.OSLC4JMagicDrawApplication;
 import edu.gatech.mbsec.adapter.magicdraw.util.OSLCVocabularyCustomizer;
 import edu.gatech.mbsec.adapter.magicdraw.writer.FileModelWriter;
@@ -112,7 +113,9 @@ public class Executor {
         if (buffer != null) {
             LOG.info(buffer.toString("UTF-8"));
         }
-        OSLC4JMagicDrawApplication.finish();
     }
 
+    public static void finish() throws ApplicationExitedException {
+        OSLC4JMagicDrawApplication.finish();
+    }
 }
