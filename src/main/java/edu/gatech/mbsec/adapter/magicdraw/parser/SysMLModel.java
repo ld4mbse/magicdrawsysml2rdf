@@ -1,11 +1,15 @@
 package edu.gatech.mbsec.adapter.magicdraw.parser;
 
+import com.nomagic.magicdraw.core.Project;
+import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.auxiliaryconstructs.mdinformationflows.InformationFlow;
 import com.nomagic.uml2.ext.magicdraw.auxiliaryconstructs.mdmodels.Model;
 import com.nomagic.uml2.ext.magicdraw.classes.mdassociationclasses.AssociationClass;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.DataType;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package;
+import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
+import static edu.gatech.mbsec.adapter.magicdraw.parser.MagicDrawApplication.SYSML_PROFILE;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -22,9 +26,13 @@ public class SysMLModel {
      */
     private final String name;
     /**
-     * The whole model.
+     * The owner project.
      */
-    private final Model model;
+    private final Project project;
+    /**
+     * Reference to the SysML profile of this project.
+     */
+    private final Profile profile;
     /**
      * SysML packages.
      */
@@ -32,7 +40,7 @@ public class SysMLModel {
     /**
      * SysML stereotyped elements.
      */
-    private final Map<Stereotype, List<Class>> stereotypes;
+    private final Map<Stereotypes, List<Class>> elements;
     /**
      * SysML associations;
      */
@@ -48,13 +56,14 @@ public class SysMLModel {
     /**
      * Constructs a default instance.
      * @param name the name of this model.
-     * @param model the underlaying model.
+     * @param project the owner project.
      */
-    public SysMLModel(String name, Model model) {
+    public SysMLModel(String name, Project project) {
+        this.profile = StereotypesHelper.getProfile(project, SYSML_PROFILE);
+        this.project = project;
         this.name = name;
-        this.model = model;
         packages = new ArrayList<>();
-        stereotypes = new HashMap<>();
+        elements = new HashMap<>();
         associations = new ArrayList<>();
         informationFlows = new ArrayList<>();
         dataTypes = new ArrayList<>();
@@ -67,11 +76,25 @@ public class SysMLModel {
         return name;
     }
     /**
+     * Gets the owner project.
+     * @return the owner project.
+     */
+    public Project getProject() {
+        return project;
+    }
+    /**
+     * Gets the SysML profile of the wrapped SysML project.
+     * @return the SysML profile of the wrapped SysML project.
+     */
+    public Profile getProfile() {
+        return profile;
+    }
+    /**
      * Gets the underlaying model.
      * @return the underlaying model.
      */
     public Model getModel() {
-        return model;
+        return project.getModel();
     }
     /**
      * Adds a new package.
@@ -92,20 +115,20 @@ public class SysMLModel {
      * @param element the element to add.
      * @param stereotype the stereotype is has.
      */
-    public void addStereotype(Class element, Stereotype stereotype) {
-        List<Class> elements = stereotypes.get(stereotype);
-        if (elements == null) {
-            elements = new ArrayList<>();
-            stereotypes.put(stereotype, elements);
+    public void addElement(Class element, Stereotypes stereotype) {
+        List<Class> stereotypes = elements.get(stereotype);
+        if (stereotypes == null) {
+            stereotypes = new ArrayList<>();
+            elements.put(stereotype, stereotypes);
         }
-        elements.add(element);
+        stereotypes.add(element);
     }
     /**
      * Gets the stereotyped elements.
      * @return the stereotyped elements.
      */
-    public Map<Stereotype, List<Class>> getStereotypes() {
-        return Collections.unmodifiableMap(stereotypes);
+    public Map<Stereotypes, List<Class>> getElements() {
+        return Collections.unmodifiableMap(elements);
     }
     /**
      * Adds a new association.
@@ -149,21 +172,31 @@ public class SysMLModel {
     public List<DataType> getDataTypes() {
         return Collections.unmodifiableList(dataTypes);
     }
+    /**
+     * Standardize a name with this model name.
+     * @param original the original name to standardize.
+     * @return the input name standardized.
+     */
+    public String standardName(String original) {
+        original = original.replaceAll("\\n", "-");
+        original = original.replaceAll(" ", "_");
+        return name + original;
+    }
 
     @Override
     public String toString() {
-        List<Class> elements;
-        Stereotype[] stereoTypes = Stereotype.values();
+        List<Class> stereotypes;
+        Stereotypes[] stereoTypes = Stereotypes.values();
         StringBuilder sb = new StringBuilder();
         sb.append("Packages: ");
         sb.append(packages.size());
-        for (Stereotype stereotype : stereoTypes) {
+        for (Stereotypes stereotype : stereoTypes) {
             if (stereotype.isClassApplicable()) {
-                elements = stereotypes.get(stereotype);
+                stereotypes = elements.get(stereotype);
                 sb.append("\n");
                 sb.append(stereotype.name());
                 sb.append(": ");
-                sb.append(elements == null ? 0 : elements.size());
+                sb.append(stereotypes == null ? 0 : stereotypes.size());
             }
         }
         sb.append("\nAssociations: ");

@@ -220,10 +220,8 @@ public class MagicDrawManager {
             SessionManager.getInstance().createSession("MagicDraw OSLC Session for projectId" + projectId);
         }
 
-        // mapping MagicDraw SysML model
-        model = mapSysMLModel(project);
-
         /*
+        model = mapSysMLModel(project);
         mdSysmlBlocks = getAllSysMLBlocks(model);
         projectIdMDSysmlBlocksMap.put(projectId, mdSysmlBlocks);
 
@@ -255,10 +253,10 @@ public class MagicDrawManager {
         //
 
         // mapping MagicDraw SysML packages into OSLC packages
-        mapSysMLPackages();
+        //mapSysMLPackages();
 
         // mapping MagicDraw SysML requirements into OSLC requirements
-        mapSysMLRequirements();
+        //mapSysMLRequirements();
 
         // mapping MagicDraw SysML blocks into OSLC blocks
         mapSysMLBlocks();
@@ -665,83 +663,6 @@ public class MagicDrawManager {
 				}
 			}
 		}
-
-	}
-
-	private static void mapSysMLPackages() throws URISyntaxException {
-		for (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package mdSysMLPackage : mdSysmlPackages) {
-			String qName = mdSysMLPackage.getQualifiedName();
-			// qNameMdSysmlPackageMap
-			// .put(qName.replaceAll("\\n", "-"), mdSysMLPackage);
-			SysMLPackage sysMLPackage = new SysMLPackage();
-            qNameOslcSysmlPackageMap.put(
-                    magicDrawFileName + "/packages/" + qName.replaceAll("\\n", "-").replaceAll(" ", "_"),
-                    sysMLPackage);
-
-            // SysML Package Name attribute
-            String name = mdSysMLPackage.getName();
-            if (name != null) {
-                sysMLPackage.setName(name);
-                LOG.info("SysML Package with Name: " + sysMLPackage.getName());
-                sysMLPackage.setAbout(URI.create(descriptor.resource("packages", projectId
-                        + qName.replaceAll("\\n", "-").replaceAll(" ", "_"))));
-            }
-		}
-
-	}
-
-	private static Model mapSysMLModel(Project project) throws URISyntaxException {
-		Model model = project.getModel();
-		SysMLModel sysMLModel = new SysMLModel();
-        if (model.getName() == null) {
-            sysMLModel.setName("Data");
-        } else {
-            sysMLModel.setName(model.getName());
-        }
-
-        sysMLModel.setAbout(URI.create(descriptor.resource("model", projectId + model.getName())));
-
-        oslcSysmlModelMap.put(model.getQualifiedName().replaceAll("\\n", "-").replaceAll(" ", "_"), sysMLModel);
-
-        Collection<com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package> modelPackages = new ArrayList<com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package>();
-        for (PackageableElement packageableElement : model.getPackagedElement()) {
-            if (packageableElement instanceof com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package) {
-                if (!predefinedMagicDrawSysMLPackageNames.contains(packageableElement.getName())) {
-                    modelPackages.add((com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package) packageableElement);
-                }
-
-            }
-        }
-
-        if (modelPackages.size() > 0) {
-            Link[] linksArray = new Link[modelPackages.size()];
-
-            int linksArrayIndex = 0;
-            for (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package package1 : modelPackages) {
-                if (!predefinedMagicDrawSysMLPackageNames.contains(package1.getName())) {
-                    URI linkedElementURI = null;
-                    linkedElementURI = new URI(descriptor.resource("packages", projectId
-                            + package1.getQualifiedName().replaceAll("\\n", "-").replaceAll(" ", "_")));
-                    Link link = new Link(linkedElementURI);
-                    linksArray[linksArrayIndex] = link;
-                    linksArrayIndex++;
-                }
-            }
-
-            sysMLModel.setPackages(linksArray);
-            LOG.info(" " + sysMLModel.getName());
-            LOG.info("\tmodel packages: " + linksArray.length);
-            LOG.info(" " + sysMLModel.getName());
-            LOG.info("\tmodel packages: ");
-            for (Link link2 : linksArray) {
-                LOG.info("\t\t " + link2.getValue());
-            }
-        }
-
-        // map SysML packages
-        // mapSysMLPackages(modelPackages);
-
-		return model;
 
 	}
 
@@ -1775,64 +1696,6 @@ public class MagicDrawManager {
 
 	}
 
-	private static void mapSysMLRequirements() throws URISyntaxException {
-		for (Class mdSysMLRequirement : mdSysmlRequirements) {
-			String id = (String) StereotypesHelper.getStereotypePropertyFirst(mdSysMLRequirement,
-					StereotypesHelper.getFirstVisibleStereotype(mdSysMLRequirement), "Id");
-			if (id != null) {
-				idMdSysmlRequirementMap.put(id, mdSysMLRequirement);
-				// qNameMdSysmlRequirementMap.put(
-				// mdSysMLRequirement.getQualifiedName()
-				// .replaceAll("\\n", "-").replaceAll(" ", "_"),
-				// mdSysMLRequirement);
-
-				SysMLRequirement sysMLRequirement = new SysMLRequirement();
-
-                // SysML Requirement id attribute
-                sysMLRequirement.setIdentifier(id);
-                idOslcSysmlRequirementMap.put(magicDrawFileName + "/requirements/" + id, sysMLRequirement);
-
-                sysMLRequirement
-                        .setAbout(URI.create(descriptor.resource("requirements", projectId + id)));
-
-                // qNameOslcSysmlRequirementMap.put(mdSysMLRequirement
-                // .getQualifiedName().replaceAll("\\n", "-")
-                // .replaceAll(" ", "_"), sysMLRequirement);
-                LOG.info("SysML Requirement with ID: " + sysMLRequirement.getIdentifier());
-
-                // SysML Requirement Name attribute
-                String name = mdSysMLRequirement.getName();
-                if (name != null) {
-                    sysMLRequirement.setTitle(name);
-                    LOG.info("\tTitle: " + sysMLRequirement.getTitle());
-                }
-
-                // SysML Requirement Text attribute
-                String text = (String) StereotypesHelper.getStereotypePropertyFirst(mdSysMLRequirement,
-                        StereotypesHelper.getFirstVisibleStereotype(mdSysMLRequirement), "Text");
-                if (text != null) {
-                    sysMLRequirement.setDescription(text);
-                    LOG.info("\tDescription: " + sysMLRequirement.getDescription());
-                }
-
-                // SysML Requirement hyperlink attribute
-                Stereotype hyperlinkOwnerStereotype = StereotypesHelper
-                        .getStereotype(Project.getProject(mdSysMLRequirement), "HyperlinkOwner");
-                List textValues = StereotypesHelper.getStereotypePropertyValue(mdSysMLRequirement,
-                        hyperlinkOwnerStereotype, "hyperlinkText");
-                if (textValues.size() > 0) {
-                    String hyperlinkText = (String) textValues.get(0);
-                    sysMLRequirement.setHyperlink(hyperlinkText);
-                }
-                // for (int i = textValues.size() - 1; i >= 0; --i) {
-                // String link = (String) textValues.get(i);
-                // }
-
-			}
-		}
-
-	}
-
 	public static SysMLBlockDiagram getBlockDiagramByQualifiedName(String qualifiedName) throws URISyntaxException {
 		SysMLBlockDiagram sysMLBlockDiagram = qNameOslcSysmlBlockDiagramMap.get(qualifiedName);
 		return sysMLBlockDiagram;
@@ -1862,12 +1725,6 @@ public class MagicDrawManager {
 			}
 		}
 		return sysMLBlocks;
-	}
-
-	public static SysMLRequirement getRequirementByID(String qualifiedName) throws URISyntaxException {
-		SysMLRequirement sysMLRequirement = idOslcSysmlRequirementMap.get(qualifiedName);
-
-		return sysMLRequirement;
 	}
 
 	public static edu.gatech.mbsec.adapter.magicdraw.resources.SysMLBlock getBlockByQualifiedName(String qualifiedName) {

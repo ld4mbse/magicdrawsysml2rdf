@@ -255,7 +255,9 @@ public class ModelDescriptor {
      * @return a created o gotten resource.
      */
     public Resource resource(String type, String ID, Model model) {
-        return model.createResource(resource(type, ID));
+        Resource rscType = model.createResource(vocabulary(type));
+        return model.createResource(resource(type, ID), rscType);
+        //return model.createResource(resource(type, ID));
     }
     /**
      * Creates or gets the underlying resource of this instance.

@@ -21,6 +21,10 @@ public class MagicDrawApplication {
      */
     private static final Logger LOG = Logger.getLogger(MagicDrawApplication.class.getName());
     /**
+     * The SysML profile name.
+     */
+    public static final String SYSML_PROFILE = "SysML";
+    /**
      * This singleton of this class.
      */
     private static MagicDrawApplication singleton;
@@ -76,7 +80,7 @@ public class MagicDrawApplication {
         LOG.log(Level.INFO, "LOADING PROJECT \"{0}\"", mdzipPath);
         manager.loadProject(desc, true);
         project = manager.getActiveProject();
-        if (StereotypesHelper.getProfile(project, "SysML") == null)
+        if (StereotypesHelper.getProfile(project, SYSML_PROFILE) == null)
             throw new IllegalStateException(mdzipPath + " is not a SysML project.");
         LOG.info("PROJECT LOADED");
         return project;

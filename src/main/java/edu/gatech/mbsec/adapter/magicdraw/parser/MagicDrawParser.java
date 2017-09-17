@@ -74,13 +74,13 @@ public class MagicDrawParser {
      * @param element the element to find its stereotype.
      * @param filter if {@code null} all stereotypes will be tested, if
      * {@code true} or {@code false}, only those stereotypes whose
-     * {@link Stereotype#isClassApplicable()} return value match with the
+     * {@link Stereotypes#isClassApplicable()} return value match with the
      * {@code filter} will be tested.
      * @return the first matching stereotype on an element.
      */
-    private Stereotype getStereotypeOnElement(Class element, Boolean filter) {
-        Stereotype[] stereotypes = Stereotype.values();
-        for(Stereotype stereotype : stereotypes) {
+    private Stereotypes getStereotypeOnElement(Class element, Boolean filter) {
+        Stereotypes[] stereotypes = Stereotypes.values();
+        for(Stereotypes stereotype : stereotypes) {
             if (stereotype.isOnElement(element)) {
                 if (filter == null || stereotype.isClassApplicable() == filter)
                     return stereotype;
@@ -98,7 +98,7 @@ public class MagicDrawParser {
         Package pkg;
 		Class element;
         DataType dataType;
-        Stereotype stereotype;
+        Stereotypes stereotype;
         String name = container.getName().replaceAll("\n", "-");
         Collection<PackageableElement> subelements;
         if (container instanceof Class) {
@@ -107,7 +107,7 @@ public class MagicDrawParser {
             if (stereotype == null)
                 LOG.log(Level.INFO, "[-] {0}: no stereotype", name);
             else {
-                output.addStereotype(element, stereotype);
+                output.addElement(element, stereotype);
                 LOG.log(Level.INFO, "[+] {0} <{1}>",
                         new Object[]{name, stereotype.name()});
                 for (Classifier classifier : element.getNestedClassifier()) {
@@ -129,7 +129,7 @@ public class MagicDrawParser {
             }
         } else if (container instanceof DataType) {
             dataType = (DataType) container;
-            if (Stereotype.ValueType.isOnElement(dataType)) {
+            if (Stereotypes.ValueType.isOnElement(dataType)) {
                 output.addDataType(dataType);
                 LOG.log(Level.INFO, "[+] {0} <DataType>", name);
             } else {
@@ -161,7 +161,7 @@ public class MagicDrawParser {
             LOG.log(Level.INFO, "[+] {0} <AssociationClass>", association.getHumanName());
 		}
 		for (InformationFlow flow : informationFlows) {
-            if (Stereotype.ItemFlow.isOnElement(flow)) {
+            if (Stereotypes.ItemFlow.isOnElement(flow)) {
                 output.addInformationFlow(flow);
                 LOG.log(Level.INFO, "[+] {0} <InformationFlow>", flow.getHumanName());
             } else {
@@ -171,12 +171,13 @@ public class MagicDrawParser {
     }
     /**
      * Parses an MD model into a {@link SysMLModel SysMLModel}.
-     * @param model the MD project.
+     * @param project the MD project.
      * @param mdzip the original mdzip source file.
      * @return the mdzip model abstraction.
      */
-    private SysMLModel parse(Model model, String mdzip) {
-        SysMLModel output = new SysMLModel(mdzip, model);
+    private SysMLModel parse(Project project, String mdzip) {
+        Model model = project.getModel();
+        SysMLModel output = new SysMLModel(mdzip, project);
         LOG.info("--- READING");
         traverse(model, output);
         LOG.info("--- INTROSPECTING");
@@ -196,7 +197,7 @@ public class MagicDrawParser {
         try {
             project = application.getProject(mdzip);
             mdzip = mdzip.substring(index, mdzip.indexOf(".mdzip"));
-            return parse(project.getModel(), mdzip);
+            return parse(project, mdzip);
         } catch (ApplicationExitedException ex) {
             logStackTrace(ex);
             throw ex;

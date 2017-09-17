@@ -8,29 +8,29 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
  * All possible SysML Stereotypes
  * @author rherrera
  */
-public enum Stereotype {
+public enum Stereotypes {
     /**
-     * SysML System Stereotype.
+     * SysML System Stereotypes.
      */
     System(true),
     /**
-     * SysML Block Stereotype.
+     * SysML Block Stereotypes.
      */
     Block(true),
     /**
-     * SysML Requirement Stereotype.
+     * SysML Requirement Stereotypes.
      */
     Requirement(true),
     /**
-     * SysML InterfaceBlock Stereotype.
+     * SysML InterfaceBlock Stereotypes.
      */
     InterfaceBlock(true),
     /**
-     * SysML Item Flow Stereotype.
+     * SysML Item Flow Stereotypes.
      */
     ItemFlow(false),
     /**
-     * SysML Value Type Stereotype.
+     * SysML Value Type Stereotypes.
      */
     ValueType(false);
     /**
@@ -41,7 +41,7 @@ public enum Stereotype {
      * Constructs a constant specifying if it is class applicable.
      * @param classApplicable class applicable flag.
      */
-    private Stereotype(boolean classApplicable) {
+    private Stereotypes(boolean classApplicable) {
         this.classApplicable = classApplicable;
     }
     /**
