@@ -2,11 +2,10 @@ package edu.gatech.mbsec.adapter.magicdraw;
 
 import edu.gatech.mbsec.adapter.magicdraw.builder.Vocabularies;
 import com.nomagic.runtime.ApplicationExitedException;
-import java.io.ByteArrayOutputStream;
+import edu.gatech.mbsec.adapter.magicdraw.parser.MagicDrawApplication;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintStream;
 import java.net.MalformedURLException;
 import java.util.Map;
 import java.util.Set;
@@ -24,6 +23,10 @@ import org.apache.commons.cli.Option;
 import org.apache.http.conn.HttpHostConnectException;
 import org.openjena.riot.RiotException;
 
+/**
+ * The application's entry point.
+ * @author rherrera
+ */
 public class App {
     /**
      * The log manager for logging configuration.
@@ -109,6 +112,7 @@ public class App {
     public static void main(String[] args) throws ApplicationExitedException {
         CommandLine command;
         Options options = getOptions();
+        MagicDrawApplication magicdraw = MagicDrawApplication.getInstance();
         CommandLineParser parser = new DefaultParser();
         try {
             configureLogging();
@@ -116,18 +120,18 @@ public class App {
                 printOptions(options);
             } else {
                 command = parser.parse(options, args);
-                Executor.execute(command);
+                Executor.execute(command, magicdraw);
             }
         } catch(ParseException | IllegalArgumentException | RiotException ex) {
             LOG.severe(ex.getMessage());
             printOptions(options);
-        } catch(FileNotFoundException | MalformedURLException |
-                HttpHostConnectException ex) {
+        } catch(IllegalStateException | FileNotFoundException |
+                MalformedURLException | HttpHostConnectException ex) {
             LOG.severe(ex.getMessage());
         } catch(Exception ex) {
             LOG.log(Level.SEVERE, "Could not execute translation. See magicdrawsysml.log for details.");
         } finally {
-            Executor.finish();
+            magicdraw.shutdown();
         }
     }
 

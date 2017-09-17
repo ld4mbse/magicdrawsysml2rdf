@@ -1,7 +1,9 @@
 package edu.gatech.mbsec.adapter.magicdraw.builder;
 
 import com.hp.hpl.jena.rdf.model.Model;
+import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.Resource;
+import com.hp.hpl.jena.rdf.model.ResourceFactory;
 import java.net.URL;
 import java.util.Collections;
 import java.util.HashMap;
@@ -252,9 +254,9 @@ public class ModelDescriptor {
      * @param model the underlaying resource's model.
      * @return a created o gotten resource.
      */
-    /*public Resource resource(String type, String ID, Model model) {
+    public Resource resource(String type, String ID, Model model) {
         return model.createResource(resource(type, ID));
-    }*/
+    }
     /**
      * Creates or gets the underlying resource of this instance.
      * @param model the underlaying resource's model.
@@ -281,10 +283,10 @@ public class ModelDescriptor {
      * @param name the name of the property.
      * @return the property.
      */
-    /*public Property property(String type, String name) {
+    public Property property(String type, String name) {
         String URI = vocabulary(type) + name;
         return ResourceFactory.createProperty(URI);
-    }*/
+    }
     /**
      * Customizes a model withe the {@link MetaInformation}.
      * @param model the model to sign.

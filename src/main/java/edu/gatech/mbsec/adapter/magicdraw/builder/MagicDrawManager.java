@@ -23,7 +23,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -55,18 +54,14 @@ import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
 
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
-import com.nomagic.magicdraw.core.project.ProjectDescriptor;
-import com.nomagic.magicdraw.core.project.ProjectDescriptorsFactory;
 import com.nomagic.magicdraw.core.project.ProjectsManager;
 import com.nomagic.magicdraw.export.image.ImageExporter;
 import com.nomagic.magicdraw.openapi.uml.SessionManager;
 import com.nomagic.magicdraw.sysml.util.SysMLConstants;
 import com.nomagic.magicdraw.uml.symbols.DiagramPresentationElement;
-import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.auxiliaryconstructs.mdinformationflows.InformationFlow;
 import com.nomagic.uml2.ext.magicdraw.auxiliaryconstructs.mdmodels.Model;
-import com.nomagic.uml2.ext.magicdraw.classes.mdassociationclasses.AssociationClass;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Association;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Classifier;
@@ -201,7 +196,6 @@ public class MagicDrawManager {
 	static Model model;
 	public static Project project;
 	public static ProjectsManager projectsManager;
-	public static Map<String, Project> loadedProjects = new HashMap<String, Project>();
 
 	static String magicDrawFileName;
 
@@ -219,75 +213,41 @@ public class MagicDrawManager {
 	 *            SysML model contained in the mdzip file!)
 	 * 
 	 */
-	public static void loadSysMLProject(String projectId, String magicDrawModelPath) throws ApplicationExitedException, MDModelLibException, URISyntaxException, IOException {
-		initializeCollections();
+	public static void loadSysMLProject(String projectId, String magicDrawModelPath) throws ApplicationExitedException, URISyntaxException, IOException {
 		MagicDrawManager.projectId = projectId;
 		magicDrawFileName = projectId;
-		if (project == null) {
-            magicdrawApplication = Application.getInstance();
-            magicdrawApplication.start(false, true, false, new String[0], null);
-		}
-		projectsManager = magicdrawApplication.getProjectsManager();
-        final File sysmlfile;
-            sysmlfile = new File(magicDrawModelPath);
-        // final File sysmlfile = new File(magicdrawModelsDirectory +
-        // projectId + ".mdzip");
-        ProjectDescriptor projectDescriptor = ProjectDescriptorsFactory.createProjectDescriptor(sysmlfile.toURI());
-        projectsManager.loadProject(projectDescriptor, true);
         if (!SessionManager.getInstance().isSessionCreated()) {
             SessionManager.getInstance().createSession("MagicDraw OSLC Session for projectId" + projectId);
         }
-        project = projectsManager.getActiveProject();
-        loadedProjects.put(projectId, project);
-        
-		// List of packages not to load
-		predefinedMagicDrawSysMLPackageNames.add("SysML");
-		predefinedMagicDrawSysMLPackageNames.add("Matrix Templates Profile");
-		predefinedMagicDrawSysMLPackageNames.add("UML Standard Profile");
-		predefinedMagicDrawSysMLPackageNames.add("QUDV Library");
-		predefinedMagicDrawSysMLPackageNames.add("PrimitiveValueTypes");
-		predefinedMagicDrawSysMLPackageNames.add("MD Customization for SysML");
-        
+
         // mapping MagicDraw SysML model
         model = mapSysMLModel(project);
 
-        // collecting all MagicDraw SysML blocks and requirements
+        /*
         mdSysmlBlocks = getAllSysMLBlocks(model);
-        Collection<Class> blocks = new ArrayList<Class>();
-        blocks.addAll(mdSysmlBlocks);
-        projectIdMDSysmlBlocksMap.put(projectId, blocks);
+        projectIdMDSysmlBlocksMap.put(projectId, mdSysmlBlocks);
 
         mdSysmlRequirements = getAllSysMLRequirements(model);
-        Collection<Class> reqs = new ArrayList<Class>();
-        reqs.addAll(mdSysmlRequirements);
-        projectIdMDSysmlRequirementsMap.put(projectId, reqs);
+        projectIdMDSysmlRequirementsMap.put(projectId, mdSysmlRequirements);
 
         mdSysmlPackages = getAllSysMLPackages(model);
-        Collection<com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package> packages = new ArrayList<com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package>();
-        packages.addAll(mdSysmlPackages);
-        projectIdMDSysmlPackagesMap.put(projectId, packages);
+        projectIdMDSysmlPackagesMap.put(projectId, mdSysmlPackages);
+
+        mdSysmlInterfaceBlocks = getAllSysMLInterfaceBlocks(model);
+        projectIdMDSysmlInterfaceBlocksMap.put(projectId, mdSysmlInterfaceBlocks);
 
         mdSysmlAssociationBlocks = getAllSysMLAssociationBlocks(model);
 
-        mdSysmlInterfaceBlocks = getAllSysMLInterfaceBlocks(model);
-        Collection<Class> infblocks = new ArrayList<Class>();
-        infblocks.addAll(mdSysmlInterfaceBlocks);
-        projectIdMDSysmlInterfaceBlocksMap.put(projectId, infblocks);
-
         mdSysmlItemFlows = getAllSysMLItemFlows(model);
-        Collection<InformationFlow> itemFlows = new ArrayList<InformationFlow>();
-        itemFlows.addAll(mdSysmlItemFlows);
-        projectIdMDSysmlItemFlowsMap.put(projectId, itemFlows);
+        projectIdMDSysmlItemFlowsMap.put(projectId, mdSysmlItemFlows);
+        */
 
         predefinedMagicDrawSysMLPackageNames.remove("QUDV Library");
-
-        mdSysmlValueTypes = getAllSysMLValueTypes(model);
-        Collection<DataType> valuetypes = new ArrayList<DataType>();
-        valuetypes.addAll(mdSysmlValueTypes);
-        projectIdMDSysmlValueTypesMap.put(projectId, valuetypes);
-
+        //mdSysmlValueTypes = getAllSysMLValueTypes(model);
+        //projectIdMDSysmlValueTypesMap.put(projectId, mdSysmlValueTypes);
         predefinedMagicDrawSysMLPackageNames.add("QUDV Library");
 
+        
         getAllSysMLDiagrams();
 
         // closing MagicDraw
@@ -355,35 +315,6 @@ public class MagicDrawManager {
 		ports.addAll(mdSysmlPorts);
 		projectIdMDSysmlPortsMap.put(projectId, ports);
 
-	}
-
-	private static void initializeCollections() {
-
-		magicDrawFileName = null;
-		// model = null;
-
-		mdSysmlBlocks.clear();
-		mdSysmlRequirements.clear();
-		mdSysmlPackages.clear();
-		mdSysmlAssociationBlocks.clear();
-		mdSysmlInterfaceBlocks.clear();
-		mdSysmlItemFlows.clear();
-		mdSysmlValueTypes.clear();
-		mdSysmlBlockDiagrams.clear();
-		mdSysmlInternalBlockDiagrams.clear();
-		mdSysmlPartProperties.clear();
-		mdSysmlConnectors.clear();
-		mdSysmlPorts.clear();
-		mdSysmlValueProperties.clear();
-		mdSysmlFlowProperties.clear();
-
-		oslcSysmlRequirements.clear();
-		oslcSysmlBlocks.clear();
-
-		idMdSysmlRequirementMap.clear();
-//		idOslcSysmlRequirementMap.clear();
-
-		oslcSysmlModelMap.clear();
 	}
 
 	private static void mapSysMLBlockDiagrams() throws IOException {
@@ -498,29 +429,7 @@ public class MagicDrawManager {
 
 	}
 
-	private static Collection<DataType> getAllSysMLValueTypes(
-			com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package packageableElement) throws MDModelLibException {
-		Collection<com.nomagic.uml2.ext.magicdraw.classes.mdkernel.DataType> sysmlValueTypes = new ArrayList<com.nomagic.uml2.ext.magicdraw.classes.mdkernel.DataType>();
-		if (packageableElement instanceof com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package) {
-			com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package package_ = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package) packageableElement;
-			for (PackageableElement nestedPackageableElement : package_.getPackagedElement()) {
-				if (MDSysMLModelHandler.isSysMLElement(nestedPackageableElement, "ValueType")) {
-					DataType magicDrawSysMLValueType = (DataType) nestedPackageableElement;
-					sysmlValueTypes.add(magicDrawSysMLValueType);
-				} else
-					if (nestedPackageableElement instanceof com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package) {
-					com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package nestedPackage = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package) nestedPackageableElement;
-					if (!predefinedMagicDrawSysMLPackageNames.contains(nestedPackage.getName())) {
-						sysmlValueTypes.addAll(getAllSysMLValueTypes(nestedPackage));
-					}
-				}
-			}
-		}
-
-		return sysmlValueTypes;
-	}
-
-	private static void mapSysMLItemFlows() throws MDModelLibException, URISyntaxException {
+	private static void mapSysMLItemFlows() throws URISyntaxException {
 		for (com.nomagic.uml2.ext.magicdraw.auxiliaryconstructs.mdinformationflows.InformationFlow mdSysMLItemFlow : mdSysmlItemFlows) {
 			String itemFlowID = mdSysMLItemFlow.getID();
 			// qNameMdSysmlAssociationBlockMap.put(
@@ -621,7 +530,7 @@ public class MagicDrawManager {
 
 	}
 
-	private static void mapSysMLInterfaceBlocks() throws MDModelLibException, URISyntaxException {
+	private static void mapSysMLInterfaceBlocks() throws URISyntaxException {
 		for (Class mdSysMLBlock : mdSysmlInterfaceBlocks) {
 			String qName = mdSysMLBlock.getQualifiedName();
 			// qNameMdSysmlInterfaceBlockMap.put(
@@ -720,91 +629,6 @@ public class MagicDrawManager {
 			}
 		}
 
-	}
-
-	private static Collection<com.nomagic.uml2.ext.magicdraw.classes.mdassociationclasses.AssociationClass> getAllSysMLAssociationBlocks(
-			Model model) {
-		Collection<com.nomagic.uml2.ext.magicdraw.classes.mdassociationclasses.AssociationClass> sysmlAssociationBlocks = new ArrayList<com.nomagic.uml2.ext.magicdraw.classes.mdassociationclasses.AssociationClass>();
-		java.lang.Class[] classArray = new java.lang.Class[1];
-		classArray[0] = com.nomagic.uml2.ext.magicdraw.classes.mdassociationclasses.AssociationClass.class;
-		Collection<? extends Element> elementsOfType = ModelHelper.getElementsOfType(model, classArray, true, true);
-		sysmlAssociationBlocks = (Collection<AssociationClass>) elementsOfType;
-		LOG.info("**** Elements of type AssociationClass ****");
-		for (Element element : elementsOfType) {
-			LOG.info("" + element.getHumanName());
-		}
-		return sysmlAssociationBlocks;
-	}
-
-	// static Collection<com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class>
-	// getAllSysMLAssociationBlocks(
-	// com.nomagic.uml2.ext.magicdraw.classes.mdkernel.PackageableElement
-	// packageableElement) throws MDModelLibException {
-	// Collection<com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class>
-	// sysmlBlocks = new
-	// ArrayList<com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class>();
-	// if (packageableElement instanceof
-	// com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package) {
-	// com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package package_ =
-	// (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package)
-	// packageableElement;
-	// for (PackageableElement nestedPackageableElement : package_
-	// .getPackagedElement()) {
-	// if (MDSysMLModelHandler.isSysMLElement(nestedPackageableElement,
-	// "AssociationBlock")) {
-	// Class magicDrawSysMLBlock = (Class) nestedPackageableElement;
-	// sysmlBlocks.add(magicDrawSysMLBlock);
-	// sysmlBlocks
-	// .addAll(getAllSysMLAssociationBlocks(magicDrawSysMLBlock));
-	// } else if (nestedPackageableElement instanceof
-	// com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package) {
-	// com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package nestedPackage =
-	// (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package)
-	// nestedPackageableElement;
-	// if (!predefinedMagicDrawSysMLPackageNames
-	// .contains(nestedPackage.getName())) {
-	// sysmlBlocks
-	// .addAll(getAllSysMLAssociationBlocks(nestedPackage));
-	// }
-	// }
-	// }
-	// } else if (packageableElement instanceof
-	// com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class) {
-	// com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class class_ =
-	// (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class)
-	// packageableElement;
-	// for (Classifier nestedClassifier : class_.getNestedClassifier()) {
-	// if (MDSysMLModelHandler.isSysMLElement(nestedClassifier,
-	// "AssociationBlock")) {
-	// sysmlBlocks
-	// .add((com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class)
-	// nestedClassifier);
-	// }
-	// sysmlBlocks.addAll(getAllSysMLAssociationBlocks(nestedClassifier));
-	// }
-	// }
-	// return sysmlBlocks;
-	// }
-
-	private static Collection<com.nomagic.uml2.ext.magicdraw.auxiliaryconstructs.mdinformationflows.InformationFlow> getAllSysMLItemFlows(
-			Model model) throws MDModelLibException {
-		Collection<com.nomagic.uml2.ext.magicdraw.auxiliaryconstructs.mdinformationflows.InformationFlow> sysmlInformationFlows = new ArrayList<com.nomagic.uml2.ext.magicdraw.auxiliaryconstructs.mdinformationflows.InformationFlow>();
-		java.lang.Class[] classArray = new java.lang.Class[1];
-		classArray[0] = com.nomagic.uml2.ext.magicdraw.auxiliaryconstructs.mdinformationflows.InformationFlow.class;
-		Collection<? extends Element> elementsOfType = ModelHelper.getElementsOfType(model, classArray, true, true);
-		sysmlInformationFlows = (Collection<com.nomagic.uml2.ext.magicdraw.auxiliaryconstructs.mdinformationflows.InformationFlow>) elementsOfType;
-		Collection<com.nomagic.uml2.ext.magicdraw.auxiliaryconstructs.mdinformationflows.InformationFlow> itemFlows = new ArrayList<com.nomagic.uml2.ext.magicdraw.auxiliaryconstructs.mdinformationflows.InformationFlow>();
-		for (InformationFlow sysmlInformationFlow : sysmlInformationFlows) {
-			if (MDSysMLModelHandler.isSysMLElement(sysmlInformationFlow, "ItemFlow")) {
-				itemFlows.add(sysmlInformationFlow);
-			}
-		}
-
-		// LOG.info("**** Elements of type InformationFlow ****");
-		// for (Element element : elementsOfType) {
-		// LOG.info("" + element.getHumanName());
-		// }
-		return itemFlows;
 	}
 
 	private static void mapSysMLPackageRelationships() throws URISyntaxException {
@@ -921,7 +745,7 @@ public class MagicDrawManager {
 
 	}
 
-	private static void mapSysMLBlockRelationships() throws MDModelLibException, URISyntaxException {
+	private static void mapSysMLBlockRelationships() throws URISyntaxException {
 		for (Class mdSysmlBlock : mdSysmlBlocks) {
 			SysMLBlock sysmlBlock = qNameOslcSysmlBlockMap.get(magicDrawFileName + "/blocks/"
 					+ mdSysmlBlock.getQualifiedName().replaceAll("\\n", "-").replaceAll(" ", "_"));
@@ -994,7 +818,7 @@ public class MagicDrawManager {
 
 	}
 
-	private static void mapSysMLRequirementRelationships() throws MDModelLibException, URISyntaxException {
+	private static void mapSysMLRequirementRelationships() throws URISyntaxException {
 		for (Class mdSysMLRequirement : mdSysmlRequirements) {
 
 			// String sourceReqQualifiedName = mdSysMLRequirement
@@ -1091,7 +915,7 @@ public class MagicDrawManager {
 		}
 	}
 
-	private static void mapSysMLBlocks() throws MDModelLibException, URISyntaxException {
+	private static void mapSysMLBlocks() throws URISyntaxException {
 
 		for (Class mdSysMLBlock : mdSysmlBlocks) {
 			String qName = mdSysMLBlock.getQualifiedName();
@@ -1132,7 +956,7 @@ public class MagicDrawManager {
 		}
 	}
 
-	private static void mapSysMLValueProperties(Class mdSysMLBlock, SysMLBlock sysMLBlock) throws MDModelLibException, URISyntaxException {
+	private static void mapSysMLValueProperties(Class mdSysMLBlock, SysMLBlock sysMLBlock) throws URISyntaxException {
 		Link[] valuePropertiesLinksArray = getLinkedStereotypedSysMLElements(mdSysMLBlock.getOwnedAttribute(),
 				"ValueProperty", descriptor.resource("valueproperties", projectId));
 
@@ -1192,7 +1016,7 @@ public class MagicDrawManager {
 
 	}
 
-	private static void mapSysMLPorts(Class mdSysMLBlock, SysMLBlock sysMLBlock) throws MDModelLibException, URISyntaxException {
+	private static void mapSysMLPorts(Class mdSysMLBlock, SysMLBlock sysMLBlock) throws URISyntaxException {
 		ArrayList<Port> proxyPortsList = new ArrayList<Port>();
 		ArrayList<Port> fullPortsList = new ArrayList<Port>();
 		ArrayList<Port> portsList = new ArrayList<Port>();
@@ -1383,7 +1207,7 @@ public class MagicDrawManager {
 	}
 
 	private static void mapSysMLProxyPorts(Class mdSysMLBlock, SysMLInterfaceBlock sysMLInterfaceBlock)
-			throws MDModelLibException, URISyntaxException {
+			throws URISyntaxException {
 		ArrayList<Port> proxyPortsList = new ArrayList<Port>();
 
 		for (Port port : mdSysMLBlock.getOwnedPort()) {
@@ -1442,7 +1266,7 @@ public class MagicDrawManager {
 		}
 	}
 
-	private static void mapSysMLConnectors(Class mdSysMLBlock, SysMLBlock sysMLBlock) throws MDModelLibException, URISyntaxException {
+	private static void mapSysMLConnectors(Class mdSysMLBlock, SysMLBlock sysMLBlock) throws URISyntaxException {
 		Link[] connectorsLinksArray = getLinkedSysMLElements(mdSysMLBlock.getOwnedConnector(),
 				descriptor.resource("connectors", projectId));
 
@@ -1505,7 +1329,7 @@ public class MagicDrawManager {
 	}
 
 	private static void mapSysMLConnectorEnds(Connector connector, SysMLConnector sysMLConnector)
-			throws MDModelLibException, URISyntaxException {
+			throws URISyntaxException {
 
 		for (ConnectorEnd connectorEnd : connector.getEnd()) {
 
@@ -1554,7 +1378,7 @@ public class MagicDrawManager {
 	}
 
 	private static void mapSysMLReferenceProperties(Class mdSysmlBlock, SysMLBlock sysMLBlock)
-			throws MDModelLibException, URISyntaxException {
+			throws URISyntaxException {
 
 		Link[] blockReferencesLinksArray = getLinkedStereotypedSysMLElements(mdSysmlBlock.getOwnedAttribute(),
 				"ReferenceProperty", descriptor.resource("referenceproperties", projectId));
@@ -1769,7 +1593,7 @@ public class MagicDrawManager {
 	}
 
 	private static URI getDirectedLinkSysMLElement(boolean isElementSource, Element element, String relationshipType)
-			throws MDModelLibException, URISyntaxException {
+			throws URISyntaxException {
 
 		Collection<DirectedRelationship> directedRelationships;
 		if (isElementSource) {
@@ -1828,7 +1652,7 @@ public class MagicDrawManager {
 	}
 
 	private static Link[] getDirectedLinksOfSysMLElement(boolean isElementSource, Element element,
-			String relationshipType) throws MDModelLibException, URISyntaxException {
+			String relationshipType) throws URISyntaxException {
 
 		Collection<DirectedRelationship> directedRelationships;
 		if (isElementSource) {
@@ -2046,147 +1870,9 @@ public class MagicDrawManager {
 		return sysMLRequirement;
 	}
 
-	public static List<SysMLRequirement> getRequirements() {
-		List<SysMLRequirement> sysMLRequirements = new ArrayList<SysMLRequirement>();
-		for (String id : idOslcSysmlRequirementMap.keySet()) {
-			sysMLRequirements.add(idOslcSysmlRequirementMap.get(id));
-		}
-		return sysMLRequirements;
-	}
-
 	public static edu.gatech.mbsec.adapter.magicdraw.resources.SysMLBlock getBlockByQualifiedName(String qualifiedName) {
 		SysMLBlock sysMLBlock = qNameOslcSysmlBlockMap.get(qualifiedName);
 		return sysMLBlock;
-	}
-
-	public static List<SysMLBlock> getBlocks(String projectName) {
-		List<SysMLBlock> sysMLBlocks = new ArrayList<SysMLBlock>();
-		for (String qNameOslcSysmlElement : qNameOslcSysmlBlockMap.keySet()) {
-			if (qNameOslcSysmlElement.startsWith(projectName + "/blocks/")) {
-				sysMLBlocks.add(qNameOslcSysmlBlockMap.get(qNameOslcSysmlElement));
-			}
-		}
-		return sysMLBlocks;
-	}
-
-	static Collection<com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package> getAllSysMLPackages(
-			com.nomagic.uml2.ext.magicdraw.classes.mdkernel.PackageableElement packageableElement) {
-		Collection<com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package> sysmlPackages = new ArrayList<com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package>();
-
-		if (packageableElement instanceof com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package) {
-			com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package package_ = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package) packageableElement;
-			if (!predefinedMagicDrawSysMLPackageNames.contains(package_.getName())) {
-				if (!(packageableElement instanceof Model)) {
-					sysmlPackages.add(package_);
-				}
-				// add nested packages
-				for (PackageableElement nestedPackageableElement : package_.getPackagedElement()) {
-					if (nestedPackageableElement instanceof com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package) {
-						com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package nestedPackage = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package) nestedPackageableElement;
-						if (!predefinedMagicDrawSysMLPackageNames.contains(nestedPackage.getName())) {
-							sysmlPackages.addAll(getAllSysMLPackages(nestedPackage));
-						}
-					}
-				}
-			}
-		}
-
-		return sysmlPackages;
-	}
-
-	static Collection<com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class> getAllSysMLBlocks(
-			com.nomagic.uml2.ext.magicdraw.classes.mdkernel.PackageableElement packageableElement)
-					throws MDModelLibException {
-		Collection<com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class> sysmlBlocks = new ArrayList<com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class>();
-		if (packageableElement instanceof com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package) {
-			com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package package_ = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package) packageableElement;
-			for (PackageableElement nestedPackageableElement : package_.getPackagedElement()) {
-				if (MDSysMLModelHandler.isSysMLElement(nestedPackageableElement, "Block")
-						| MDSysMLModelHandler.isSysMLElement(nestedPackageableElement, "System")) {
-					Class magicDrawSysMLBlock = (Class) nestedPackageableElement;
-					sysmlBlocks.add(magicDrawSysMLBlock);
-					sysmlBlocks.addAll(getAllSysMLBlocks(magicDrawSysMLBlock));
-				} else
-					if (nestedPackageableElement instanceof com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package) {
-					com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package nestedPackage = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package) nestedPackageableElement;
-					if (!predefinedMagicDrawSysMLPackageNames.contains(nestedPackage.getName())) {
-						sysmlBlocks.addAll(getAllSysMLBlocks(nestedPackage));
-					}
-				}
-			}
-		} else if (packageableElement instanceof com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class) {
-			com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class class_ = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class) packageableElement;
-			for (Classifier nestedClassifier : class_.getNestedClassifier()) {
-				if (MDSysMLModelHandler.isSysMLElement(nestedClassifier, "Block")
-						| MDSysMLModelHandler.isSysMLElement(nestedClassifier, "System")) {
-					sysmlBlocks.add((com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class) nestedClassifier);
-				}
-				sysmlBlocks.addAll(getAllSysMLBlocks(nestedClassifier));
-			}
-		}
-		return sysmlBlocks;
-	}
-
-	static Collection<com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class> getAllSysMLInterfaceBlocks(
-			com.nomagic.uml2.ext.magicdraw.classes.mdkernel.PackageableElement packageableElement)
-					throws MDModelLibException {
-		Collection<com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class> sysmlBlocks = new ArrayList<com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class>();
-		if (packageableElement instanceof com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package) {
-			com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package package_ = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package) packageableElement;
-			for (PackageableElement nestedPackageableElement : package_.getPackagedElement()) {
-				if (MDSysMLModelHandler.isSysMLElement(nestedPackageableElement, "InterfaceBlock")) {
-					Class magicDrawSysMLBlock = (Class) nestedPackageableElement;
-					sysmlBlocks.add(magicDrawSysMLBlock);
-					sysmlBlocks.addAll(getAllSysMLInterfaceBlocks(magicDrawSysMLBlock));
-				} else
-					if (nestedPackageableElement instanceof com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package) {
-					com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package nestedPackage = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package) nestedPackageableElement;
-					if (!predefinedMagicDrawSysMLPackageNames.contains(nestedPackage.getName())) {
-						sysmlBlocks.addAll(getAllSysMLInterfaceBlocks(nestedPackage));
-					}
-				}
-			}
-		} else if (packageableElement instanceof com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class) {
-			com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class class_ = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class) packageableElement;
-			for (Classifier nestedClassifier : class_.getNestedClassifier()) {
-				if (MDSysMLModelHandler.isSysMLElement(nestedClassifier, "InterfaceBlock")) {
-					sysmlBlocks.add((com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class) nestedClassifier);
-				}
-				sysmlBlocks.addAll(getAllSysMLInterfaceBlocks(nestedClassifier));
-			}
-		}
-		return sysmlBlocks;
-	}
-
-	static Collection<com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class> getAllSysMLRequirements(
-			com.nomagic.uml2.ext.magicdraw.classes.mdkernel.PackageableElement packageableElement)
-					throws MDModelLibException {
-		Collection<com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class> sysmlRequirements = new ArrayList<com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class>();
-		if (packageableElement instanceof com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package) {
-			com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package package_ = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package) packageableElement;
-			for (PackageableElement nestedPackageableElement : package_.getPackagedElement()) {
-				if (MDSysMLModelHandler.isSysMLElement(nestedPackageableElement, "Requirement")) {
-					com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class sysMLRequirement = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class) nestedPackageableElement;
-					sysmlRequirements.add(sysMLRequirement);
-					sysmlRequirements.addAll(getAllSysMLRequirements(sysMLRequirement));
-				} else
-					if (nestedPackageableElement instanceof com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package) {
-					com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package nestedPackage = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package) nestedPackageableElement;
-					if (!predefinedMagicDrawSysMLPackageNames.contains(nestedPackage.getName())) {
-						sysmlRequirements.addAll(getAllSysMLRequirements(nestedPackage));
-					}
-				}
-			}
-		} else if (packageableElement instanceof com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class) {
-			com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class class_ = (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class) packageableElement;
-			for (Classifier nestedClassifier : class_.getNestedClassifier()) {
-				if (MDSysMLModelHandler.isSysMLElement(nestedClassifier, "Requirement")) {
-					sysmlRequirements.add((com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class) nestedClassifier);
-				}
-				sysmlRequirements.addAll(getAllSysMLRequirements(nestedClassifier));
-			}
-		}
-		return sysmlRequirements;
 	}
 
 	public static SysMLPartProperty getPartPropertyByQualifiedName(String propertyQualifiedName) {
@@ -2478,68 +2164,7 @@ public class MagicDrawManager {
 		return elementURI;
 	}
 
-	public static void loadSysMLProjects(String filePath) throws ApplicationExitedException, MDModelLibException, URISyntaxException, IOException {
-		if (projectsManager != null) {
-			while (!projectsManager.getProjects().isEmpty()) {
-				projectsManager.closeProject();
-			}
-		}
-		loadedProjects.clear();
-        initializeMapsAcrossAllProjects();
-        File file = new File(filePath);
-        if (file.getPath().endsWith("mdzip")) {
-            String fileName = file.getPath();
-            if (fileName.contains(File.separator)) {
-                fileName = fileName.substring(fileName.lastIndexOf(File.separator) + 1);
-            }
-            fileName = fileName.replaceAll(".mdzip", "");
-            loadSysMLProject(fileName, file.getPath());
-        }
-        LOG.log(Level.INFO, "Data read from {0} and converted into RDF resources at {1}", new Object[]{file, new Date().toString()});
-	}
-
-	protected static void initializeMapsAcrossAllProjects() {
-		predefinedMagicDrawSysMLPackageNames.clear();
-
-		qNameOslcSysmlBlockMap.clear();
-		qNameOslcSysmlPartPropertyMap.clear();
-		qNameOslcSysmlReferencePropertyMap.clear();
-		qNameOslcSysmlPackageMap.clear();
-		qNameOslcSysmlAssociationBlockMap.clear();
-		qNameOslcSysmlConnectorMap.clear();
-		qNameOslcSysmlConnectorEndMap.clear();
-		qNameOslcSysmlPortMap.clear();
-		qNameOslcSysmlProxyPortMap.clear();
-		qNameOslcSysmlFullPortMap.clear();
-		qNameOslcSysmlInterfaceBlockMap.clear();
-		qNameOslcSysmlFlowPropertyMap.clear();
-		qNameOslcSysmlItemFlowMap.clear();
-		qNameOslcSysmlValuePropertyMap.clear();
-		qNameOslcSysmlValueTypeMap.clear();
-		qNameOslcSysmlBlockDiagramMap.clear();
-		qNameOslcSysmlInternalBlockDiagramMap.clear();
-
-		projectIdMDSysmlRequirementsMap.clear();
-		projectIdMDSysmlBlocksMap.clear();
-		projectIdMDSysmlInterfaceBlocksMap.clear();
-		projectIdMDSysmlItemFlowsMap.clear();
-		projectIdMDSysmlPackagesMap.clear();
-		projectIdMDSysmlValueTypesMap.clear();
-		projectIdMDSysmlPartPropertiesMap.clear();
-		projectIdMDSysmlValuePropertiesMap.clear();
-		projectIdMDSysmlFlowPropertiesMap.clear();
-		projectIdMDSysmlPortsMap.clear();
-		projectIdMDSysmlConnectorsMap.clear();
-
-	}
-
-	public static void makeSysMLProjectActive(String projectId2) {
-		projectsManager.setActiveProject(loadedProjects.get(projectId2));
-		project = projectsManager.getActiveProject();
-
-	}
-
-	public static com.hp.hpl.jena.rdf.model.Model getModel() throws Exception {
+    public static com.hp.hpl.jena.rdf.model.Model getModel() throws Exception {
         com.hp.hpl.jena.rdf.model.Model jenaModel;
 		ArrayList<Object> objectList = new ArrayList<>();
 		objectList.addAll(qNameOslcSysmlBlockMap.values());

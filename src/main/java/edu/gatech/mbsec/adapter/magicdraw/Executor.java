@@ -5,13 +5,17 @@ import edu.gatech.mbsec.adapter.magicdraw.builder.Vocabularies;
 import edu.gatech.mbsec.adapter.magicdraw.builder.ModelDescriptor;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.nomagic.runtime.ApplicationExitedException;
-import edu.gatech.mbsec.adapter.magicdraw.builder.OSLC4JMagicDrawApplication;
-import edu.gatech.mbsec.adapter.magicdraw.util.OSLCVocabularyCustomizer;
+import edu.gatech.mbsec.adapter.magicdraw.builder.SysMLRDFBuilder;
+import edu.gatech.mbsec.adapter.magicdraw.parser.MagicDrawApplication;
+import edu.gatech.mbsec.adapter.magicdraw.parser.MagicDrawParser;
 import edu.gatech.mbsec.adapter.magicdraw.writer.FileModelWriter;
 import edu.gatech.mbsec.adapter.magicdraw.writer.HttpModelWriter;
 import edu.gatech.mbsec.adapter.magicdraw.writer.ModelWriter;
 import edu.gatech.mbsec.adapter.magicdraw.writer.StreamModelWriter;
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
@@ -45,19 +49,6 @@ public class Executor {
         return availables;
     }
     /**
-     * Parses the input file into an RDF model.
-     * @param mdzip the input file path and name.
-     * @param descriptor the building model descriptor.
-     * @return the corresponding RDF model.
-     * @throws Exception if something goes wrong.
-     */
-    private static Model getModel(String mdzip, ModelDescriptor descriptor)
-            throws Exception {
-        Model model = OSLC4JMagicDrawApplication.run(mdzip, descriptor);
-        descriptor.customize(model);
-        return model;
-    }
-    /**
      * Determines the target language from the command line.
      * @param command the execution command.
      * @return the chosen/target language.
@@ -83,16 +74,23 @@ public class Executor {
     /**
      * Executes the command given from console.
      * @param command the command to execute.
-     * @throws Exception if something goes wrong.
+     * @param magicdraw the magicdraw application.
+     * @throws MalformedURLException if some URL is malformed.
+     * @throws FileNotFoundException if the output target file does not exist.
+     * @throws IOException if some I/O exception occurs.
+     * @throws ApplicationExitedException if the application ends unexpectedly.
      */
-    public static void execute(CommandLine command) throws Exception {
+    public static void execute(CommandLine command, MagicDrawApplication magicdraw)
+            throws MalformedURLException, FileNotFoundException, IOException,
+            ApplicationExitedException {
         Model model;
         ModelWriter writer;
         ModelDescriptor descriptor;
-        OSLCVocabularyCustomizer customizer;
         ByteArrayOutputStream buffer = null;
         Lang language = getLanguage(command);
+        SysMLRDFBuilder builder = new SysMLRDFBuilder();
         MetaInformation meta = getMetaInformation(command);
+        MagicDrawParser parser = new MagicDrawParser(magicdraw);
         String mdzipFile = command.getOptionValue(Args.mdzip.name());
         String target = command.getOptionValue(Args.target.name());
         if (target == null) {
@@ -108,16 +106,12 @@ public class Executor {
                 writer = new FileModelWriter(target);
             }
         }
-        customizer = new OSLCVocabularyCustomizer(descriptor.vocabulary(null), "getRdfTypes");
-        customizer.customize("edu.gatech.mbsec.adapter.magicdraw.resources");
-        model = getModel(mdzipFile, descriptor);
+        model = builder.build(parser.parse(mdzipFile), descriptor);
+        descriptor.customize(model);
         writer.write(model, language);
         if (buffer != null) {
             LOG.info(buffer.toString("UTF-8"));
         }
     }
 
-    public static void finish() throws ApplicationExitedException {
-        OSLC4JMagicDrawApplication.finish();
-    }
 }

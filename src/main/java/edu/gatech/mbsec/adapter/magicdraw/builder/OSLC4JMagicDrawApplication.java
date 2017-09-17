@@ -23,6 +23,7 @@ package edu.gatech.mbsec.adapter.magicdraw.builder;
 
 import com.hp.hpl.jena.rdf.model.Model;
 import com.nomagic.runtime.ApplicationExitedException;
+import static edu.gatech.mbsec.adapter.magicdraw.builder.MagicDrawManager.loadSysMLProject;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.logging.Level;
@@ -54,7 +55,7 @@ public class OSLC4JMagicDrawApplication {
 	public static Model run(String file, ModelDescriptor descriptor) throws Exception {
         try {
             MagicDrawManager.descriptor = descriptor;
-            MagicDrawManager.loadSysMLProjects(file);
+            //MagicDrawManager.loadSysMLProject(file);
             return MagicDrawManager.getModel();
         } catch(Exception ex) {
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
