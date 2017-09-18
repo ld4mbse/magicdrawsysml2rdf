@@ -70,15 +70,10 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.DirectedRelationship;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.EnumerationLiteral;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.InstanceSpecification;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralString;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Namespace;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.PackageableElement;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ValueSpecification;
-import com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.ConnectableElement;
 import com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.Connector;
-import com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.ConnectorEnd;
 import com.nomagic.uml2.ext.magicdraw.compositestructures.mdports.Port;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 
@@ -855,86 +850,19 @@ public class MagicDrawManager {
                 sysMLBlock.setAbout(URI.create(descriptor.resource("blocks", projectId
                         + qName.replaceAll("\\n", "-").replaceAll(" ", "_"))));
             }
-
             // SysML Block Parts
-            mapSysMLPartProperties(mdSysMLBlock, sysMLBlock);
-
+            //mapSysMLPartProperties(mdSysMLBlock, sysMLBlock);
             // SysML Block References
-            mapSysMLReferenceProperties(mdSysMLBlock, sysMLBlock);
-
+            //mapSysMLReferenceProperties(mdSysMLBlock, sysMLBlock);
             // SysML Block Value Properties
-            mapSysMLValueProperties(mdSysMLBlock, sysMLBlock);
-
+            //mapSysMLValueProperties(mdSysMLBlock, sysMLBlock);
             // SysML Block Flow Properties
-            mapSysMLFlowProperties(mdSysMLBlock, sysMLBlock);
-
+            //mapSysMLFlowProperties(mdSysMLBlock, sysMLBlock);
             // SysML Block Connectors
-            mapSysMLConnectors(mdSysMLBlock, sysMLBlock);
-
+            //mapSysMLConnectors(mdSysMLBlock, sysMLBlock);
             // SysML Block Ports
             mapSysMLPorts(mdSysMLBlock, sysMLBlock);
-
 		}
-	}
-
-	private static void mapSysMLValueProperties(Class mdSysMLBlock, SysMLBlock sysMLBlock) throws URISyntaxException {
-		Link[] valuePropertiesLinksArray = getLinkedStereotypedSysMLElements(mdSysMLBlock.getOwnedAttribute(),
-				"ValueProperty", descriptor.resource("valueproperties", projectId));
-
-		if (valuePropertiesLinksArray != null) {
-			sysMLBlock.setValueProperties(valuePropertiesLinksArray);
-
-			LOG.info(" " + sysMLBlock.getName());
-			LOG.info("\tblock reference properties: " + valuePropertiesLinksArray.length);
-			LOG.info(" " + sysMLBlock.getName());
-			LOG.info("\tblock reference properties: ");
-			for (Link link : valuePropertiesLinksArray) {
-				LOG.info("\t\t " + link.getValue());
-			}
-		}
-
-		for (Property property : mdSysMLBlock.getOwnedAttribute()) {
-
-			if (property.getAppliedStereotypeInstance() != null) {
-				InstanceSpecification stereotypeInstance = property.getAppliedStereotypeInstance();
-				if (stereotypeInstance.getClassifier().get(0).getName().contains("ValueProperty")) {
-					SysMLValueProperty sysmlValueProperty = new SysMLValueProperty();
-                    qNameOslcSysmlValuePropertyMap.put(
-                            magicDrawFileName + "/valueproperties/" + getQualifiedNameOrID(property),
-                            sysmlValueProperty);
-                    mdSysmlValueProperties.add(property);
-
-                    // valueProperty name
-                    sysmlValueProperty.setName(property.getName());
-                    sysmlValueProperty.setAbout(URI.create(descriptor.resource("valueproperties", projectId + getQualifiedNameOrID(property))));
-
-                    // valueProperty type
-                    if (property.getType() != null) {
-                        if (MDSysMLModelHandler.isSysMLElement(property.getType(), "Block")) {
-                            sysmlValueProperty.setType(new URI(descriptor.resource("blocks", projectId
-                                    + getQualifiedNameOrID(property.getType()))));
-                        } else if (MDSysMLModelHandler.isSysMLElement(property.getType(), "ValueType")) {
-                            sysmlValueProperty.setType(new URI(descriptor.resource("valuetypes", projectId + getQualifiedNameOrID(property.getType()))));
-                        }
-                    }
-
-                    // referenceProperty multiplicity
-                    String lowerMultiplicity = Integer.toString(property.getLower());
-                    String upperMultiplicity = Integer.toString(property.getUpper());
-                    sysmlValueProperty.setLower(lowerMultiplicity);
-                    sysmlValueProperty.setUpper(upperMultiplicity);
-
-                    // defaultValue
-                    ValueSpecification valueSpecification = property.getDefaultValue();
-                    if (valueSpecification instanceof LiteralString) {
-                        LiteralString literalString = (LiteralString) valueSpecification;
-                        sysmlValueProperty.setDefaultValue(literalString.getValue());
-                    }
-
-				}
-			}
-		}
-
 	}
 
 	private static void mapSysMLPorts(Class mdSysMLBlock, SysMLBlock sysMLBlock) throws URISyntaxException {
@@ -1187,263 +1115,6 @@ public class MagicDrawManager {
 		}
 	}
 
-	private static void mapSysMLConnectors(Class mdSysMLBlock, SysMLBlock sysMLBlock) throws URISyntaxException {
-		Link[] connectorsLinksArray = getLinkedSysMLElements(mdSysMLBlock.getOwnedConnector(),
-				descriptor.resource("connectors", projectId));
-
-		if (connectorsLinksArray != null) {
-			sysMLBlock.setConnectors(connectorsLinksArray);
-			LOG.info(" " + sysMLBlock.getName());
-			LOG.info("\tblock connectors: " + connectorsLinksArray.length);
-			LOG.info(" " + sysMLBlock.getName());
-			LOG.info("\tblock connectors: ");
-			for (Link link : connectorsLinksArray) {
-				LOG.info("\t\t " + link.getValue());
-			}
-		}
-
-		for (Connector connector : mdSysMLBlock.getOwnedConnector()) {
-			SysMLConnector sysMLConnector = new SysMLConnector();
-
-            qNameOslcSysmlConnectorMap.put(magicDrawFileName + "/connectors/" + getQualifiedNameOrID(connector),
-                    sysMLConnector);
-            mdSysmlConnectors.add(connector);
-            if (!connector.getName().equals("")) {
-                // connector name
-                sysMLConnector.setName(connector.getName());
-            }
-            sysMLConnector.setAbout(URI.create(
-                    descriptor.resource("connectors", projectId + getQualifiedNameOrID(connector))));
-
-            // connector ends
-            Link[] connectorsEndsLinksArray = getLinkedSysMLElements(connector.getEnd(),
-                    descriptor.resource("connectorends", projectId));
-            sysMLConnector.setEnds(connectorsEndsLinksArray);
-
-            // connector type
-            if (connector.getType() != null) {
-
-                // connector type is an association block
-                if (MDSysMLModelHandler.isSysMLElement(connector.getType(), "Block")) {
-                    sysMLConnector.setType(new URI(descriptor.resource("associationblocks", projectId
-                            + connector.getType().getQualifiedName().replaceAll("\\n", "-").replaceAll(" ", "_"))));
-                } else if (connector
-                        .getType() instanceof com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Association) {
-                    sysMLConnector.setType(new URI(descriptor.resource("associations", projectId
-                            + connector.getType().getQualifiedName().replaceAll("\\n", "-").replaceAll(" ", "_"))));
-                }
-            }
-
-            // connector owner
-            if (connector.getOwner() != null) {
-                if (connector.getOwner() instanceof NamedElement) {
-                    NamedElement namedElement = (NamedElement) connector.getOwner();
-                    sysMLConnector.setOwner(new URI(descriptor.resource("blocks", projectId
-                            + namedElement.getQualifiedName().replaceAll("\\n", "-").replaceAll(" ", "_"))));
-                }
-            }
-
-            // map connector ends
-            mapSysMLConnectorEnds(connector, sysMLConnector);
-
-		}
-	}
-
-	private static void mapSysMLConnectorEnds(Connector connector, SysMLConnector sysMLConnector)
-			throws URISyntaxException {
-
-		for (ConnectorEnd connectorEnd : connector.getEnd()) {
-
-            SysMLConnectorEnd sysMLConnectorEnd = new SysMLConnectorEnd();
-            sysMLConnectorEnd.setAbout(
-                    URI.create(descriptor.resource("connectorends", projectId + connectorEnd.getID())));
-            qNameOslcSysmlConnectorEndMap.put(magicDrawFileName + "/connectorends/" + connectorEnd.getID(),
-                    sysMLConnectorEnd);
-
-            ConnectableElement role = connectorEnd.getRole();
-
-            Property definingEnd = connectorEnd.getDefiningEnd();
-            Property partWithPort = connectorEnd.getPartWithPort();
-
-            // role
-            if (MDSysMLModelHandler.isSysMLElement(role, "PartProperty")) {
-                sysMLConnectorEnd.setRole(new URI(descriptor.resource("partproperties", projectId
-                        + connectorEnd.getRole().getQualifiedName().replaceAll("\\n", "-").replaceAll(" ", "_"))));
-            } else if (MDSysMLModelHandler.isSysMLElement(role, "ProxyPort")) {
-                sysMLConnectorEnd.setRole(new URI(descriptor.resource("proxyports", projectId
-                        + connectorEnd.getRole().getQualifiedName().replaceAll("\\n", "-").replaceAll(" ", "_"))));
-            } else if (MDSysMLModelHandler.isSysMLElement(role, "FullPort")) {
-                sysMLConnectorEnd.setRole(new URI(descriptor.resource("fullports", projectId
-                        + connectorEnd.getRole().getQualifiedName().replaceAll("\\n", "-").replaceAll(" ", "_"))));
-            } else if (role instanceof com.nomagic.uml2.ext.magicdraw.compositestructures.mdports.Port) {
-                sysMLConnectorEnd.setRole(new URI(descriptor.resource("ports", projectId
-                        + connectorEnd.getRole().getQualifiedName().replaceAll("\\n", "-").replaceAll(" ", "_"))));
-            }
-
-            // definingEnd
-            if (definingEnd != null) {
-                sysMLConnectorEnd.setDefiningEnd(
-                        new URI(descriptor.resource("partproperties", projectId + connectorEnd
-                                .getDefiningEnd().getQualifiedName().replaceAll("\\n", "-").replaceAll(" ", "_"))));
-            }
-
-            // partWithPort
-            if (partWithPort != null) {
-                sysMLConnectorEnd.setPartWithPort(
-                        new URI(descriptor.resource("partproperties", projectId + connectorEnd
-                                .getPartWithPort().getQualifiedName().replaceAll("\\n", "-").replaceAll(" ", "_"))));
-            }
-
-		}
-
-	}
-
-	private static void mapSysMLReferenceProperties(Class mdSysmlBlock, SysMLBlock sysMLBlock)
-			throws URISyntaxException {
-
-		Link[] blockReferencesLinksArray = getLinkedStereotypedSysMLElements(mdSysmlBlock.getOwnedAttribute(),
-				"ReferenceProperty", descriptor.resource("referenceproperties", projectId));
-
-		if (blockReferencesLinksArray != null) {
-			sysMLBlock.setReferenceProperties(blockReferencesLinksArray);
-
-			LOG.info(" " + sysMLBlock.getName());
-			LOG.info("\tblock reference properties: " + blockReferencesLinksArray.length);
-			LOG.info(" " + sysMLBlock.getName());
-			LOG.info("\tblock reference properties: ");
-			for (Link link : blockReferencesLinksArray) {
-				LOG.info("\t\t " + link.getValue());
-			}
-		}
-
-		for (Property property : mdSysmlBlock.getOwnedAttribute()) {
-
-			if (property.getAppliedStereotypeInstance() != null) {
-				InstanceSpecification stereotypeInstance = property.getAppliedStereotypeInstance();
-				if (stereotypeInstance.getClassifier().get(0).getName().contains("ReferenceProperty")) {
-					SysMLReferenceProperty sysmlReferenceProperty = new SysMLReferenceProperty();
-                    qNameOslcSysmlReferencePropertyMap.put(
-                            magicDrawFileName + "/referenceproperties/"
-                                    + property.getQualifiedName().replaceAll("\\n", "-").replaceAll(" ", "_"),
-                            sysmlReferenceProperty);
-
-                    // referenceProperty name
-                    sysmlReferenceProperty.setName(property.getName());
-
-                    String qName = property.getQualifiedName();
-                    sysmlReferenceProperty.setAbout(URI.create(descriptor.resource("referenceproperties", projectId + qName.replaceAll("\\n", "-").replaceAll(" ", "_"))));
-
-                    // referenceProperty type
-                    sysmlReferenceProperty.setType(new URI(descriptor.resource("blocks", projectId
-                            + property.getType().getQualifiedName().replaceAll("\\n", "-").replaceAll(" ", "_"))));
-
-                    // referenceProperty multiplicity
-                    String lowerMultiplicity = Integer.toString(property.getLower());
-                    String upperMultiplicity = Integer.toString(property.getUpper());
-                    sysmlReferenceProperty.setLower(lowerMultiplicity);
-                    sysmlReferenceProperty.setUpper(upperMultiplicity);
-
-                    // referenceProperty association attribute
-                    if (property.getAssociation() != null) {
-                        Association mdSysMAssociation = property.getAssociation();
-                        URI linkedElementURI = null;
-                        String baseURI = descriptor.resource("unknown", projectId);
-                        // check if property has an associationBlock as
-                        // association
-
-                        if (MDSysMLModelHandler.isSysMLElement(property.getAssociation(), "Block")) {
-                            // if (!mdSysmlAssociationBlocks
-                            // .contains((com.nomagic.uml2.ext.magicdraw.classes.mdassociationclasses.AssociationClass)
-                            // property.getAssociation())) {
-                            // mdSysmlAssociationBlocks.add((com.nomagic.uml2.ext.magicdraw.classes.mdassociationclasses.AssociationClass)
-                            // property
-                            // .getAssociation());
-                            // }
-                            baseURI = descriptor.resource("associationblocks", projectId);
-                        } else if (property
-                                .getAssociation() instanceof com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Association) {
-                            baseURI = descriptor.resource("associations", projectId);
-                        }
-                        linkedElementURI = new URI(baseURI
-                                + mdSysMAssociation.getQualifiedName().replaceAll("\\n", "-").replaceAll(" ", "_"));
-                        sysmlReferenceProperty.setAssociation(linkedElementURI);
-                    }
-
-				}
-			}
-		}
-
-	}
-
-	private static void mapSysMLFlowProperties(Class mdSysmlBlock, SysMLBlock sysMLBlock) throws URISyntaxException {
-
-		Link[] flowPropertiesLinksArray = getLinkedStereotypedSysMLElements(mdSysmlBlock.getOwnedAttribute(),
-				"FlowProperty", descriptor.resource("flowproperties", projectId));
-
-		if (flowPropertiesLinksArray != null) {
-			sysMLBlock.setFlowProperties(flowPropertiesLinksArray);
-
-			LOG.info(" " + sysMLBlock.getName());
-			LOG.info("\tblock reference properties: " + flowPropertiesLinksArray.length);
-			LOG.info(" " + sysMLBlock.getName());
-			LOG.info("\tblock reference properties: ");
-			for (Link link : flowPropertiesLinksArray) {
-				LOG.info("\t\t " + link.getValue());
-			}
-		}
-
-		for (Property property : mdSysmlBlock.getOwnedAttribute()) {
-
-			if (property.getAppliedStereotypeInstance() != null) {
-				InstanceSpecification stereotypeInstance = property.getAppliedStereotypeInstance();
-				if (stereotypeInstance.getClassifier().get(0).getName().contains("FlowProperty")) {
-					SysMLFlowProperty sysmlFlowProperty = new SysMLFlowProperty();
-                    qNameOslcSysmlFlowPropertyMap.put(
-                            magicDrawFileName + "/flowproperties/"
-                                    + property.getQualifiedName().replaceAll("\\n", "-").replaceAll(" ", "_"),
-                            sysmlFlowProperty);
-
-                    // referenceProperty name
-                    sysmlFlowProperty.setName(property.getName());
-
-                    String qName = property.getQualifiedName();
-                    sysmlFlowProperty.setAbout(URI.create(descriptor.resource("flowproperties", projectId + qName.replaceAll("\\n", "-").replaceAll(" ", "_"))));
-
-                    // referenceProperty type
-                    sysmlFlowProperty.setType(new URI(descriptor.resource("blocks", projectId
-                            + property.getType().getQualifiedName().replaceAll("\\n", "-").replaceAll(" ", "_"))));
-
-                    // referenceProperty multiplicity
-                    String lowerMultiplicity = Integer.toString(property.getLower());
-                    String upperMultiplicity = Integer.toString(property.getUpper());
-                    sysmlFlowProperty.setLower(lowerMultiplicity);
-                    sysmlFlowProperty.setUpper(upperMultiplicity);
-
-                    // direction
-                    Object directionObject = StereotypesHelper.getStereotypePropertyFirst(property,
-                            (Stereotype) property.getAppliedStereotypeInstance().getClassifier().get(0),
-                            "direction");
-                    if (directionObject instanceof EnumerationLiteral) {
-                        EnumerationLiteral enumLit = (EnumerationLiteral) directionObject;
-                        String enumLitName = enumLit.getName();
-                        if (enumLitName.equals("in")) {
-                            // sysmlFlowProperty
-                            // .setDirection(SysMLFlowDirection.IN);
-                            sysmlFlowProperty.setDirection("in");
-                        } else if (enumLitName.equals("out")) {
-                            // sysmlFlowProperty
-                            // .setDirection(SysMLFlowDirection.OUT);
-                            sysmlFlowProperty.setDirection("out");
-                        }
-
-                    }
-
-				}
-			}
-		}
-
-	}
-
 	private static Link[] getLinkedSysMLElements(Collection<? extends Element> elementCollection,
 			String linkedElementBaseURI) throws URISyntaxException {
 
@@ -1638,62 +1309,6 @@ public class MagicDrawManager {
 			}
 		}
 		return linksArray;
-	}
-
-	private static void mapSysMLPartProperties(Class mdSysmlBlock, SysMLBlock sysMLBlock) throws URISyntaxException {
-
-		Link[] blockPartsLinksArray = getLinkedStereotypedSysMLElements(mdSysmlBlock.getOwnedAttribute(),
-				"PartProperty", descriptor.resource("partproperties", projectId));
-
-		if (blockPartsLinksArray != null) {
-			sysMLBlock.setPartProperties(blockPartsLinksArray);
-
-			LOG.info(" " + sysMLBlock.getName());
-			LOG.info("\tblockParts: " + blockPartsLinksArray.length);
-			LOG.info(" " + sysMLBlock.getName());
-			LOG.info("\tblockParts: ");
-			for (Link link : blockPartsLinksArray) {
-				LOG.info("\t\t " + link.getValue());
-			}
-		}
-
-		for (Property property : mdSysmlBlock.getOwnedAttribute()) {
-
-			if (property.getAppliedStereotypeInstance() != null) {
-				InstanceSpecification stereotypeInstance = property.getAppliedStereotypeInstance();
-				if (stereotypeInstance.getClassifier().get(0).getName().contains("PartProperty")) {
-					SysMLPartProperty sysmlPartProperty = new SysMLPartProperty();
-                    qNameOslcSysmlPartPropertyMap.put(
-                            magicDrawFileName + "/partproperties/" + getQualifiedNameOrID(property),
-                            sysmlPartProperty);
-                    mdSysmlPartProperties.add(property);
-
-                    // partProperty name
-                    sysmlPartProperty.setName(property.getName());
-
-                    String qName = property.getQualifiedName();
-                    sysmlPartProperty.setAbout(URI.create(descriptor.resource("partproperties", projectId + getQualifiedNameOrID(property))));
-
-                    // partProperty type
-                    sysmlPartProperty.setType(new URI(descriptor.resource("blocks", projectId
-                            + property.getType().getQualifiedName().replaceAll("\\n", "-").replaceAll(" ", "_"))));
-
-                    // partProperty owner
-                    NamedElement partPropertyOwnerNamedElement = (NamedElement) property.getOwner();
-                    sysmlPartProperty.setOwner(new URI(
-                            descriptor.resource("blocks", projectId + partPropertyOwnerNamedElement
-                                    .getQualifiedName().replaceAll("\\n", "-").replaceAll(" ", "_"))));
-
-                    // partProperty multiplicity
-                    String lowerMultiplicity = Integer.toString(property.getLower());
-                    String upperMultiplicity = Integer.toString(property.getUpper());
-                    sysmlPartProperty.setLower(lowerMultiplicity);
-                    sysmlPartProperty.setUpper(upperMultiplicity);
-
-				}
-			}
-		}
-
 	}
 
 	public static SysMLBlockDiagram getBlockDiagramByQualifiedName(String qualifiedName) throws URISyntaxException {
@@ -1946,21 +1561,6 @@ public class MagicDrawManager {
 		return elements;
 	}
 
-	public static SysMLAssociationBlock getAssociationBlockByQualifiedName(String blockQualifiedName) {
-		SysMLAssociationBlock sysMLAssociationBlock = qNameOslcSysmlAssociationBlockMap.get(blockQualifiedName);
-		return sysMLAssociationBlock;
-	}
-
-	public static List<SysMLAssociationBlock> getAssociationBlocks(String projectName) {
-		List<SysMLAssociationBlock> elements = new ArrayList<SysMLAssociationBlock>();
-		for (String qNameOslcSysmlElement : qNameOslcSysmlAssociationBlockMap.keySet()) {
-			if (qNameOslcSysmlElement.startsWith(projectName + "/associationblocks/")) {
-				elements.add(qNameOslcSysmlAssociationBlockMap.get(qNameOslcSysmlElement));
-			}
-		}
-		return elements;
-	}
-
 	public static String getQualifiedNameOrID(Element element) {
 		String qfOrID = null;
 		if (element instanceof NamedElement) {
@@ -1974,51 +1574,6 @@ public class MagicDrawManager {
 			qfOrID = element.getID();
 		}
 		return qfOrID;
-	}
-
-	public static String getQualifiedNameFromURI(URI uri) {
-		String uriString = uri.getRawPath();
-		uriString = uriString.replace("/oslc4jmagicdraw/services/", "");
-		String[] uriStrings = uriString.split("/");
-		String qualifiedName = uriStrings[2];
-		// qualifiedName = qualifiedName.replaceAll("\\n", "-").replaceAll(" ",
-		// "_");
-		return qualifiedName;
-	}
-
-	public static String getNameFromQualifiedName(String qualifiedName) {
-		String[] elementQNameParts = qualifiedName.split("::");
-		int newElementQNamePartsSize = elementQNameParts.length;
-		String elementName = elementQNameParts[newElementQNamePartsSize - 1];
-		return elementName;
-	}
-
-	public static URI getURIFromQualifiedName(String typeAndQualifiedName) {
-		String[] typeAndQualifiedNameStrings = typeAndQualifiedName.split("_");
-		String type = typeAndQualifiedNameStrings[0];
-		String qualifiedName = typeAndQualifiedNameStrings[typeAndQualifiedNameStrings.length - 1];
-
-		// URI cannot contain empty characters
-		qualifiedName = qualifiedName.replaceAll("\\n", "-").replaceAll(" ", "_");
-
-		String elementType = null;
-		if (type.equals("MODEL")) {
-			elementType = "model";
-		} else if (type.equals("PACKAGE")) {
-			elementType = "packages";
-		} else if (type.equals("BLOCK")) {
-			elementType = "blocks";
-		} else if (type.equals("REQUIREMENT")) {
-			elementType = "requirements";
-		} else if (type.equals("PART")) {
-			elementType = "parts";
-		} else if (type.equals("PORT")) {
-			elementType = "ports";
-		}
-
-		URI elementURI = URI.create(descriptor.resource(elementType, projectId + qualifiedName));
-
-		return elementURI;
 	}
 
     public static com.hp.hpl.jena.rdf.model.Model getModel() throws Exception {

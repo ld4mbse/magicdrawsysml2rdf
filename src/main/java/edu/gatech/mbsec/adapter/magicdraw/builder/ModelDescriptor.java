@@ -229,25 +229,6 @@ public class ModelDescriptor {
         return type + "/" + Objects.requireNonNull(ID);
     }
     /**
-     * Convenient method to create a resource from a
-     * {@link DOM2RDFBuilder.Record} instance.
-     * @param record the record reference.
-     * @return a resource.
-     */
-    /*String resource(DOM2RDFBuilder.Record record) {
-        String resourceType = record.name();
-        String id = getIdProperty(resourceType);
-        if (GENERAL_ID_PROPERTY.equals(id)) {
-            id = record.md5();
-        } else {
-            id = record.property(id);
-            if (id == null) {
-                id = record.md5();
-            }
-        }
-        return resource(resourceType, id);
-    }*/
-    /**
      * Creates or gets a resource given its type and id over a {@link Model}.
      * @param type the simple resource type name.
      * @param ID the resource id.
@@ -267,18 +248,6 @@ public class ModelDescriptor {
     public Resource me(Model model) {
         return model.createResource(resource(type, meta.getID()));
     }
-    /**
-     * Convenient method to create resource from a
-     * {@link DOM2RDFBuilder.Record} instance.
-     * @param record the record reference.
-     * @param model the underlaying resource's model.
-     * @return a created o gotten resource.
-     */
-    /*Resource resource(DOM2RDFBuilder.Record record, Model model) {
-        Resource resource = model.createResource(resource(record));
-        //resource.addLiteral(RDF.type, vocabulary(record.name()));
-        return resource;
-    }*/
     /**
      * Builds a {@link Property} for a given resource type.
      * @param type the resource type.

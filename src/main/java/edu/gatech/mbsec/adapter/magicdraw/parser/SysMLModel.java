@@ -7,6 +7,8 @@ import com.nomagic.uml2.ext.magicdraw.auxiliaryconstructs.mdmodels.Model;
 import com.nomagic.uml2.ext.magicdraw.classes.mdassociationclasses.AssociationClass;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.DataType;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
 import static edu.gatech.mbsec.adapter.magicdraw.parser.MagicDrawApplication.SYSML_PROFILE;
@@ -108,6 +110,7 @@ public class SysMLModel {
      * @return SysML packages.
      */
     public List<Package> getPackages() {
+        if (packages == null) return null;
         return Collections.unmodifiableList(packages);
     }
     /**
@@ -131,6 +134,15 @@ public class SysMLModel {
         return Collections.unmodifiableMap(elements);
     }
     /**
+     * Gets all class elements with a given stereotype.
+     * @param steretype the stereotype to match.
+     * @return all class elements with a given stereotype.
+     */
+    public List<Class> getStereotypes(Stereotypes steretype) {
+        List<Class> stereotypes = elements.get(steretype);
+        return stereotypes == null ? null : Collections.unmodifiableList(stereotypes);
+    }
+    /**
      * Adds a new association.
      * @param association the new association.
      */
@@ -142,6 +154,7 @@ public class SysMLModel {
      * @return the associations.
      */
     public List<AssociationClass> getAssociations() {
+        if (associations == null) return null;
         return Collections.unmodifiableList(associations);
     }
     /**
@@ -156,6 +169,7 @@ public class SysMLModel {
      * @return the information flows.
      */
     public List<InformationFlow> getInformationFlows() {
+        if (informationFlows == null) return null;
         return Collections.unmodifiableList(informationFlows);
     }
     /**
@@ -170,6 +184,7 @@ public class SysMLModel {
      * @return the data types.
      */
     public List<DataType> getDataTypes() {
+        if (dataTypes == null) return null;
         return Collections.unmodifiableList(dataTypes);
     }
     /**
@@ -181,6 +196,25 @@ public class SysMLModel {
         original = original.replaceAll("\\n", "-");
         original = original.replaceAll(" ", "_");
         return name + original;
+    }
+    /**
+     * Standardize the name of an element with this model name.
+     * @param original the original name to standardize.
+     * @return the input name standardized.
+     */
+    public String standardName(Element original) {
+        String stdName;
+        NamedElement named;
+        if (original instanceof NamedElement) {
+            named = (NamedElement) original;
+            stdName = named.getName();
+            if (stdName == null || stdName.isEmpty())
+                stdName = original.getID();
+            else
+                stdName = named.getQualifiedName();
+        } else
+            stdName = original.getID();
+        return standardName(stdName);
     }
 
     @Override

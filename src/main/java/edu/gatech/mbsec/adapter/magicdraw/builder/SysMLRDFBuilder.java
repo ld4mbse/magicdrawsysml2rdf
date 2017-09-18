@@ -7,12 +7,28 @@ import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.vocabulary.DCTerms;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Association;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Classifier;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.EnumerationLiteral;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.InstanceSpecification;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.LiteralString;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Type;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ValueSpecification;
+import com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.ConnectableElement;
+import com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.Connector;
+import com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.ConnectorEnd;
+import com.nomagic.uml2.ext.magicdraw.compositestructures.mdports.Port;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
+import static edu.gatech.mbsec.adapter.magicdraw.builder.MagicDrawManager.descriptor;
+import static edu.gatech.mbsec.adapter.magicdraw.builder.MagicDrawManager.projectId;
 import edu.gatech.mbsec.adapter.magicdraw.parser.Stereotypes;
 import edu.gatech.mbsec.adapter.magicdraw.parser.SysMLModel;
+import edu.gatech.mbsec.adapter.magicdraw.resources.SysMLConnectorEnd;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.net.URI;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -44,36 +60,36 @@ public class SysMLRDFBuilder {
         LOG.log(Level.SEVERE, "Could not build model.\n{0}", bos.toString());
     }
     /**
-     * Buils the RDF equivalent for the MD Model object.
+     * Buils the RDF equivalents for the MD Package objects.
      * @param sysml the MD model abstraction.
      * @param output the target RDF model.
      * @param desc the building descriptor.
      */
-    private void buildModel(SysMLModel sysml, Model output, ModelDescriptor desc) {
+    private void buildPackages(SysMLModel sysml, Model output, ModelDescriptor desc) {
         Resource resource, pck;
-        Property elementName, pcks;
         List<com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package> packages;
-        com.nomagic.uml2.ext.magicdraw.auxiliaryconstructs.mdmodels.Model src = sysml.getModel();
-        String name = src.getName();
-        packages = sysml.getPackages();
-        if (name == null) name = "Data";
-        resource = desc.resource("model", sysml.getName() + name, output);
-        elementName = desc.property(GLOBAL_OWL_TYPE, "NamedElement_name");
-        pcks = desc.property(GLOBAL_OWL_TYPE, "Model_package");
-        resource.addLiteral(elementName, name);
-        LOG.log(Level.INFO, "--- Model {0}", name);
-        LOG.log(Level.INFO, "--- Packages");
-        for(com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package modelPackage : packages) {
-            name = sysml.standardName(modelPackage.getQualifiedName());
-            pck = desc.resource("packages", name, output);
-            //Only first-level packages must be included as model properties.
-            if (!name.contains("::")) {
-                resource.addProperty(pcks, pck);
+        com.nomagic.uml2.ext.magicdraw.auxiliaryconstructs.mdmodels.Model model = sysml.getModel();
+        Property pcks, name = desc.property(GLOBAL_OWL_TYPE, "NamedElement_name");
+        String joker = model.getName();
+        if (joker == null) joker = "Data";
+        resource = desc.resource("model", sysml.getName() + joker, output);
+        if ((packages = sysml.getPackages()) != null) {
+            pcks = desc.property(GLOBAL_OWL_TYPE, "Model_package");
+            resource.addLiteral(name, joker);
+            LOG.log(Level.INFO, "--- Model {0}", joker);
+            LOG.log(Level.INFO, "--- Packages");
+            for(com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package modelPackage : packages) {
+                joker = sysml.standardName(modelPackage.getQualifiedName());
+                pck = desc.resource("packages", joker, output);
+                //Only first-level packages must be included as model properties.
+                if (!joker.contains("::")) {
+                    resource.addProperty(pcks, pck);
+                }
+                if (modelPackage.getName() != null) {
+                    pck.addProperty(name, modelPackage.getName());
+                }
+                LOG.log(Level.INFO, "[+] <package> {0}", joker);
             }
-            if (modelPackage.getName() != null) {
-                pck.addProperty(elementName, modelPackage.getName());
-            }
-            LOG.log(Level.INFO, "[+] <package> {0}", name);
         }
     }
     /**
@@ -111,30 +127,222 @@ public class SysMLRDFBuilder {
         Resource resource;
         Property hyperlink;
         List<com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class> requirements;
-        requirements = sysml.getElements().get(Stereotypes.Requirement);
-        hyperlink = desc.property(GLOBAL_OWL_TYPE, "Requirement_hyperlink");
-        for(com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class requirement : requirements) {
-			joker = getElementProperty(requirement, "Id").toString();
-            resource = desc.resource("requirements", sysml.standardName(joker), output);
-            resource.addProperty(DCTerms.identifier, joker);
-            LOG.log(Level.INFO, "[+] <requirement> {0}", joker);
-            if ((joker = requirement.getName()) != null) {
-                resource.addProperty(DCTerms.title, joker);
-                LOG.log(Level.INFO, "\t\ttitle: {0}", joker);
-            }
-            joker = getElementProperty(requirement, "Text").toString();
-            if (joker != null && !joker.isEmpty()) {
-                resource.addProperty(DCTerms.description, joker);
-                LOG.log(Level.INFO, "\t\tdescription: {0}", joker);
-            }
-            //joker = (String)getElementProperty(requirement, "hyperlinkText");
-            joker = (String)getElementProperty(sysml.getProject(), requirement, "HyperlinkOwner", "hyperlinkText");
-            if (joker != null) {
-                resource.addProperty(hyperlink, joker);
-                LOG.log(Level.INFO, "\t\thyperlink: {0}", joker);
+        requirements = sysml.getStereotypes(Stereotypes.Requirement);
+        if (requirements != null) {
+            hyperlink = desc.property(GLOBAL_OWL_TYPE, "Requirement_hyperlink");
+            for(com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class requirement : requirements) {
+                joker = getElementProperty(requirement, "Id").toString();
+                resource = desc.resource("requirements", sysml.standardName(joker), output);
+                resource.addProperty(DCTerms.identifier, joker);
+                LOG.log(Level.INFO, "[+] <requirement> {0}", joker);
+                if ((joker = requirement.getName()) != null) {
+                    resource.addProperty(DCTerms.title, joker);
+                    LOG.log(Level.INFO, "\t\ttitle: {0}", joker);
+                }
+                joker = getElementProperty(requirement, "Text").toString();
+                if (joker != null && !joker.isEmpty()) {
+                    resource.addProperty(DCTerms.description, joker);
+                    LOG.log(Level.INFO, "\t\tdescription: {0}", joker);
+                }
+                //joker = (String)getElementProperty(requirement, "hyperlinkText");
+                joker = (String)getElementProperty(sysml.getProject(), requirement, "HyperlinkOwner", "hyperlinkText");
+                if (joker != null) {
+                    resource.addProperty(hyperlink, joker);
+                    LOG.log(Level.INFO, "\t\thyperlink: {0}", joker);
+                }
             }
         }
     }
+
+	private void buildStereoTypedProperties(SysMLModel sysml, Class block,
+            Resource rscBlock, Model output, ModelDescriptor desc) {
+        Object direction;
+        Type propertyType;
+        Classifier classifier;
+        LiteralString literal;
+        Association association;
+        String joker, stereotype;
+        Resource rscProperty, rscJoker;
+        ValueSpecification valueSpecification;
+        InstanceSpecification stereotypeInstance;
+        Property type = desc.property(GLOBAL_OWL_TYPE, "Property_type");
+        Property owner = desc.property(GLOBAL_OWL_TYPE, "OwnedElement_owner");
+        Property partProperty = desc.property(GLOBAL_OWL_TYPE, "Block_partProperty");
+        Property referenceProperty = desc.property(GLOBAL_OWL_TYPE, "Block_referenceProperty");
+        Property valueProperty = desc.property(GLOBAL_OWL_TYPE, "Block_valueProperty");
+        Property flowProperty = desc.property(GLOBAL_OWL_TYPE, "Block_flowProperty");
+        Property elementName = desc.property(GLOBAL_OWL_TYPE, "NamedElement_name");
+        Property lowerMult = desc.property(GLOBAL_OWL_TYPE, "MultiplicityElement_lower");
+        Property upperMult = desc.property(GLOBAL_OWL_TYPE, "MultiplicityElement_upper");
+        Property reference = desc.property(GLOBAL_OWL_TYPE, "ReferenceProperty_association");
+        Property defaultValue = desc.property(GLOBAL_OWL_TYPE, "ValueProperty_defaultValue");
+        Property directionProperty = desc.property(GLOBAL_OWL_TYPE, "FlowProperty_direction");
+        List<com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property> properties = block.getOwnedAttribute();
+        for (com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property property : properties) {
+            stereotypeInstance = property.getAppliedStereotypeInstance();
+			if (stereotypeInstance != null) {
+                joker = sysml.standardName(property);
+                classifier = stereotypeInstance.getClassifier().get(0);
+                stereotype = classifier.getName();
+                if (stereotype.contains("PartProperty")) {
+                    rscProperty = desc.resource("partproperties", joker, output);
+                    rscBlock.addProperty(partProperty, rscProperty);
+                    LOG.log(Level.INFO, "\t\t[+] <PartProperty>: {0}", joker);
+                    rscProperty.addProperty(owner, rscBlock);
+                    LOG.log(Level.INFO, "\t\t\t\towner: {0}", rscBlock.getURI());
+                } else if (stereotype.contains("ReferenceProperty")) {
+                    rscProperty = desc.resource("referenceproperties", joker, output);
+                    rscBlock.addProperty(referenceProperty, rscProperty);
+                    LOG.log(Level.INFO, "\t\t[+] <ReferenceProperty>: {0}", joker);
+                    association = property.getAssociation();
+                    if (association != null) {
+                        if (MDSysMLModelHandler.isSysMLElement(association, "Block"))
+                            joker = "associationblocks";
+                        else if (association instanceof com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Association)
+                            joker = "associations";
+                        else
+                            joker = "unknown";
+                        rscJoker = desc.resource(joker, sysml.standardName(association), output);
+                        rscProperty.addProperty(reference, rscJoker);
+                        LOG.log(Level.INFO, "\t\t\t\treference: {0}", rscJoker.getURI());
+                    }
+                } else if (stereotype.contains("ValueProperty")) {
+                    rscProperty = desc.resource("valueproperties", joker, output);
+                    rscBlock.addProperty(valueProperty, rscProperty);
+                    LOG.log(Level.INFO, "\t\t[+] <ValueProperty>: {0}", joker);
+                    valueSpecification = property.getDefaultValue();
+                    if (valueSpecification instanceof LiteralString) {
+                        literal = (LiteralString) valueSpecification;
+                        rscProperty.addProperty(defaultValue, literal.getValue());
+                        LOG.log(Level.INFO, "\t\t\t\tdefault value: {0}", literal.getValue());
+                    }
+                } else if (stereotype.contains("FlowProperty")) {
+                    rscProperty = desc.resource("flowproperties", joker, output);
+                    rscBlock.addProperty(flowProperty, rscProperty);
+                    LOG.log(Level.INFO, "\t\t[+] <FlowProperty>: {0}", joker);
+                    direction = StereotypesHelper.getStereotypePropertyFirst(property, (Stereotype)classifier, "direction");
+                    if (direction instanceof EnumerationLiteral) {
+                        EnumerationLiteral enumLit = (EnumerationLiteral) direction;
+                        rscProperty.addProperty(directionProperty, enumLit.getName());
+                        LOG.log(Level.INFO, "\t\t\t\tdirection: {0}", enumLit.getName());
+                    }
+                } else {
+                    continue;
+                }
+                rscProperty.addProperty(elementName, property.getName());
+                LOG.log(Level.INFO, "\t\t\t\tname: {0}", property.getName());
+                propertyType = property.getType();
+                if (propertyType != null) {
+                    if (MDSysMLModelHandler.isSysMLElement(propertyType, "Block"))
+                        joker = "blocks";
+                    else if (MDSysMLModelHandler.isSysMLElement(propertyType, "ValueType"))
+                        joker = "valuetypes";
+                    else
+                        joker = "unknown";
+                    joker = desc.resource(joker, sysml.standardName(propertyType));
+                    rscProperty.addProperty(type, output.createResource(joker));
+                    LOG.log(Level.INFO, "\t\t\t\ttype: {0}", joker);
+                }
+                rscProperty.addProperty(lowerMult, Integer.toString(property.getLower()));
+                LOG.log(Level.INFO, "\t\t\t\tlower: {0}", property.getLower());
+                rscProperty.addProperty(upperMult, Integer.toString(property.getUpper()));
+                LOG.log(Level.INFO, "\t\t\t\tupper: {0}", property.getUpper());
+            }
+        }
+	}
+
+	private static void buildConnectors(SysMLModel sysml, Class block,
+            Resource rscBlock, Model output, ModelDescriptor desc) {
+        String joker;
+        Type connectorType;
+        ConnectableElement role;
+        Resource connector, rscJoker, endConnector;
+        com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property definingProp;
+        com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property partPortProp;
+        Property owner = desc.property(GLOBAL_OWL_TYPE, "OwnedElement_owner");
+        Property elementName = desc.property(GLOBAL_OWL_TYPE, "NamedElement_name");
+        Property connectorProperty = desc.property(GLOBAL_OWL_TYPE, "Block_connector");
+        Property connectorTypeProperty = desc.property(GLOBAL_OWL_TYPE, "Connector_type");
+        Property connectorEnd = desc.property(GLOBAL_OWL_TYPE, "Connector_end");
+        Property endRole = desc.property(GLOBAL_OWL_TYPE, "ConnectorEnd_role");
+        Property definingEnd = desc.property(GLOBAL_OWL_TYPE, "ConnectorEnd_definingEnd");
+        Property partPort = desc.property(GLOBAL_OWL_TYPE, "ConnectorEnd_partWithPort");
+   		for (Connector element : block.getOwnedConnector()) {
+            joker = sysml.standardName(element);
+            connector = desc.resource("connectors", joker, output);
+            rscBlock.addProperty(connectorProperty, connector);
+            LOG.log(Level.INFO, "\t\t[+] <Connector>: {0}", joker);
+            if (!element.getName().isEmpty()) {
+                connector.addProperty(elementName, element.getName());
+                LOG.log(Level.INFO, "\t\t\t\tname: {0}", element.getName());
+            }
+            connectorType = element.getType();
+            if (connectorType != null) {
+                if (MDSysMLModelHandler.isSysMLElement(connectorType, "Block"))
+                    joker = "associationblocks";
+                else if (connectorType instanceof com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Association)
+                    joker = "associations";
+                else
+                    joker = "unknown";
+                rscJoker = desc.resource(joker, sysml.standardName(connectorType), output);
+                connector.addProperty(connectorTypeProperty, rscJoker);
+                LOG.log(Level.INFO, "\t\t\t\ttype: {0}", rscJoker.getURI());
+            }
+            connector.addProperty(owner, rscBlock);
+            LOG.log(Level.INFO, "\t\t\t\towner: {0}", rscBlock.getURI());
+            for (ConnectorEnd end : element.getEnd()) {
+                joker = sysml.standardName(end.getID());
+                endConnector = desc.resource("connectorends", joker, output);
+                connector.addProperty(connectorEnd, endConnector);
+                LOG.log(Level.INFO, "\t\t\t\t[+] <Connector End>: {0}", endConnector.getURI());
+                role = end.getRole();
+                if (MDSysMLModelHandler.isSysMLElement(role, "PartProperty"))
+                    joker = "partproperties";
+                else if (MDSysMLModelHandler.isSysMLElement(role, "ProxyPort"))
+                    joker = "proxyports";
+                else if (MDSysMLModelHandler.isSysMLElement(role, "FullPort"))
+                    joker = "fullports";
+                else if (role instanceof Port)
+                    joker = "ports";
+                else
+                    joker = "unknown";
+                endConnector.addProperty(endRole, desc.resource(joker, sysml.standardName(role), output));
+                LOG.log(Level.INFO, "\t\t\t\t\t\trole: {0}", joker);
+                if ((definingProp = end.getDefiningEnd()) != null) {
+                    rscJoker = desc.resource("partproperties", sysml.standardName(definingProp), output);
+                    endConnector.addProperty(definingEnd, rscJoker);
+                    LOG.log(Level.INFO, "\t\t\t\t\t\tdefiningEnd: {0}", rscJoker.getURI());
+                }
+                if ((partPortProp = end.getPartWithPort()) != null) {
+                    rscJoker = desc.resource("partproperties", sysml.standardName(partPortProp), output);
+                    endConnector.addProperty(partPort, rscJoker);
+                    LOG.log(Level.INFO, "\t\t\t\t\t\tpartWithPort: {0}", rscJoker.getURI());
+                }
+            }
+		}
+	}
+
+	private void buildBlocks(SysMLModel sysml, Model output, ModelDescriptor desc) {
+        String joker;
+        Resource resource;
+        Property elementName;
+        List<com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class> blocks;
+        blocks = sysml.getStereotypes(Stereotypes.Block);
+        if (blocks != null) {
+            elementName = desc.property(GLOBAL_OWL_TYPE, "NamedElement_name");
+            for(com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class block : blocks) {
+                joker = sysml.standardName(block.getQualifiedName());
+                resource = desc.resource("blocks", joker, output);
+                LOG.log(Level.INFO, "[+] <block> {0}", joker);
+                if ((joker = block.getName()) != null) {
+                    resource.addLiteral(elementName, joker);
+                }
+                buildStereoTypedProperties(sysml, block, resource, output, desc);
+                buildConnectors(sysml, block, resource, output, desc);
+                //mapSysMLPorts(mdSysMLBlock, sysMLBlock);
+            }
+        }
+   	}
     /**
      * Builds an RDF model from an {@link SysMLModel SysML model}.
      * @param sysml the abstraction of the mdzip file.
@@ -144,8 +352,9 @@ public class SysMLRDFBuilder {
     public Model build(SysMLModel sysml, ModelDescriptor descriptor) {
         Model model = ModelFactory.createDefaultModel();
         try {
-            buildModel(sysml, model, descriptor);
+            buildPackages(sysml, model, descriptor);
             buildRequirements(sysml, model, descriptor);
+            buildBlocks(sysml, model, descriptor);
             for(Map.Entry<String, String> prefix : descriptor.getVocabPrefixes().entrySet()) {
                 model.setNsPrefix(prefix.getKey(), prefix.getValue());
             }
