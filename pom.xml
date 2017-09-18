@@ -7,23 +7,9 @@
 	<name>magicdrawsysml2rdf</name>
 	<properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <magicdraw.home>/opt/no-magic/MagicDraw18_0-SP6</magicdraw.home>
+        <magicdraw.home>C:\Program Files\MagicDraw 18.0 sp6</magicdraw.home>
         <magicdraw.version>18.0.6</magicdraw.version>
 	</properties>
-    <repositories>
-      <repository>
-        <id>lyo-releases</id>
-        <name>Eclipse Lyo Releases</name>
-        <url>https://repo.eclipse.org/content/repositories/lyo-releases/</url>
-        <snapshots><enabled>false</enabled></snapshots>
-      </repository>
-      <repository>
-        <id>lyo-snapshots</id>
-        <name>Eclipse Lyo Snapshots</name>
-        <url>https://repo.eclipse.org/content/repositories/lyo-snapshots/</url>
-        <releases><enabled>false</enabled></releases>
-      </repository>
-    </repositories>
 	<dependencies>
 		<!-- ********************************************************************** -->
 		<!-- Magicdraw jars which need to be on the classpath in order to launch 
