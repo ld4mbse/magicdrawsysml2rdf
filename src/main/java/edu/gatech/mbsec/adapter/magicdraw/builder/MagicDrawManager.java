@@ -328,7 +328,7 @@ public class MagicDrawManager {
         mapSysMLBlockRelationships();
 
         // map SysML block diagrams
-        mapSysMLBlockDiagrams();
+        //mapSysMLBlockDiagrams();
 
         // map SysML internal block diagrams
 
@@ -1840,12 +1840,16 @@ public class MagicDrawManager {
 		// counting the number of relationships of that specific type
 		Collection<DirectedRelationship> relationshipsOfType = new ArrayList<DirectedRelationship>();
 		for (DirectedRelationship directedRelationship : directedRelationships) {
-            String directedRelationshipType = directedRelationship.getAppliedStereotypeInstance().getClassifier()
-                    .get(0).getName();
-            if (directedRelationshipType.equals(relationshipType)) {
-                relationshipsOfType.add(directedRelationship);
+                try {
+                    String directedRelationshipType = directedRelationship.getAppliedStereotypeInstance().getClassifier()
+                            .get(0).getName();
+                    if (directedRelationshipType.equals(relationshipType)) {
+                        relationshipsOfType.add(directedRelationship);
+                    }
+                } catch(Exception ex) {
+                
+                }
             }
-		}
 
 		// creating the links array
 		Link[] linksArray = null;

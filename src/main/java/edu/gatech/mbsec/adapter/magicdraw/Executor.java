@@ -6,6 +6,7 @@ import edu.gatech.mbsec.adapter.magicdraw.builder.ModelDescriptor;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.nomagic.runtime.ApplicationExitedException;
 import edu.gatech.mbsec.adapter.magicdraw.builder.OSLC4JMagicDrawApplication;
+import edu.gatech.mbsec.adapter.magicdraw.conversion.Vocabulary;
 import edu.gatech.mbsec.adapter.magicdraw.util.OSLCVocabularyCustomizer;
 import edu.gatech.mbsec.adapter.magicdraw.writer.FileModelWriter;
 import edu.gatech.mbsec.adapter.magicdraw.writer.HttpModelWriter;
@@ -111,6 +112,9 @@ public class Executor {
         customizer = new OSLCVocabularyCustomizer(descriptor.vocabulary(null), "getRdfTypes");
         customizer.customize("edu.gatech.mbsec.adapter.magicdraw.resources");
         model = getModel(mdzipFile, descriptor);
+        if (command.hasOption(Args.vocab.name())) {
+            model = new Vocabulary().convert(model, descriptor);
+        }
         writer.write(model, language);
         if (buffer != null) {
             LOG.info(buffer.toString("UTF-8"));

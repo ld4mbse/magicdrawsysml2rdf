@@ -28,7 +28,11 @@ public enum Args {
     /**
      * The output target.
      */
-    target("output target (console by default)", false, "file|url");
+    target("output target (console by default)", false, "file|url"),
+    /**
+     * Vocabulary generation.
+     */
+    vocab("generates a vocabulary", false);
     /**
      * Argument's description.
      */
