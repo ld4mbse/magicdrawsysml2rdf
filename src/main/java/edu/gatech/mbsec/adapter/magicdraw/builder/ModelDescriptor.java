@@ -50,7 +50,7 @@ public class ModelDescriptor {
         this.vocabPrefixes = new HashMap<>();
     }
     /**
-     * Creates an instance with a default {@code owl/} vocabulary path.
+     * Creates an instance with a default {@code vocab/} vocabulary path.
      * @param meta the meta-information to be added.
      * @param path the base path to build resource and vocabulary URIs.
      * @param type the inner type if this descriptor as a resource.
@@ -59,10 +59,10 @@ public class ModelDescriptor {
      */
     public ModelDescriptor(MetaInformation meta, String path, String type,
             String resources) {
-        this(meta, path, type, resources, "owl/");
+        this(meta, path, type, resources, "vocab/");
     }
     /**
-     * Creates an instance with a default {@code owl/} vocabulary path and a
+     * Creates an instance with a default {@code vocab/} vocabulary path and a
      * default {@code rest/} services path.
      * @param meta the meta-information to be added.
      * @param type the inner type if this descriptor as a resource.
@@ -73,7 +73,7 @@ public class ModelDescriptor {
         this(meta, path, type, "rest/");
     }
     /**
-     * Creates an instance with a default {@code owl/} vocabulary path, a
+     * Creates an instance with a default {@code vocab/} vocabulary path, a
      * default {@code rest/} services path and a default {@code model} type.
      * @param meta the meta-information to be added.
      * @param path the base path to build resource and vocabulary URIs.
@@ -85,7 +85,7 @@ public class ModelDescriptor {
     /**
      * Creates an instance with default values. The base path is
      * set to {@code http://localhost:8080/}, the vocabulary path part to
-     * {@code owl/}, the services path part to {@code rest/} and type is set to
+     * {@code vocab/}, the services path part to {@code rest/} and type is set to
      * {@code model}.
      * @param meta the meta-information to be added.
      */
@@ -126,7 +126,7 @@ public class ModelDescriptor {
         this.type = type;
     }
     /**
-     * Creates an instance with a default {@code owl/} vocabulary path and an
+     * Creates an instance with a default {@code vocab/} vocabulary path and an
      * example URL.
      * @param meta the meta-information to be added.
      * @param url example URL.
