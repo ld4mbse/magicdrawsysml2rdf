@@ -21,14 +21,10 @@ import com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.C
 import com.nomagic.uml2.ext.magicdraw.compositestructures.mdinternalstructures.ConnectorEnd;
 import com.nomagic.uml2.ext.magicdraw.compositestructures.mdports.Port;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
-import static edu.gatech.mbsec.adapter.magicdraw.builder.MagicDrawManager.descriptor;
-import static edu.gatech.mbsec.adapter.magicdraw.builder.MagicDrawManager.projectId;
 import edu.gatech.mbsec.adapter.magicdraw.parser.Stereotypes;
 import edu.gatech.mbsec.adapter.magicdraw.parser.SysMLModel;
-import edu.gatech.mbsec.adapter.magicdraw.resources.SysMLConnectorEnd;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.net.URI;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -322,6 +318,68 @@ public class SysMLRDFBuilder {
 		}
 	}
 
+	private static void buildPorts(SysMLModel sysml, Class block,
+            Resource rscBlock, Model output, ModelDescriptor desc) {
+        String joker;
+        Resource rscPort;
+        Type propertyType;
+        Property type = desc.property(GLOBAL_OWL_TYPE, "Property_type");
+        Property owner = desc.property(GLOBAL_OWL_TYPE, "OwnedElement_owner");
+        Property elementName = desc.property(GLOBAL_OWL_TYPE, "NamedElement_name");
+        Property lowerMult = desc.property(GLOBAL_OWL_TYPE, "MultiplicityElement_lower");
+        Property upperMult = desc.property(GLOBAL_OWL_TYPE, "MultiplicityElement_upper");
+        Property isService = desc.property(GLOBAL_OWL_TYPE, "Port_isService");
+        Property isBehavior = desc.property(GLOBAL_OWL_TYPE, "Port_isBehavior");
+        Property isConjugated = desc.property(GLOBAL_OWL_TYPE, "Port_isConjugated");
+        Property proxyPort = desc.property(GLOBAL_OWL_TYPE, "Block_proxyPort");
+        Property fullPort = desc.property(GLOBAL_OWL_TYPE, "Block_fullPort");
+        Property genericPort = desc.property(GLOBAL_OWL_TYPE, "Block_port");
+		for (Port port : block.getOwnedPort()) {
+            joker = sysml.standardName(port);
+			if (MDSysMLModelHandler.isSysMLElement(port, "ProxyPort")) {
+                rscPort = desc.resource("proxyports", joker, output);
+                rscBlock.addProperty(proxyPort, rscPort);
+                LOG.log(Level.INFO, "\t\t[+] <ProxyPort>: {0}", rscPort.getURI());
+			} else if (MDSysMLModelHandler.isSysMLElement(port, "FullPort")) {
+                rscPort = desc.resource("fullports", joker, output);
+                rscBlock.addProperty(fullPort, rscPort);
+                LOG.log(Level.INFO, "\t\t[+] <FullPort>: {0}", rscPort.getURI());
+			} else if (port instanceof com.nomagic.uml2.ext.magicdraw.compositestructures.mdports.Port) {
+                rscPort = desc.resource("ports", joker, output);
+                rscBlock.addProperty(genericPort, rscPort);
+                LOG.log(Level.INFO, "\t\t[+] <BlockPort>: {0}", rscPort.getURI());
+			} else {
+                continue;
+            }
+            rscPort.addLiteral(elementName, port.getName());
+            LOG.log(Level.INFO, "\t\t\t\tname: {0}", port.getName());
+            propertyType = port.getType();
+            if (propertyType != null) {
+                if (MDSysMLModelHandler.isSysMLElement(propertyType, "Block"))
+                    joker = "blocks";
+                else if (MDSysMLModelHandler.isSysMLElement(propertyType, "InterfaceBlock"))
+                    joker = "interfaceblocks";
+                else
+                    joker = "unknown";
+                joker = desc.resource(joker, sysml.standardName(propertyType));
+                rscPort.addProperty(type, output.createResource(joker));
+                LOG.log(Level.INFO, "\t\t\t\ttype: {0}", joker);
+            }
+            rscPort.addProperty(isService, String.valueOf(port.isService()));
+            LOG.log(Level.INFO, "\t\t\t\tisService: {0}", port.isService());
+            rscPort.addProperty(isBehavior, String.valueOf(port.isBehavior()));
+            LOG.log(Level.INFO, "\t\t\t\tisBehavior: {0}", port.isBehavior());
+            rscPort.addProperty(isConjugated, String.valueOf(port.isConjugated()));
+            LOG.log(Level.INFO, "\t\t\t\tisConjugated: {0}", port.isConjugated());
+            rscPort.addProperty(lowerMult, Integer.toString(port.getLower()));
+            LOG.log(Level.INFO, "\t\t\t\tlower: {0}", port.getLower());
+            rscPort.addProperty(upperMult, Integer.toString(port.getUpper()));
+            LOG.log(Level.INFO, "\t\t\t\tupper: {0}", port.getUpper());
+            rscPort.addProperty(owner, rscBlock);
+            LOG.log(Level.INFO, "\t\t\t\towner: {0}", rscBlock.getURI());
+		}
+    }
+
 	private void buildBlocks(SysMLModel sysml, Model output, ModelDescriptor desc) {
         String joker;
         Resource resource;
@@ -339,7 +397,7 @@ public class SysMLRDFBuilder {
                 }
                 buildStereoTypedProperties(sysml, block, resource, output, desc);
                 buildConnectors(sysml, block, resource, output, desc);
-                //mapSysMLPorts(mdSysMLBlock, sysMLBlock);
+                buildPorts(sysml, block, resource, output, desc);
             }
         }
    	}
