@@ -22,11 +22,21 @@ public class ModelDescriptor {
      * @see #getIdProperty(java.lang.String)
      */
     public static final String GENERAL_ID_PROPERTY = "#MD5";
+    /**
+     * Becomes an input string into a path.
+     * @param token the input string.
+     * @return the input string with a trailing forward slash.
+     */
+    static String path(String token) {
+        return token.endsWith("/") ? token : token + "/";
+    }
 
     private final String type;
     private final String basePath;
     private final String resourcesPath;
     private final String vocabularyPath;
+    private final String vocabBaseURI;
+    private final String resourcesBaseURI;
     private final Map<String, String> vocabPrefixes;
     private final Map<String, String> typesIDproperties;
     private final MetaInformation meta;
@@ -41,11 +51,13 @@ public class ModelDescriptor {
      */
     public ModelDescriptor(MetaInformation meta, String path, String type,
             String resources, String vocabulary) {
+        this.vocabularyPath = path(Objects.requireNonNull(vocabulary));
+        this.resourcesPath = path(Objects.requireNonNull(resources));
+        this.basePath = path(Objects.requireNonNull(path));
         this.type = Objects.requireNonNull(type);
         this.meta = Objects.requireNonNull(meta);
-        this.vocabularyPath = Objects.requireNonNull(vocabulary);
-        this.resourcesPath = Objects.requireNonNull(resources);
-        this.basePath = Objects.requireNonNull(path);
+        this.resourcesBaseURI = this.basePath + this.resourcesPath;
+        this.vocabBaseURI = this.resourcesBaseURI + this.vocabularyPath;
         this.typesIDproperties = new HashMap<>();
         this.vocabPrefixes = new HashMap<>();
     }
@@ -102,8 +114,7 @@ public class ModelDescriptor {
      */
     public ModelDescriptor(MetaInformation meta, URL url, String vocabulary) {
         StringBuilder sb = new StringBuilder(url.getProtocol());
-        String services = "rest/", paths[] = url.getPath().split("/");
-        String type = "model";
+        String paths[] = url.getPath().split("/");
         sb.append("://");
         sb.append(url.getAuthority());
         sb.append('/');
@@ -111,19 +122,15 @@ public class ModelDescriptor {
             sb.append(paths[1]);
             sb.append('/');
         }
-        if (paths.length > 2) {
-            services = paths[2] + "/";
-        }
-        if (paths.length > 3) {
-            type = paths[3];
-        }
-        this.meta = Objects.requireNonNull(meta);
-        this.vocabularyPath = Objects.requireNonNull(vocabulary);
-        this.resourcesPath = services;
+        this.vocabularyPath = path(Objects.requireNonNull(vocabulary));
+        this.resourcesPath = paths.length > 2 ? path(paths[2]) : "rest/";
         this.basePath = sb.toString();
+        this.type = paths.length > 3 ? paths[3] : "model";
+        this.meta = Objects.requireNonNull(meta);
+        this.resourcesBaseURI = this.basePath + this.resourcesPath;
+        this.vocabBaseURI = this.resourcesBaseURI + this.vocabularyPath;
         this.typesIDproperties = new HashMap<>();
         this.vocabPrefixes = new HashMap<>();
-        this.type = type;
     }
     /**
      * Creates an instance with a default {@code vocab/} vocabulary path and an
@@ -136,11 +143,25 @@ public class ModelDescriptor {
         this(meta, url, "vocab/");
     }
     /**
+     * Gets the meta building information of this descriptor.
+     * @return the meta building information of this descriptor.
+     */
+    public MetaInformation getMeta() {
+        return meta;
+    }
+    /**
      * Gets the base path defined in this descriptor.
      * @return defined base path.
      */
     public String getBasePath() {
         return basePath;
+    }
+    /**
+     * Gets the inner type of this instance as a reasource.
+     * @return the inner type if this instance as a resource.
+     */
+    public String getType() {
+        return type;
     }
     /**
      * Gets the resources path part defined in this descriptor.
@@ -157,11 +178,18 @@ public class ModelDescriptor {
         return vocabularyPath;
     }
     /**
-     * Gets the inner type of this instance as a reasource.
-     * @return the inner type if this instance as a resource.
+     * Gets the base URI for resources.
+     * @return the base URI for resources.
      */
-    public String getType() {
-        return type;
+    public String getResourcesBaseURI() {
+        return resourcesBaseURI;
+    }
+    /**
+     * Gets the base URI for vocabulary resources.
+     * @return the base URI for vocabulary resources.
+     */
+    public String getVocabBaseURI() {
+        return vocabBaseURI;
     }
     /**
      * Gets a read-only version of all vocabulary prefixes map. To register a
@@ -208,7 +236,7 @@ public class ModelDescriptor {
      * @return a vocabulary namespace.
      */
     public String vocabulary(String type) {
-        String URI = basePath + vocabularyPath;
+        String URI = vocabBaseURI;
         if (type != null && !type.isEmpty()) {
             URI = URI + type + "#";
             vocabPrefixes.put(type, URI);
@@ -218,6 +246,14 @@ public class ModelDescriptor {
         return URI;
     }
     /**
+     * Adds a custom vocabulary prefix.
+     * @param prefix the vocabulary prefix.
+     * @param uri the vocabulary URI.
+     */
+    void addVocabularyPrefix(String prefix, String uri) {
+        vocabPrefixes.put(prefix, uri);
+    }
+    /**
      * Builds a resource URI given its type and id.
      * @param type the simple resource type name.
      * @param ID the resource id.
@@ -225,7 +261,7 @@ public class ModelDescriptor {
      * @throws NullPointerException if {@code type} or {@code ID} are null.
      */
     public String resource(String type, String ID) {
-        type = basePath + resourcesPath + Objects.requireNonNull(type);
+        type = resourcesBaseURI + Objects.requireNonNull(type);
         return type + "/" + Objects.requireNonNull(ID);
     }
     /**
@@ -236,6 +272,9 @@ public class ModelDescriptor {
      * @return a created o gotten resource.
      */
     public Resource resource(String type, String ID, Model model) {
+        //Uncomment this when test are ready
+        //Resource rscType = model.createResource(vocabulary(type));
+        //return model.createResource(resource(type, ID), rscType);
         return model.createResource(resource(type, ID));
     }
     /**
@@ -269,7 +308,7 @@ public class ModelDescriptor {
                 me.addLiteral(model.createProperty(property.getKey()), property.getValue());
             }
             for(Map.Entry<String, String> vocabulary : vocabularies.entrySet()) {
-                vocabPrefixes.put(vocabulary.getKey(), vocabulary.getValue());
+                addVocabularyPrefix(vocabulary.getKey(), vocabulary.getValue());
             }
         }
     }
