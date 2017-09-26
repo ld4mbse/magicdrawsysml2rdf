@@ -95,16 +95,19 @@ public class Executor {
         MetaInformation meta = getMetaInformation(command);
         String mdzipFile = command.getOptionValue(Args.mdzip.name());
         String target = command.getOptionValue(Args.target.name());
+        String baseURI = command.getOptionValue(Args.base.name());
+        String restPath = command.getOptionValue(Args.rest.name());
+        String vocabPath = command.getOptionValue(Args.vocab.name());
         if (target == null) {
             buffer = new ByteArrayOutputStream();
-            descriptor = new ModelDescriptor(meta);
+            descriptor = new ModelDescriptor(meta, baseURI, restPath, vocabPath);
             writer = new StreamModelWriter(buffer);
         } else {
             if (target.startsWith("http")) {
                 writer = new HttpModelWriter(target, meta.getID());
-                descriptor = new ModelDescriptor(meta, ((HttpModelWriter)writer).getTarget());
+                descriptor = new ModelDescriptor(meta, ((HttpModelWriter)writer).getTarget(), vocabPath);
             } else {
-                descriptor = new ModelDescriptor(meta);
+                descriptor = new ModelDescriptor(meta, baseURI, restPath, vocabPath);
                 writer = new FileModelWriter(target);
             }
         }
