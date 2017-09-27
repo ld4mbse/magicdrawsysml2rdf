@@ -111,11 +111,13 @@ public class ModelDescriptor {
      * Creates an instance from an example URL and a vocabulary path.
      * @param meta the meta-information to be added.
      * @param url example URL.
-     * @param vocabulary the vocabulary path.
+     * @param resources the resources path part.
+     * @param vocabulary the vocabulary path part.
      * @throws NullPointerException if {@code meta} or {@code url} are
      * {@code null}.
      */
-    public ModelDescriptor(MetaInformation meta, URL url, String vocabulary) {
+    public ModelDescriptor(MetaInformation meta, URL url, String resources,
+            String vocabulary) {
         StringBuilder sb = new StringBuilder(url.getProtocol());
         String paths[] = url.getPath().split("/");
         sb.append("://");
@@ -126,12 +128,12 @@ public class ModelDescriptor {
             sb.append('/');
         }
         this.vocabularyPath = vocabulary == null ? DEFAULT_VOCAB_PATH : path(vocabulary);
-        this.resourcesPath = paths.length > 2 ? path(paths[2]) : DEFAULT_RESOURCES_PATH;
+        this.resourcesPath = resources == null ? DEFAULT_RESOURCES_PATH : path(resources);
         this.basePath = sb.toString();
         this.resourcesBaseURI = this.basePath + this.resourcesPath;
         this.vocabBaseURI = this.resourcesBaseURI + this.vocabularyPath;
         this.meta = Objects.requireNonNull(meta);
-        this.type = meta.isTypeUserDefined() || paths.length <= 3 ? meta.getType() : paths[3];
+        this.type = meta.getType();
         this.typesIDproperties = new HashMap<>();
         this.vocabPrefixes = new HashMap<>();
     }
@@ -140,10 +142,21 @@ public class ModelDescriptor {
      * example URL.
      * @param meta the meta-information to be added.
      * @param url example URL.
+     * @param resources the resources path part.
+     * @throws NullPointerException if {@code url} is {@code null}.
+     */
+    public ModelDescriptor(MetaInformation meta, URL url, String resources) {
+        this(meta, url, resources, DEFAULT_VOCAB_PATH);
+    }
+    /**
+     * Creates an instance with an example URL.
+     * @param meta the meta-information to be added.
+     * @param url example URL.
+     * @param resources the resources path part.
      * @throws NullPointerException if {@code url} is {@code null}.
      */
     public ModelDescriptor(MetaInformation meta, URL url) {
-        this(meta, url, DEFAULT_VOCAB_PATH);
+        this(meta, url, DEFAULT_RESOURCES_PATH);
     }
     /**
      * Gets the meta building information of this descriptor.

@@ -105,7 +105,7 @@ public class Executor {
         } else {
             if (target.startsWith("http")) {
                 writer = new HttpModelWriter(target, meta.getID());
-                descriptor = new ModelDescriptor(meta, ((HttpModelWriter)writer).getTarget(), vocabPath);
+                descriptor = new ModelDescriptor(meta, ((HttpModelWriter)writer).getTarget(), restPath, vocabPath);
             } else {
                 descriptor = new ModelDescriptor(meta, baseURI, restPath, vocabPath);
                 writer = new FileModelWriter(target);
