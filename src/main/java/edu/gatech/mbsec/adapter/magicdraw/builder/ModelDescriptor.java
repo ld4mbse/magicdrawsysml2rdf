@@ -50,7 +50,7 @@ public class ModelDescriptor {
      */
     static String vocab(String token) {
         if (token.startsWith("/")) token = token.substring(1);
-        return token.endsWith("#") ? token : token + "#";
+        return token.endsWith("#") || token.endsWith("/") ? token : token + "#";
     }
 
     private final String type;
