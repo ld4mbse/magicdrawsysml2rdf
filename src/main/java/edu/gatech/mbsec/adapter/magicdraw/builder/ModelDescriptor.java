@@ -133,7 +133,7 @@ public class ModelDescriptor {
             sb.append(paths[1]);
             sb.append('/');
         }
-        this.vocabularyPath = vocabulary == null ? DEFAULT_VOCAB_PATH : path(vocabulary);
+        this.vocabularyPath = vocab(vocabulary == null ? DEFAULT_VOCAB_PATH : vocabulary);
         this.resourcesPath = resources == null ? DEFAULT_RESOURCES_PATH : path(resources);
         this.basePath = sb.toString();
         this.resourcesBaseURI = this.basePath + this.resourcesPath;
@@ -276,13 +276,27 @@ public class ModelDescriptor {
      * @param type the simple resource type name.
      * @param ID the resource id.
      * @param model the underlaying resource's model.
+     * @param addTypeProperty whether to add or not an RDF.type property.
+     * @return a created o gotten resource.
+     */
+    public Resource resource(String type, String ID, Model model,
+            boolean addTypeProperty) {
+        if (addTypeProperty) {
+            Resource rscType = model.createResource(vocabBaseURI + type);
+            return model.createResource(resource(type, ID), rscType);
+        } else
+            return model.createResource(resource(type, ID));
+    }
+    /**
+     * Creates or gets a resource given its type and id over a {@link Model}.
+     * This method is equivalent to {@code resource(type, ID, model, true)}.
+     * @param type the simple resource type name.
+     * @param ID the resource id.
+     * @param model the underlaying resource's model.
      * @return a created o gotten resource.
      */
     public Resource resource(String type, String ID, Model model) {
-        //Uncomment this when test are ready
-        //Resource rscType = model.createResource(vocabulary(type));
-        //return model.createResource(resource(type, ID), rscType);
-        return model.createResource(resource(type, ID));
+        return resource(type, ID, model, true);
     }
     /**
      * Creates or gets the underlying resource of this instance.
