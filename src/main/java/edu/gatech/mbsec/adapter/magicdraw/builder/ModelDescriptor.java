@@ -23,10 +23,6 @@ public class ModelDescriptor {
      */
     public static final String GENERAL_ID_PROPERTY = "#MD5";
     /**
-     * Vocabulary prefix for the vocabulary root URL.
-     */
-    public static final String VOCAB_PREFIX = "vocab";
-    /**
      * Default base path prefix.
      */
     public static final String DEFAULT_BASE_PATH = "http://localhost:8080/";
@@ -37,7 +33,7 @@ public class ModelDescriptor {
     /**
      * Default vocabulary path prefix.
      */
-    public static final String DEFAULT_VOCAB_PATH = VOCAB_PREFIX + "/";
+    public static final String DEFAULT_VOCAB_PATH = "vocab";
     /**
      * Becomes an input string into a path.
      * @param token the input string.
@@ -46,6 +42,15 @@ public class ModelDescriptor {
     static String path(String token) {
         if (token.startsWith("/")) token = token.substring(1);
         return token.endsWith("/") ? token : token + "/";
+    }
+    /**
+     * Becomes an input string into a vocabulary path.
+     * @param token the input string.
+     * @return the input string with a trailing sign number.
+     */
+    static String vocab(String token) {
+        if (token.startsWith("/")) token = token.substring(1);
+        return token.endsWith("#") ? token : token + "#";
     }
 
     private final String type;
@@ -67,15 +72,16 @@ public class ModelDescriptor {
      */
     public ModelDescriptor(MetaInformation meta, String path, String resources,
             String vocabulary) {
-        this.vocabularyPath = vocabulary == null ? DEFAULT_VOCAB_PATH : path(vocabulary);
+        this.vocabularyPath = vocab(vocabulary == null ? DEFAULT_VOCAB_PATH : vocabulary);
         this.resourcesPath = resources == null ? DEFAULT_RESOURCES_PATH : path(resources);
         this.basePath = path == null ? DEFAULT_BASE_PATH : path(path);
         this.resourcesBaseURI = this.basePath + this.resourcesPath;
-        this.vocabBaseURI = this.resourcesBaseURI + this.vocabularyPath;
+        this.vocabBaseURI = this.basePath + this.vocabularyPath;
         this.meta = Objects.requireNonNull(meta);
         this.type = meta.getType();
         this.typesIDproperties = new HashMap<>();
         this.vocabPrefixes = new HashMap<>();
+        this.vocabPrefixes.put(DEFAULT_VOCAB_PATH, vocabBaseURI);
     }
     /**
      * Creates an instance with a {@link #DEFAULT_VOCAB_PATH}.
@@ -131,11 +137,12 @@ public class ModelDescriptor {
         this.resourcesPath = resources == null ? DEFAULT_RESOURCES_PATH : path(resources);
         this.basePath = sb.toString();
         this.resourcesBaseURI = this.basePath + this.resourcesPath;
-        this.vocabBaseURI = this.resourcesBaseURI + this.vocabularyPath;
+        this.vocabBaseURI = this.basePath + this.vocabularyPath;
         this.meta = Objects.requireNonNull(meta);
         this.type = meta.getType();
         this.typesIDproperties = new HashMap<>();
         this.vocabPrefixes = new HashMap<>();
+        this.vocabPrefixes.put(DEFAULT_VOCAB_PATH, vocabBaseURI);
     }
     /**
      * Creates an instance with a {@link #DEFAULT_VOCAB_PATH} and an
@@ -152,7 +159,6 @@ public class ModelDescriptor {
      * Creates an instance with an example URL.
      * @param meta the meta-information to be added.
      * @param url example URL.
-     * @param resources the resources path part.
      * @throws NullPointerException if {@code url} is {@code null}.
      */
     public ModelDescriptor(MetaInformation meta, URL url) {
@@ -247,21 +253,6 @@ public class ModelDescriptor {
         typesIDproperties.clear();
     }
     /**
-     * Builds a vocabulary namespace given a resource type.
-     * @param type the resource type.
-     * @return a vocabulary namespace.
-     */
-    public String vocabulary(String type) {
-        String URI = vocabBaseURI;
-        if (type != null && !type.isEmpty()) {
-            URI = URI + type + "#";
-            addVocabularyPrefix(type, URI);
-        } else {
-            addVocabularyPrefix(VOCAB_PREFIX, URI);
-        }
-        return URI;
-    }
-    /**
      * Adds a custom vocabulary prefix.
      * @param prefix the vocabulary prefix.
      * @param uri the vocabulary URI.
@@ -308,8 +299,7 @@ public class ModelDescriptor {
      * @return the property.
      */
     public Property property(String type, String name) {
-        String URI = vocabulary(type) + name;
-        return ResourceFactory.createProperty(URI);
+        return ResourceFactory.createProperty(vocabBaseURI + name);
     }
     /**
      * Customizes a model withe the {@link MetaInformation}.

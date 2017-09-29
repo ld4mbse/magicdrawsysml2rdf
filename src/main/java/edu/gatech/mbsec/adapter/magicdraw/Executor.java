@@ -111,7 +111,7 @@ public class Executor {
                 writer = new FileModelWriter(target);
             }
         }
-        customizer = new OSLCVocabularyCustomizer(descriptor.vocabulary(null), "getRdfTypes");
+        customizer = new OSLCVocabularyCustomizer(descriptor.getVocabBaseURI(), "getRdfTypes");
         customizer.customize("edu.gatech.mbsec.adapter.magicdraw.resources");
         model = getModel(mdzipFile, descriptor);
         writer.write(model, language);
