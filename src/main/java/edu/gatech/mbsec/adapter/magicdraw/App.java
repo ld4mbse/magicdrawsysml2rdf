@@ -1,12 +1,9 @@
 package edu.gatech.mbsec.adapter.magicdraw;
 
 import edu.gatech.mbsec.adapter.magicdraw.builder.Vocabularies;
-import com.nomagic.runtime.ApplicationExitedException;
-import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintStream;
 import java.net.MalformedURLException;
 import java.util.Map;
 import java.util.Set;
@@ -103,10 +100,9 @@ public class App {
     /**
      * The main entry point.
      * @param args console arguments.
-     * @throws com.nomagic.runtime.ApplicationExitedException
      */
     @SuppressWarnings("UseSpecificCatch")
-    public static void main(String[] args) throws ApplicationExitedException {
+    public static void main(String[] args) {
         CommandLine command;
         Options options = getOptions();
         CommandLineParser parser = new DefaultParser();

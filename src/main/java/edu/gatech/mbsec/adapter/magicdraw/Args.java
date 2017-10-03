@@ -16,15 +16,15 @@ public enum Args {
     /**
      * The vocabulary path prefix.
      */
-    vocab("vocabulary path prefix (vocab/ by default)", false, "path"),
+    vocab("vocabulary path part (vocab# by default)", false, "path"),
     /**
      * The base URL prefix.
      */
-    base("base URL prefix (http://localhost:8080 by default)", false, "URL"),
+    base("base URL prefix (http://localhost:8080/ by default)", false, "URL"),
     /**
      * The rest services path prefix.
      */
-    rest("rest services path prefix (rest/ by default)", false, "path"),
+    rest("rest services path part (rest/ by default)", false, "path"),
     /**
      * The meta information to be added.
      */

@@ -304,7 +304,7 @@ public class ModelDescriptor {
      * @return a created o gotten resource related to this instance.
      */
     public Resource me(Model model) {
-        return model.createResource(resource(type, meta.getID()));
+        return resource(type, meta.getID(), model);
     }
     /**
      * Builds a {@link Property} for a given resource type.

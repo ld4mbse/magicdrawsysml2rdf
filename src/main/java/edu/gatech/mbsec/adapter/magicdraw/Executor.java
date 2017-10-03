@@ -4,7 +4,6 @@ import edu.gatech.mbsec.adapter.magicdraw.builder.MetaInformation;
 import edu.gatech.mbsec.adapter.magicdraw.builder.Vocabularies;
 import edu.gatech.mbsec.adapter.magicdraw.builder.ModelDescriptor;
 import com.hp.hpl.jena.rdf.model.Model;
-import com.nomagic.runtime.ApplicationExitedException;
 import edu.gatech.mbsec.adapter.magicdraw.builder.OSLC4JMagicDrawApplication;
 import edu.gatech.mbsec.adapter.magicdraw.util.OSLCVocabularyCustomizer;
 import edu.gatech.mbsec.adapter.magicdraw.writer.FileModelWriter;
@@ -28,6 +27,19 @@ public class Executor {
      * Logger of this class.
      */
     private static final Logger LOG = Logger.getLogger(Executor.class.getName());
+    /**
+     * Determines whether MagicDraw libreries have been loaded.
+     * @return {@code true} if MD libraries are available; {@code false}
+     * otherwise.
+     */
+    private static boolean isMDLoaded() {
+        try {
+            Class.forName("com.nomagic.runtime.ApplicationExitedException");
+            return true;
+        } catch(ClassNotFoundException ex) {
+            return false;
+        }
+    }
     /**
      * Gets the available RDF languages.
      * @param toLowerCase indicates whether names should be on lowercase.
@@ -119,8 +131,12 @@ public class Executor {
             LOG.info(buffer.toString("UTF-8"));
         }
     }
-
-    public static void finish() throws ApplicationExitedException {
-        OSLC4JMagicDrawApplication.finish();
+    /**
+     * Finishes the execution of this application.
+     */
+    public static void finish() {
+        if (isMDLoaded()) {
+            OSLC4JMagicDrawApplication.finish();
+        }
     }
 }

@@ -66,9 +66,13 @@ public class OSLC4JMagicDrawApplication {
         }
 	}
 
-    public static void finish() throws ApplicationExitedException {
-        if (MagicDrawManager.magicdrawApplication != null) {
-            MagicDrawManager.magicdrawApplication.shutdown();
+    public static void finish() {
+        try {
+            if (MagicDrawManager.magicdrawApplication != null) {
+                MagicDrawManager.magicdrawApplication.shutdown();
+            }
+        } catch(ApplicationExitedException ex) {
+            throw new IllegalStateException("Could not stop MagicDraw app", ex);
         }
     }
 
