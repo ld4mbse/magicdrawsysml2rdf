@@ -3,9 +3,9 @@ A (MagicDraw) SysML to RDF converter.
 This project depends on the [MagicDraw](https://www.nomagic.com/products/magicdraw)
 libraries to convert `.mdzip` files to RDF representations (tested with version **18.0.SP6**).
 
-1. Prerequisites
-----------------
-###1.1 Software
+# 1. Prerequisites
+
+### 1.1 Software
 To get an executable component of this project you will need to have the
 following software installed:
 
@@ -15,18 +15,18 @@ following software installed:
 | [Java JDK](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) | 1.7     |
 | [Apache Maven](http://maven.apache.org/download.cgi)                                            | 3.3.1   |
 
-###1.2 Configuration
+### 1.2 Configuration
 
 Be sure to have below environment variables properly set in your system.
 
 | Variable               | Value                             |
-| _----------------------|-----------------------------------|
+| -----------------------|-----------------------------------|
 | `JAVA_HOME` | Java JDK installation directory.  |
 | `M2_HOME`   | Maven installation directory.     |
 
 2. Setting up the environment
 -----------------------------
-###2.1 Installing MagicDraw.
+### 2.1 Installing MagicDraw.
 
 As MagicDraw libraries are proprietary, and therefore they are not in any public
 maven repository, it's up to the user of this project to get the product with a
@@ -35,11 +35,11 @@ this project please skip this step, otherwise buy or download the trial version
 from their [site](https://www.nomagic.com/products/magicdraw)
 and proceed with the default installation.
 
-###2.2 Installing MagicDraw's SysML plugin.
+### 2.2 Installing MagicDraw's SysML plugin.
 Open the MagicDraw software and add the **SysML** plug-in following
 the instructions [here](https://www.nomagic.com/support/installation-and-use/plugins-and-profiles-install/sysml-plugin)
 
-###2.3 Installing the **`oslc4j`** project.
+### 2.3 Installing the **`oslc4j`** project.
 This project depends on an open-source project whose package is not yet on a
 maven public repository. So you need to:
 
@@ -51,7 +51,7 @@ maven public repository. So you need to:
 6. Once there, get inside the `org.eclipse.lyo.oslc4j.build` directory.
 7. Being there, execute: `mvn install`
 
-###2.4 Installing the **`oslc4j-magicdraw-resources`** project.
+### 2.4 Installing the **`oslc4j-magicdraw-resources`** project.
 Same as before, you will need to:
 
 1. Open a console terminal.
@@ -106,7 +106,7 @@ arguments explained later are and work the same for both files. If some
 argument's value contains spaces, you will need to enclose that value with
 quotes. Unix/Linux users do not forget to grant execution permission to the file.
 
-###5.1 Requesting help
+### 5.1 Requesting help
 The simplest form of execution is to request the help screen:
 ```
 magicdrawsysml2rdf.bat -help
@@ -159,7 +159,7 @@ usage: magicdrawsysml2rdf(.sh|.bat) (<MagicDraw Path> | -help) <options>
 <db:http://jena.hpl.hp.com/2003/04/DB#>
 ```
 
-###5.2 Default conversion
+### 5.2 Default conversion
 When the `-help` argument is not present, there are two mandatory
 arguments: the MagicDraw installation path and the input file to convert. To
 specify the file to convert you use the `-mdzip` argument. To set up
@@ -172,7 +172,7 @@ Without any other argument, the default output format will be
 [Turtle](https://www.w3.org/TR/turtle/) and the output will be redirected to
 the standard console.
 
-###5.3 Changing the default format
+### 5.3 Changing the default format
 To select a different output format from the available ones, use the
 `-format` argument:
 ```
@@ -180,7 +180,7 @@ magicdrawsysml2rdf.bat "C:\Program Files\MagicDraw" -mdzip myModel.mdzip -format
 ```
 The value for the `-format` argument is case insensitive.
 
-###5.4 Redirecting output to a different target
+### 5.4 Redirecting output to a different target
 You can send the output to a file, or to a remote rdf store server, if you use
 the `-target` argument.
 ```
@@ -196,7 +196,7 @@ When the remote rdf store server option is used, `magicdrawsysml2rdf` will:
 * Expect a response status code to render it to the user.
 * In case of a success status code, expect the `Location` header with the final URL assigned to the sent data.</ul>
 
-###5.5 Adding meta-data to the conversion output
+### 5.5 Adding meta-data to the conversion output
 Sometimes you may want to add extra data to the converted output, data that may
 provide information about the original information, that is meta-data. As
 examples we can mention the date of the conversion, or maybe a revision number.
@@ -222,7 +222,7 @@ corresponding to the meta-resource generated for this case:
 </rdf:Description>
 ```
 
-###5.6 Identifying the meta-resource
+### 5.6 Identifying the meta-resource
 By default, a hash number is generated to identify the meta-resource:
 ```
 <rdf:Description rdf:about="http://localhost:8080/rest/model/80f4b1f9fb595eafb6ba3bea900830a2">
@@ -248,7 +248,7 @@ is the one that is always used to set the `Slug` header value. In other words,
 with this property you can control the final URL that your data will have in a
 remote location.
 
-###5.7 Control the meta-resource type
+### 5.7 Control the meta-resource type
 By default, the meta-resource will have an `rdf:type` equals to
 `http://localhost:8080/vocab#model` which is the *default* base URL
 (`http://localhost:8080/`) plus the *default* vocabulary URL path part
@@ -267,7 +267,7 @@ to produce:
 </rdf:Description>
 ```
 
-###5.8 Adding custom namespaces/prefixes
+### 5.8 Adding custom namespaces/prefixes
 `magicdrawsysml2rdf` [knows several namespaces/prefixes](#markdown-header-4.1-requesting-help) you can use to
 define meta-properties. When you are defining meta-properties, you just need to
 use some of these prefixes and `magicdrawsysml2rdf` will resolve the
@@ -281,7 +281,7 @@ magicdrawsysml2rdf.bat "C:\Program Files\MagicDraw" -mdzip myModel.mdzip -format
 The meta-property `myProp` now will be accepted because its
 prefix can be resolved to the `http://example.com/` namespace.
 
-###5.9 Customizing the base URL
+### 5.9 Customizing the base URL
 The default base URL (`http://localhost:8080/`) can also be customized by using
 the `-base` argument:
 ```
@@ -301,7 +301,7 @@ Please notice that:
 * The `-base` argument is not considered when using a remote RDF store location as target.
 In this cases, the same URL base of the remote location is the one that is used.
 
-###5.10 Customizing the service URL path part.
+### 5.10 Customizing the service URL path part.
 From the meta-resource URL:
 ```
 <rdf:Description rdf:about="http://example.com/rest/myType/myData">
@@ -321,7 +321,7 @@ which will produce:
 ```
 Notice that this change applies to all resources, not to only the meta-resource.
 
-###5.11 Customizing the vocabulary URL path part.
+### 5.11 Customizing the vocabulary URL path part.
 Vocabulary URLs are constituted with the base URL plus the `vocab#` path part
 and the specific type or property you want to refer. You can configure the
 `vocab#` path part by using `-vocab` argument:
