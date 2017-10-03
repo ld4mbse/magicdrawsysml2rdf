@@ -24,8 +24,8 @@ Be sure to have below environment variables properly set in your system.
 | `JAVA_HOME` | Java JDK installation directory.  |
 | `M2_HOME`   | Maven installation directory.     |
 
-2. Setting up the environment
------------------------------
+# 2. Setting up the environment
+
 ### 2.1 Installing MagicDraw.
 
 As MagicDraw libraries are proprietary, and therefore they are not in any public
@@ -62,8 +62,8 @@ Same as before, you will need to:
 6. Once there, get inside the `edu.gatech.mbsec.adapter.magicdraw.resources` directory.
 7. Being there, execute: `mvn install`
 
-3. Getting the source code.
------------------------------
+# 3. Getting the source code.
+
 Finally it's time to get this project's code.
 
 1. On a console terminal, choose or create a directory to clone this project's code.
@@ -73,8 +73,8 @@ Finally it's time to get this project's code.
 A new `magicdrawsysml2rdf` directory will be created in your
 location. This will be the **project's home directory**.
 
-4. Customizing and building your copy.
---------------------------------------
+# 4. Customizing and building your copy.
+
 In order to compile this project's code, you will need to tell maven where you
 got MagicDraw installed.
 
@@ -97,8 +97,8 @@ include the MagicDraw libraries inside it. Any user wanting to execute this
 component on her/his own computer will need to specify the directory of her/his
 own copy of the MagicDraw software in order to work.
 
-5. Executing the conversion tool.
---------------------------------------
+# 5. Executing the conversion tool.
+
 The three files listed above need to be always on the same directory, and you
 can execute the `.sh` file if you are in a unix/linux distribution,
 or the `.bat` file if you are in a Windows distribution. The
