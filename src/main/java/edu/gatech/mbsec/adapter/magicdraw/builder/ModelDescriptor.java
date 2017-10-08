@@ -2,8 +2,10 @@ package edu.gatech.mbsec.adapter.magicdraw.builder;
 
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.Property;
+import com.hp.hpl.jena.rdf.model.ResIterator;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.rdf.model.ResourceFactory;
+import com.hp.hpl.jena.vocabulary.RDFS;
 import java.net.URL;
 import java.util.Collections;
 import java.util.HashMap;
@@ -35,6 +37,10 @@ public class ModelDescriptor {
      */
     public static final String DEFAULT_VOCAB_PATH = "vocab";
     /**
+     * This RDF type equivalent to this class.
+     */
+    public static final Resource TYPE = RDFS.Container;
+    /**
      * Becomes an input string into a path.
      * @param token the input string.
      * @return the input string with a trailing forward slash.
@@ -53,7 +59,6 @@ public class ModelDescriptor {
         return token.endsWith("#") || token.endsWith("/") ? token : token + "#";
     }
 
-    private final String type;
     private final String basePath;
     private final String resourcesPath;
     private final String vocabularyPath;
@@ -72,16 +77,26 @@ public class ModelDescriptor {
      */
     public ModelDescriptor(MetaInformation meta, String path, String resources,
             String vocabulary) {
-        this.vocabularyPath = vocab(vocabulary == null ? DEFAULT_VOCAB_PATH : vocabulary);
+        String[] vocab;
+        if (vocabulary == null)
+            vocab = new String[] { DEFAULT_VOCAB_PATH, DEFAULT_VOCAB_PATH };
+        else if (vocabulary.contains(":")) {
+            vocab = vocabulary.split(":");
+            if (vocab.length != 2) {
+                vocabulary = "Invalid -vocab argument syntax: " + vocabulary;
+                throw new IllegalArgumentException(vocabulary);
+            }
+        } else
+            vocab = new String[] { DEFAULT_VOCAB_PATH, vocabulary };
+        this.vocabularyPath = vocab(vocab[1]);
         this.resourcesPath = resources == null ? DEFAULT_RESOURCES_PATH : path(resources);
         this.basePath = path == null ? DEFAULT_BASE_PATH : path(path);
         this.resourcesBaseURI = this.basePath + this.resourcesPath;
         this.vocabBaseURI = this.basePath + this.vocabularyPath;
         this.meta = Objects.requireNonNull(meta);
-        this.type = meta.getType();
         this.typesIDproperties = new HashMap<>();
         this.vocabPrefixes = new HashMap<>();
-        this.vocabPrefixes.put(DEFAULT_VOCAB_PATH, vocabBaseURI);
+        this.vocabPrefixes.put(vocab[0], vocabBaseURI);
     }
     /**
      * Creates an instance with a {@link #DEFAULT_VOCAB_PATH}.
@@ -125,7 +140,17 @@ public class ModelDescriptor {
     public ModelDescriptor(MetaInformation meta, URL url, String resources,
             String vocabulary) {
         StringBuilder sb = new StringBuilder(url.getProtocol());
-        String paths[] = url.getPath().split("/");
+        String[] vocab, paths = url.getPath().split("/");
+        if (vocabulary == null)
+            vocab = new String[] { DEFAULT_VOCAB_PATH, DEFAULT_VOCAB_PATH };
+        else if (vocabulary.contains(":")) {
+            vocab = vocabulary.split(":");
+            if (vocab.length != 2) {
+                vocabulary = "Invalid -vocab argument syntax: " + vocabulary;
+                throw new IllegalArgumentException(vocabulary);
+            }
+        } else
+            vocab = new String[] { DEFAULT_VOCAB_PATH, vocabulary };
         sb.append("://");
         sb.append(url.getAuthority());
         sb.append('/');
@@ -133,16 +158,15 @@ public class ModelDescriptor {
             sb.append(paths[1]);
             sb.append('/');
         }
-        this.vocabularyPath = vocab(vocabulary == null ? DEFAULT_VOCAB_PATH : vocabulary);
+        this.vocabularyPath = vocab(vocab[1]);
         this.resourcesPath = resources == null ? DEFAULT_RESOURCES_PATH : path(resources);
         this.basePath = sb.toString();
         this.resourcesBaseURI = this.basePath + this.resourcesPath;
         this.vocabBaseURI = this.basePath + this.vocabularyPath;
         this.meta = Objects.requireNonNull(meta);
-        this.type = meta.getType();
         this.typesIDproperties = new HashMap<>();
         this.vocabPrefixes = new HashMap<>();
-        this.vocabPrefixes.put(DEFAULT_VOCAB_PATH, vocabBaseURI);
+        this.vocabPrefixes.put(vocab[0], vocabBaseURI);
     }
     /**
      * Creates an instance with a {@link #DEFAULT_VOCAB_PATH} and an
@@ -177,13 +201,6 @@ public class ModelDescriptor {
      */
     public String getBasePath() {
         return basePath;
-    }
-    /**
-     * Gets the inner type of this instance as a reasource.
-     * @return the inner type if this instance as a resource.
-     */
-    public String getType() {
-        return type;
     }
     /**
      * Gets the resources path part defined in this descriptor.
@@ -304,15 +321,15 @@ public class ModelDescriptor {
      * @return a created o gotten resource related to this instance.
      */
     public Resource me(Model model) {
-        return resource(type, meta.getID(), model);
+        String type = TYPE.getLocalName().toLowerCase();
+        return model.createResource(resource(type, meta.getID()), TYPE);
     }
     /**
      * Builds a {@link Property} for a given resource type.
-     * @param type the resource type.
      * @param name the name of the property.
      * @return the property.
      */
-    public Property property(String type, String name) {
+    public Property property(String name) {
         return ResourceFactory.createProperty(vocabBaseURI + name);
     }
     /**
@@ -320,12 +337,21 @@ public class ModelDescriptor {
      * @param model the model to sign.
      */
     public void customize(Model model) {
-        Map<String, String> vocabularies = meta.getVocabularies();
+        ResIterator members;
+        Resource container, member;
         Map<String, String> properties = meta.getProperties();
+        Map<String, String> vocabularies = meta.getVocabularies();
         if (!properties.isEmpty()) {
-            Resource me = me(model);
+            container = me(model);
+            members = model.listSubjects();
+            while(members.hasNext()) {
+                member = members.next();
+                if (!member.equals(container)) {
+                    container.addProperty(RDFS.member, member);
+                }
+            }
             for(Map.Entry<String, String> property : properties.entrySet()) {
-                me.addLiteral(model.createProperty(property.getKey()), property.getValue());
+                container.addLiteral(model.createProperty(property.getKey()), property.getValue());
             }
             for(Map.Entry<String, String> vocabulary : vocabularies.entrySet()) {
                 addVocabularyPrefix(vocabulary.getKey(), vocabulary.getValue());

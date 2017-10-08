@@ -215,31 +215,38 @@ Last rule is needed because this meta-properties will shape a
 resource, its properties are URLs. Following is the example output
 corresponding to the meta-resource generated for this case:
 ```
-<rdf:Description rdf:about="http://localhost:8080/rest/model/80f4b1f9fb595eafb6ba3bea900830a2">
+<rdf:Description rdf:about="http://localhost:8080/rest/container/80f4b1f9fb595eafb6ba3bea900830a2">
   <dcterms:date rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2017-09-14</dcterms:date>
   <dcterms:hasVersion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1.0</dcterms:hasVersion>
-  <rdf:type rdf:resource="http://localhost:8080/vocab#model"/>
+  <rdfs:member rdf:resource="http://localhost:8080/rest/connectorends/SUV_Example_17_0_3_1_3a6018b_1370469533308_851130_14210"/>
+  ...
+  <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Container"/>
 </rdf:Description>
 ```
+Notice that:
+
+* The meta-resource is of type [rdfs:Container](http://www.w3.org/2000/01/rdf-schema#Container).
+* It contains all your defined meta-properties and besides...
+* It contains a reference to all the converted resources as members.
 
 ### 5.6 Identifying the meta-resource
 By default, a hash number is generated to identify the meta-resource:
 ```
-<rdf:Description rdf:about="http://localhost:8080/rest/model/80f4b1f9fb595eafb6ba3bea900830a2">
+<rdf:Description rdf:about="http://localhost:8080/rest/container/80f4b1f9fb595eafb6ba3bea900830a2">
 ```
-You can, however, customize this id by using a special property in the
-`-meta` argument:
+You can, however, customize this id by using a special property in the `-meta` argument:
 ```
 magicdrawsysml2rdf.bat "C:\Program Files\MagicDraw" -mdzip myModel.mdzip -format rdf/xml -meta dcterms:date=2017-09-14 dcterms:hasVersion=1.0 graph=myData
 ```
-This property is special because it is the only one, along with the `type`
-property, that do not require a namespace prefix. With the last modification,
-the meta-resource will look like:
+This property is special because it is the only one that do not require a
+namespace prefix. With the last modification, the meta-resource will look like:
 ```
-<rdf:Description rdf:about="http://localhost:8080/rest/model/myData">
+<rdf:Description rdf:about="http://localhost:8080/rest/container/myData">
   <dcterms:date rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2017-09-14</dcterms:date>
   <dcterms:hasVersion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1.0</dcterms:hasVersion>
-  <rdf:type rdf:resource="http://localhost:8080/vocab#model"/>
+  <rdfs:member rdf:resource="http://localhost:8080/rest/connectorends/SUV_Example_17_0_3_1_3a6018b_1370469533308_851130_14210"/>
+  ...
+  <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Container"/>
 </rdf:Description>
 ```
 The `graph` property is especially useful when you use a
@@ -248,26 +255,7 @@ is the one that is always used to set the `Slug` header value. In other words,
 with this property you can control the final URL that your data will have in a
 remote location.
 
-### 5.7 Control the meta-resource type
-By default, the meta-resource will have an `rdf:type` equals to
-`http://localhost:8080/vocab#model` which is the *default* base URL
-(`http://localhost:8080/`) plus the *default* vocabulary URL path part
-(`vocab#`) plus the default meta-resource type string: `model`.
-If you want to change this default meta-resource type string, you can use the
-other special `-meta` argument property, `type`:
-```
-magicdrawsysml2rdf.bat "C:\Program Files\MagicDraw" -mdzip myModel.mdzip -format rdf/xml -meta dcterms:date=2017-09-14 dcterms:hasVersion=1.0 graph=myData type=myType
-```
-to produce:
-```
-<rdf:Description rdf:about="http://localhost:8080/rest/myType/myData">
-  <dcterms:date rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2017-09-14</dcterms:date>
-  <dcterms:hasVersion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1.0</dcterms:hasVersion>
-  <rdf:type rdf:resource="http://localhost:8080/vocab#myType"/>
-</rdf:Description>
-```
-
-### 5.8 Adding custom namespaces/prefixes
+### 5.7 Adding custom namespaces/prefixes
 `magicdrawsysml2rdf` [knows several namespaces/prefixes](#markdown-header-4.1-requesting-help) you can use to
 define meta-properties. When you are defining meta-properties, you just need to
 use some of these prefixes and `magicdrawsysml2rdf` will resolve the
@@ -281,18 +269,20 @@ magicdrawsysml2rdf.bat "C:\Program Files\MagicDraw" -mdzip myModel.mdzip -format
 The meta-property `myProp` now will be accepted because its
 prefix can be resolved to the `http://example.com/` namespace.
 
-### 5.9 Customizing the base URL
-The default base URL (`http://localhost:8080/`) can also be customized by using
+### 5.8 Customizing the base URL
+The default base URL (`http://localhost:8080/`) can be customized by using
 the `-base` argument:
 ```
-magicdrawsysml2rdf.bat "C:\Program Files\MagicDraw" -mdzip myModel.mdzip -format rdf/xml -meta dcterms:date=2017-09-14 dcterms:hasVersion=1.0 graph=myData type=myType -base http://example.com/
+magicdrawsysml2rdf.bat "C:\Program Files\MagicDraw" -mdzip myModel.mdzip -format rdf/xml -meta dcterms:date=2017-09-14 dcterms:hasVersion=1.0 graph=myData -base http://example.com/
 ```
 to produce:
 ```
-<rdf:Description rdf:about="http://example.com/rest/myType/myData">
+<rdf:Description rdf:about="http://example.com/rest/container/myData">
   <dcterms:date rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2017-09-14</dcterms:date>
   <dcterms:hasVersion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1.0</dcterms:hasVersion>
-  <rdf:type rdf:resource="http://example.com/vocab#myType"/>
+  <rdfs:member rdf:resource="http://example.com/rest/connectorends/SUV_Example_17_0_3_1_3a6018b_1370469533308_851130_14210"/>
+  ...
+  <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Container"/>
 </rdf:Description>
 ```
 Please notice that:
@@ -301,39 +291,41 @@ Please notice that:
 * The `-base` argument is not considered when using a remote RDF store location as target.
 In this cases, the same URL base of the remote location is the one that is used.
 
-### 5.10 Customizing the service URL path part.
+### 5.9 Customizing the service URL path part.
 From the meta-resource URL:
 ```
-<rdf:Description rdf:about="http://example.com/rest/myType/myData">
+<rdf:Description rdf:about="http://example.com/rest/container/myData">
 ```
-you may notice we have configured everything except the `rest/` path part. You
-can configure this path part using the `-rest` argument:
+You can configure the `rest/` path part by using the `-rest` argument:
 ```
-magicdrawsysml2rdf.bat "C:\Program Files\MagicDraw" -mdzip myModel.mdzip -format rdf/xml -meta dcterms:date=2017-09-14 dcterms:hasVersion=1.0 graph=myData type=myType -base http://example.com/ -rest services
+magicdrawsysml2rdf.bat "C:\Program Files\MagicDraw" -mdzip myModel.mdzip -format rdf/xml -meta dcterms:date=2017-09-14 dcterms:hasVersion=1.0 graph=myData -base http://example.com/ -rest services
 ```
 which will produce:
 ```
-<rdf:Description rdf:about="http://example.com/services/myType/myData">
+<rdf:Description rdf:about="http://example.com/services/container/myData">
   <dcterms:date rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2017-09-14</dcterms:date>
   <dcterms:hasVersion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1.0</dcterms:hasVersion>
-  <rdf:type rdf:resource="http://example.com/vocab#myType"/>
+  <rdfs:member rdf:resource="http://example.com/services/connectorends/SUV_Example_17_0_3_1_3a6018b_1370469533308_851130_14210"/>
+  ...
+  <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Container"/>
 </rdf:Description>
 ```
 Notice that this change applies to all resources, not to only the meta-resource.
 
-### 5.11 Customizing the vocabulary URL path part.
-Vocabulary URLs are constituted with the base URL plus the `vocab#` path part
-and the specific type or property you want to refer. You can configure the
-`vocab#` path part by using `-vocab` argument:
+### 5.10 Customizing the vocabulary URL path part.
+Vocabulary URLs of the converted resources are constituted with the base URL
+plus the `vocab#` path part and the specific type or property converted. e.g:
 ```
-magicdrawsysml2rdf.bat "C:\Program Files\MagicDraw" -mdzip myModel.mdzip -format rdf/xml -meta dcterms:date=2017-09-14 dcterms:hasVersion=1.0 graph=myData type=myType -base http://example.com/ -rest services -vocab myVocab
+<rdf:type rdf:resource="http://example.com/vocab#Block" />
+```
+You can configure the `vocab#` path part by using the `-vocab` argument:
+```
+magicdrawsysml2rdf.bat "C:\Program Files\MagicDraw" -mdzip myModel.mdzip -format rdf/xml -meta dcterms:date=2017-09-14 dcterms:hasVersion=1.0 graph=myData -base http://example.com/ -rest services -vocab sysml
 ```
 This will produce:
 ```
-<rdf:Description rdf:about="http://example.com/services/myType/myData">
-  <dcterms:date rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2017-09-14</dcterms:date>
-  <dcterms:hasVersion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1.0</dcterms:hasVersion>
-  <rdf:type rdf:resource="http://example.com/myVocab#myType"/>
-</rdf:Description>
+<rdf:type rdf:resource="http://http://example.com/sysml#Block"/>
 ```
-Notice that this change applies to all resources, not to only the meta-resource.
+Notice that this change applies to all converted resources and that
+`magicdrawsysml2rdf` program will always use **`sysml`** as the prefix for the
+vocabulary namespace.

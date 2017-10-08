@@ -2564,11 +2564,7 @@ public class MagicDrawManager {
 		objectList.addAll(qNameOslcSysmlValueTypeMap.values());
 		objectList.addAll(qNameOslcSysmlBlockDiagramMap.values());
 		objectList.addAll(qNameOslcSysmlInternalBlockDiagramMap.values());
-		LOG.info("Before building model");
-		System.out.println("Before building model");
         jenaModel = JenaModelHelper.createJenaModel(objectList.toArray());
-		LOG.info("After building model");
-		System.out.println("After building model");
         LOG.log(Level.INFO, "RDF model gotten with {0} statements", jenaModel.size());
         return jenaModel;
 	}
