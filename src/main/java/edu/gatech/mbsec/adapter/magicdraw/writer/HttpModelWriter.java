@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.logging.Level;
@@ -74,12 +73,10 @@ public class HttpModelWriter implements ModelWriter {
      * @param url the target host URL.
      * @param slug the hint for the final graph name.
      * @throws NullPointerException if the slug is null.
-     * @throws MalformedURLException if the URL is not well formed.
      */
-    public HttpModelWriter(String url, String slug)
-            throws MalformedURLException {
+    public HttpModelWriter(URL url, String slug) {
         this.slug = Objects.requireNonNull(slug, "slug cannot be null");
-        this.target = new URL(url);
+        this.target = url;
     }
     /**
      * Gets the target URL.

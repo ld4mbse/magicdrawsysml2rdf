@@ -11,6 +11,7 @@ import edu.gatech.mbsec.adapter.magicdraw.writer.HttpModelWriter;
 import edu.gatech.mbsec.adapter.magicdraw.writer.ModelWriter;
 import edu.gatech.mbsec.adapter.magicdraw.writer.StreamModelWriter;
 import java.io.ByteArrayOutputStream;
+import java.net.URL;
 import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
@@ -63,10 +64,10 @@ public class Executor {
      * @return the corresponding RDF model.
      * @throws Exception if something goes wrong.
      */
-    private static Model getModel(String mdzip, ModelDescriptor descriptor)
-            throws Exception {
+    private static Model getModel(String mdzip, ModelDescriptor descriptor,
+            MetaInformation meta) throws Exception {
         Model model = OSLC4JMagicDrawApplication.run(mdzip, descriptor);
-        descriptor.customize(model);
+        if (meta != null) meta.customize(model, descriptor);
         return model;
     }
     /**
@@ -82,14 +83,17 @@ public class Executor {
         return language;
     }
     /**
-     * Gets the {@link MetaInformation version control} for this execution.
-     * @param properties the execution properties.
+     * Gets the {@link MetaInformation} for this execution.
+     * @param command the execution command line.
+     * @param descriptor the building descriptor.
      * @return the version control instance.
      */
-    private static MetaInformation getMetaInformation(CommandLine command) {
+    private static MetaInformation getMetaInformation(CommandLine command,
+            ModelDescriptor descriptor) {
         String[] prefixes = command.getOptionValues(Args.nsprefix.name());
         Properties vocabularies = Vocabularies.asProperties(prefixes);
         String[] meta = command.getOptionValues(Args.meta.name());
+        vocabularies.setProperty(descriptor.getVocabPrefix(), descriptor.getVocabBaseURI());
         return MetaInformation.getInstance(vocabularies, meta);
     }
     /**
@@ -99,12 +103,13 @@ public class Executor {
      */
     public static void execute(CommandLine command) throws Exception {
         Model model;
+        URL remoteTost;
         ModelWriter writer;
+        MetaInformation meta;
         ModelDescriptor descriptor;
         OSLCVocabularyCustomizer customizer;
         ByteArrayOutputStream buffer = null;
         Lang language = getLanguage(command);
-        MetaInformation meta = getMetaInformation(command);
         String mdzipFile = command.getOptionValue(Args.mdzip.name());
         String target = command.getOptionValue(Args.target.name());
         String baseURI = command.getOptionValue(Args.base.name());
@@ -112,20 +117,24 @@ public class Executor {
         String vocabPath = command.getOptionValue(Args.vocab.name());
         if (target == null) {
             buffer = new ByteArrayOutputStream();
-            descriptor = new ModelDescriptor(meta, baseURI, restPath, vocabPath);
+            descriptor = new ModelDescriptor(baseURI, restPath, vocabPath);
+            meta = getMetaInformation(command, descriptor);
             writer = new StreamModelWriter(buffer);
         } else {
             if (target.startsWith("http")) {
-                writer = new HttpModelWriter(target, meta.getID());
-                descriptor = new ModelDescriptor(meta, ((HttpModelWriter)writer).getTarget(), restPath, vocabPath);
+                remoteTost = new URL(target);
+                descriptor = new ModelDescriptor(remoteTost, restPath, vocabPath);
+                meta = getMetaInformation(command, descriptor);
+                writer = new HttpModelWriter(remoteTost, meta.getID());
             } else {
-                descriptor = new ModelDescriptor(meta, baseURI, restPath, vocabPath);
+                descriptor = new ModelDescriptor(baseURI, restPath, vocabPath);
+                meta = getMetaInformation(command, descriptor);
                 writer = new FileModelWriter(target);
             }
         }
         customizer = new OSLCVocabularyCustomizer(descriptor.getVocabBaseURI(), "getRdfTypes");
         customizer.customize("edu.gatech.mbsec.adapter.magicdraw.resources");
-        model = getModel(mdzipFile, descriptor);
+        model = getModel(mdzipFile, descriptor, meta);
         writer.write(model, language);
         if (buffer != null) {
             LOG.info(buffer.toString("UTF-8"));

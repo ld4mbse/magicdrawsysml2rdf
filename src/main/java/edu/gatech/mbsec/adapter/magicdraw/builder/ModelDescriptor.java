@@ -2,10 +2,8 @@ package edu.gatech.mbsec.adapter.magicdraw.builder;
 
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.Property;
-import com.hp.hpl.jena.rdf.model.ResIterator;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.rdf.model.ResourceFactory;
-import com.hp.hpl.jena.vocabulary.RDFS;
 import java.net.URL;
 import java.util.Collections;
 import java.util.HashMap;
@@ -37,10 +35,6 @@ public class ModelDescriptor {
      */
     public static final String DEFAULT_VOCAB_PATH = "vocab";
     /**
-     * This RDF type equivalent to this class.
-     */
-    public static final Resource TYPE = RDFS.Container;
-    /**
      * Becomes an input string into a path.
      * @param token the input string.
      * @return the input string with a trailing forward slash.
@@ -54,7 +48,7 @@ public class ModelDescriptor {
      * @param token the input string.
      * @return the input string with a trailing sign number.
      */
-    static String vocab(String token) {
+    public static String vocab(String token) {
         if (token.startsWith("/")) token = token.substring(1);
         return token.endsWith("#") || token.endsWith("/") ? token : token + "#";
     }
@@ -63,20 +57,17 @@ public class ModelDescriptor {
     private final String resourcesPath;
     private final String vocabularyPath;
     private final String vocabBaseURI;
+    private final String vocabPrefix;
     private final String resourcesBaseURI;
     private final Map<String, String> vocabPrefixes;
     private final Map<String, String> typesIDproperties;
-    private final MetaInformation meta;
     /**
      * Creates an instance with all required properties.
-     * @param meta the meta-information to be added.
      * @param path the base path to build resource and vocabulary URIs.
      * @param resources the resources path part.
      * @param vocabulary the vocabulary path part.
-     * @throws NullPointerException if {@code meta} is {@code null}.
      */
-    public ModelDescriptor(MetaInformation meta, String path, String resources,
-            String vocabulary) {
+    public ModelDescriptor(String path, String resources, String vocabulary) {
         String[] vocab;
         if (vocabulary == null)
             vocab = new String[] { DEFAULT_VOCAB_PATH, DEFAULT_VOCAB_PATH };
@@ -93,52 +84,43 @@ public class ModelDescriptor {
         this.basePath = path == null ? DEFAULT_BASE_PATH : path(path);
         this.resourcesBaseURI = this.basePath + this.resourcesPath;
         this.vocabBaseURI = this.basePath + this.vocabularyPath;
-        this.meta = Objects.requireNonNull(meta);
         this.typesIDproperties = new HashMap<>();
         this.vocabPrefixes = new HashMap<>();
-        this.vocabPrefixes.put(vocab[0], vocabBaseURI);
+        this.vocabPrefix = vocab[0];
+        this.vocabPrefixes.put(vocabPrefix, vocabBaseURI);
     }
     /**
      * Creates an instance with a {@link #DEFAULT_VOCAB_PATH}.
-     * @param meta the meta-information to be added.
      * @param path the base path to build resource and vocabulary URIs.
      * @param resources the resources path part.
-     * @throws NullPointerException if any argument is {@code null}.
      */
-    public ModelDescriptor(MetaInformation meta, String path, String resources){
-        this(meta, path, resources, DEFAULT_VOCAB_PATH);
+    public ModelDescriptor(String path, String resources){
+        this(path, resources, DEFAULT_VOCAB_PATH);
     }
     /**
      * Creates an instance with a {@link #DEFAULT_VOCAB_PATH} and a
      * {@link #DEFAULT_RESOURCES_PATH}.
-     * @param meta the meta-information to be added.
      * @param path the base path to build resource and vocabulary URIs.
-     * @throws NullPointerException if any argument is {@code null}.
      */
-    public ModelDescriptor(MetaInformation meta, String path) {
-        this(meta, path, DEFAULT_RESOURCES_PATH);
+    public ModelDescriptor(String path) {
+        this(path, DEFAULT_RESOURCES_PATH);
     }
     /**
      * Creates an instance with default values. The base path is
      * set to {@link #DEFAULT_BASE_PATH}, the vocabulary path part to
      * {@link #DEFAULT_VOCAB_PATH} and the services path part to
      * {@link #DEFAULT_RESOURCES_PATH}.
-     * @param meta the meta-information to be added.
      */
-    public ModelDescriptor(MetaInformation meta) {
-        this(meta, DEFAULT_BASE_PATH);
+    public ModelDescriptor() {
+        this(DEFAULT_BASE_PATH);
     }
     /**
      * Creates an instance from an example URL and a vocabulary path.
-     * @param meta the meta-information to be added.
      * @param url example URL.
      * @param resources the resources path part.
      * @param vocabulary the vocabulary path part.
-     * @throws NullPointerException if {@code meta} or {@code url} are
-     * {@code null}.
      */
-    public ModelDescriptor(MetaInformation meta, URL url, String resources,
-            String vocabulary) {
+    public ModelDescriptor(URL url, String resources, String vocabulary) {
         StringBuilder sb = new StringBuilder(url.getProtocol());
         String[] vocab, paths = url.getPath().split("/");
         if (vocabulary == null)
@@ -163,37 +145,26 @@ public class ModelDescriptor {
         this.basePath = sb.toString();
         this.resourcesBaseURI = this.basePath + this.resourcesPath;
         this.vocabBaseURI = this.basePath + this.vocabularyPath;
-        this.meta = Objects.requireNonNull(meta);
         this.typesIDproperties = new HashMap<>();
         this.vocabPrefixes = new HashMap<>();
-        this.vocabPrefixes.put(vocab[0], vocabBaseURI);
+        this.vocabPrefix = vocab[0];
+        this.vocabPrefixes.put(vocabPrefix, vocabBaseURI);
     }
     /**
      * Creates an instance with a {@link #DEFAULT_VOCAB_PATH} and an
      * example URL.
-     * @param meta the meta-information to be added.
      * @param url example URL.
      * @param resources the resources path part.
-     * @throws NullPointerException if {@code url} is {@code null}.
      */
-    public ModelDescriptor(MetaInformation meta, URL url, String resources) {
-        this(meta, url, resources, DEFAULT_VOCAB_PATH);
+    public ModelDescriptor(URL url, String resources) {
+        this(url, resources, DEFAULT_VOCAB_PATH);
     }
     /**
      * Creates an instance with an example URL.
-     * @param meta the meta-information to be added.
      * @param url example URL.
-     * @throws NullPointerException if {@code url} is {@code null}.
      */
-    public ModelDescriptor(MetaInformation meta, URL url) {
-        this(meta, url, DEFAULT_RESOURCES_PATH);
-    }
-    /**
-     * Gets the meta building information of this descriptor.
-     * @return the meta building information of this descriptor.
-     */
-    public MetaInformation getMeta() {
-        return meta;
+    public ModelDescriptor(URL url) {
+        this(url, DEFAULT_RESOURCES_PATH);
     }
     /**
      * Gets the base path defined in this descriptor.
@@ -224,11 +195,25 @@ public class ModelDescriptor {
         return resourcesBaseURI;
     }
     /**
+     * Gets the prefix for the {@link #getVocabBaseURI()}.
+     * @return the prefix for the {@link #getVocabBaseURI()}.
+     */
+    public String getVocabPrefix() {
+        return vocabPrefix;
+    }
+    /**
      * Gets the base URI for vocabulary resources.
      * @return the base URI for vocabulary resources.
      */
     public String getVocabBaseURI() {
         return vocabBaseURI;
+    }
+    /**
+     * Gets the string "{@link #getVocabPrefix()}:{@link #getVocabBaseURI()}".
+     * @return "{@link #getVocabPrefix()}:{@link #getVocabBaseURI()}".
+     */
+    public String getVocabDefinicion() {
+        return vocabPrefix + ":" + vocabBaseURI;
     }
     /**
      * Gets a read-only version of all vocabulary prefixes map. To register a
@@ -316,46 +301,11 @@ public class ModelDescriptor {
         return resource(type, ID, model, true);
     }
     /**
-     * Creates or gets the underlying resource of this instance.
-     * @param model the underlaying resource's model.
-     * @return a created o gotten resource related to this instance.
-     */
-    public Resource me(Model model) {
-        String type = TYPE.getLocalName().toLowerCase();
-        return model.createResource(resource(type, meta.getID()), TYPE);
-    }
-    /**
      * Builds a {@link Property} for a given resource type.
      * @param name the name of the property.
      * @return the property.
      */
     public Property property(String name) {
         return ResourceFactory.createProperty(vocabBaseURI + name);
-    }
-    /**
-     * Customizes a model withe the {@link MetaInformation}.
-     * @param model the model to sign.
-     */
-    public void customize(Model model) {
-        ResIterator members;
-        Resource container, member;
-        Map<String, String> properties = meta.getProperties();
-        Map<String, String> vocabularies = meta.getVocabularies();
-        if (!properties.isEmpty()) {
-            container = me(model);
-            members = model.listSubjects();
-            while(members.hasNext()) {
-                member = members.next();
-                if (!member.equals(container)) {
-                    container.addProperty(RDFS.member, member);
-                }
-            }
-            for(Map.Entry<String, String> property : properties.entrySet()) {
-                container.addLiteral(model.createProperty(property.getKey()), property.getValue());
-            }
-            for(Map.Entry<String, String> vocabulary : vocabularies.entrySet()) {
-                addVocabularyPrefix(vocabulary.getKey(), vocabulary.getValue());
-            }
-        }
     }
 }

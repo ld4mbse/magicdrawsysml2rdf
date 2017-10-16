@@ -1,5 +1,9 @@
 package edu.gatech.mbsec.adapter.magicdraw.builder;
 
+import com.hp.hpl.jena.rdf.model.Model;
+import com.hp.hpl.jena.rdf.model.ResIterator;
+import com.hp.hpl.jena.rdf.model.Resource;
+import com.hp.hpl.jena.vocabulary.RDFS;
 import edu.gatech.mbsec.adapter.magicdraw.util.Cypher;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
@@ -102,5 +106,32 @@ public class MetaInformation {
      */
     public String getID() {
         return id;
+    }
+    /**
+     * Customizes a model with this meta information.
+     * @param model the model to sign.
+     * @param descriptor the model building descriptor.
+     */
+    public void customize(Model model, ModelDescriptor descriptor) {
+        ResIterator members;
+        Resource container, member;
+        String type = RDFS.Container.getLocalName().toLowerCase();
+        String uri = descriptor.resource(type, id);
+        if (!properties.isEmpty()) {
+            container = model.createResource(uri, RDFS.Container);
+            members = model.listSubjects();
+            while(members.hasNext()) {
+                member = members.next();
+                if (!member.equals(container)) {
+                    container.addProperty(RDFS.member, member);
+                }
+            }
+            for(Map.Entry<String, String> property : properties.entrySet()) {
+                container.addLiteral(model.createProperty(property.getKey()), property.getValue());
+            }
+            for(Map.Entry<String, String> vocabulary : vocabularies.entrySet()) {
+                descriptor.addVocabularyPrefix(vocabulary.getKey(), vocabulary.getValue());
+            }
+        }
     }
 }
